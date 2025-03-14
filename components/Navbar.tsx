@@ -37,7 +37,7 @@ const Navbar = () => {
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
               <Image 
-                src={theme === 'dark' ? "/dob_imagotipo_dark.svg" : "/dob_imagotipo.svg"} 
+                src={theme === 'dark' ? "/dob_imagotipo.svg" : "/dob_imagotipo.svg"} 
                 alt="DOB Protocol" 
                 width={180} 
                 height={180} 
