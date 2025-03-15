@@ -12,6 +12,7 @@ const Navbar = () => {
   const [isAtTop, setIsAtTop] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const [isHoveringNav, setIsHoveringNav] = useState(false);
+  const [blurAmount, setBlurAmount] = useState(0);
   const { theme, toggleTheme } = useTheme();
   const [scope, animate] = useAnimate();
 
@@ -23,6 +24,23 @@ const Navbar = () => {
     
     return () => clearTimeout(timer);
   }, []);
+
+  // Manage blur amount based on visibility and scroll position
+  useEffect(() => {
+    let blurTimer: NodeJS.Timeout;
+    
+    if (isVisible && !isAtTop) {
+      // Slowly increase blur when navbar becomes visible and not at top
+      blurTimer = setTimeout(() => {
+        setBlurAmount(12); // More aggressive blur amount
+      }, 300); // Faster onset
+    } else if (!isVisible || isAtTop) {
+      // Quickly decrease blur when navbar should hide or at top
+      setBlurAmount(0); // Immediate blur removal for more aggressive transition
+    }
+    
+    return () => clearTimeout(blurTimer);
+  }, [isVisible, isAtTop]);
 
   // Track scroll position for subtle navbar animation
   useEffect(() => {
@@ -47,7 +65,7 @@ const Navbar = () => {
 
   const dobiDropdownItems = [
     { label: 'Buy $DOBI', href: '/buy-dobi' },
-    { label: 'Workflow', href: '/workflow' },
+    { label: 'AI Agent Workflow', href: '/workflow' },
   ];
 
   const handleDropdownToggle = (dropdown: string) => {
@@ -85,11 +103,11 @@ const Navbar = () => {
     }
   };
 
+  // Updated dropdown variants - removed slide animation
   const dropdownVariants = {
     hidden: { 
       opacity: 0,
       height: 0,
-      translateY: -10,
       transition: {
         duration: 0.4,
         ease: "easeInOut"
@@ -98,7 +116,6 @@ const Navbar = () => {
     visible: { 
       opacity: 1,
       height: "auto",
-      translateY: 0,
       transition: {
         duration: 0.4,
         ease: "easeInOut"
@@ -109,15 +126,19 @@ const Navbar = () => {
   // Show navbar only when not at top or when dropdown is active
   const showNavbar = !isAtTop || activeDropdown !== null;
 
+  // Calculate fade-out speed - twice as fast
+  const fadeOutDuration = 0.75; // 1.5s / 2 = 0.75s
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4">
       <motion.div 
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0 }}
         animate={{ 
-          opacity: isVisible ? 1 : 0, 
-          y: isVisible ? 0 : -20,
+          opacity: isVisible ? 1 : 0
         }}
-        transition={{ duration: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
+        transition={{ 
+          opacity: { duration: 1.2, ease: "easeOut" }
+        }}
         className="flex justify-center w-full max-w-3xl"
       >
         <motion.nav 
@@ -125,10 +146,18 @@ const Navbar = () => {
           variants={navVariants}
           initial="closed"
           animate={activeDropdown ? "open" : "closed"}
-          className={`backdrop-blur-lg ${isScrolled ? 'bg-white/80 dark:bg-gray-900/80 shadow-lg' : 'bg-white/70 dark:bg-gray-900/70'} transition-colors duration-500 overflow-visible relative rounded-full px-5 py-0`}
+          className="relative rounded-full px-5 py-0 overflow-visible"
           style={{
-            transform: `translateY(${isAtTop ? '0' : '1rem'})`,
             opacity: showNavbar ? (isScrolled ? 1 : 0.95) : 0,
+            backdropFilter: `blur(${blurAmount}px)`,
+            backgroundColor: isScrolled 
+              ? theme === 'dark' ? 'rgba(17, 24, 39, 0.8)' : 'rgba(255, 255, 255, 0.8)' 
+              : theme === 'dark' ? 'rgba(17, 24, 39, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+            boxShadow: isScrolled ? '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' : 'none',
+            transition: `opacity ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out, 
+                        backdrop-filter ${isAtTop ? 1.0 : 2.5}s ease-in-out, 
+                        background-color ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out, 
+                        box-shadow ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out`
           }}
           onMouseEnter={handleNavMouseEnter}
           onMouseLeave={handleNavMouseLeave}
@@ -155,11 +184,15 @@ const Navbar = () => {
 
               {/* Navigation Links - Desktop */}
               <div className="hidden md:flex items-center justify-end flex-1 ml-6 space-x-4">
-                {/* DOB Dropdown */}
-                <div className="relative group">
-                  <button
-                    className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass}`}
+                {/* DOB Dropdown - Full height column */}
+                <div className="relative h-full flex flex-col items-center">
+                  {/* Full-height hover area */}
+                  <div 
+                    className="absolute inset-0 -top-[20px] -bottom-[100px] w-[80px]" 
                     onMouseEnter={() => setActiveDropdown('dob')}
+                  />
+                  <button
+                    className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
                   >
                     <span>DOB</span>
                     <svg
@@ -172,7 +205,7 @@ const Navbar = () => {
                     </svg>
                   </button>
 
-                  {/* DOB Dropdown content - synchronized animation */}
+                  {/* DOB Dropdown content - fade animation only */}
                   <AnimatePresence mode="wait">
                     {activeDropdown === 'dob' && (
                       <motion.div 
@@ -180,14 +213,14 @@ const Navbar = () => {
                         initial="hidden"
                         animate="visible"
                         exit="hidden"
-                        className="absolute left-0 right-0 mt-2 px-3 pb-2 pt-2 z-10 rounded-xl"
+                        className="absolute left-0 right-0 mt-2 px-3 pb-2 pt-2 z-10 top-[30px]"
                       >
-                        <div className="grid grid-cols-1 gap-1">
+                        <div className="flex flex-col gap-1">
                           {dobDropdownItems.map((item) => (
                             <Link
                               key={item.href}
                               href={item.href}
-                              className={`px-4 py-2 text-sm dark:text-gray-300 text-gray-700 hover:bg-[#4F46E5]/10 dark:hover:bg-[#6366F1]/20 rounded-lg transition-colors ${buttonHoverClass}`}
+                              className="text-sm dark:text-gray-300 text-gray-700 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-200"
                             >
                               {item.label}
                             </Link>
@@ -198,11 +231,15 @@ const Navbar = () => {
                   </AnimatePresence>
                 </div>
 
-                {/* DOBI AI-Agent Dropdown */}
-                <div className="relative group">
-                  <button
-                    className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass}`}
+                {/* DOBI AI-Agent Dropdown - Full height column */}
+                <div className="relative h-full flex flex-col items-center">
+                  {/* Full-height hover area */}
+                  <div 
+                    className="absolute inset-0 -top-[20px] -bottom-[100px] w-[80px]" 
                     onMouseEnter={() => setActiveDropdown('dobi')}
+                  />
+                  <button
+                    className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
                   >
                     <span>DOBI</span>
                     <svg
@@ -215,7 +252,7 @@ const Navbar = () => {
                     </svg>
                   </button>
 
-                  {/* DOBI Dropdown content - synchronized animation */}
+                  {/* DOBI Dropdown content - fade animation only */}
                   <AnimatePresence mode="wait">
                     {activeDropdown === 'dobi' && (
                       <motion.div 
@@ -223,14 +260,14 @@ const Navbar = () => {
                         initial="hidden"
                         animate="visible"
                         exit="hidden"
-                        className="absolute left-0 right-0 mt-2 px-3 pb-2 pt-2 z-10 rounded-xl"
+                        className="absolute left-0 right-0 mt-2 px-3 pb-2 pt-2 z-10 top-[30px]"
                       >
-                        <div className="grid grid-cols-1 gap-1">
+                        <div className="flex flex-col gap-1">
                           {dobiDropdownItems.map((item) => (
                             <Link
                               key={item.href}
                               href={item.href}
-                              className={`px-4 py-2 text-sm dark:text-gray-300 text-gray-700 hover:bg-[#4F46E5]/10 dark:hover:bg-[#6366F1]/20 rounded-lg transition-colors ${buttonHoverClass}`}
+                              className="text-sm dark:text-gray-300 text-gray-700 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-200"
                             >
                               {item.label}
                             </Link>
@@ -308,10 +345,10 @@ const Navbar = () => {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
               className="md:hidden mt-2 rounded-xl backdrop-blur-lg bg-white/90 dark:bg-gray-800/90 shadow-lg overflow-hidden"
             >
               <div className="px-4 py-3 space-y-4">
@@ -344,7 +381,7 @@ const Navbar = () => {
                           <Link
                             key={item.href}
                             href={item.href}
-                            className={`block px-3 py-2 rounded-md text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 ${buttonHoverClass}`}
+                            className="block text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium py-1 transition-colors duration-200"
                             onClick={() => setMobileMenuOpen(false)}
                           >
                             {item.label}
@@ -384,7 +421,7 @@ const Navbar = () => {
                           <Link
                             key={item.href}
                             href={item.href}
-                            className={`block px-3 py-2 rounded-md text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 ${buttonHoverClass}`}
+                            className="block text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium py-1 transition-colors duration-200"
                             onClick={() => setMobileMenuOpen(false)}
                           >
                             {item.label}
@@ -433,4 +470,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar; 
+export default Navbar;
