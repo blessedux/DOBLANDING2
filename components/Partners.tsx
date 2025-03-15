@@ -6,22 +6,26 @@ export default function Partners() {
     { 
       name: "Helium", 
       description: "The people's wireless network", 
-      url: "https://www.helium.com/"
+      url: "https://www.helium.com/",
+      logo: "/icons/helium.png"
     },
     { 
       name: "Dimo", 
       description: "Connecting the future of transportation",
-      url: "#"
+      url: "https://dimo.org/",
+      logo: "/icons/dimo.png"
     },
     { 
       name: "Render", 
       description: "Powering next-generation computing",
-      url: "#"
+      url: "https://rendernetwork.com/",
+      logo: "/icons/render-token-logo.png"
     },
     { 
       name: "TAO", 
       description: "Building smarter autonomous systems",
-      url: "https://bittensor.com/"
+      url: "https://bittensor.com/",
+      logo: "/icons/bittensor.png"
     }
   ];
 
@@ -47,9 +51,15 @@ export default function Partners() {
               className="flex flex-col items-center text-center p-6 bg-gray-50 dark:bg-gray-700 rounded-xl transition-colors duration-300 hover:shadow-lg"
             >
               <div className="w-24 h-24 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-4 shadow-sm dark:shadow-gray-900/10">
-                {/* Partner logo placeholder - replace with actual logos */}
-                <div className="w-16 h-16 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-400 font-bold">
-                  {partner.name.charAt(0)}
+                <div className="relative w-16 h-16 flex items-center justify-center overflow-hidden">
+                  <Image 
+                    src={partner.logo}
+                    alt={`${partner.name} logo`}
+                    fill
+                    sizes="64px"
+                    style={{ objectFit: 'contain' }}
+                    className="p-1"
+                  />
                 </div>
               </div>
               <h3 className="text-xl font-bold mb-2 dark:text-gray-100">{partner.name}</h3>

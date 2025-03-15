@@ -73,7 +73,7 @@ const Hero = () => {
               transition={{ duration: 1.2 }}
               className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-800 dark:text-gray-100 mb-6"
             >
-              Turn Real-World Machines into Digital Investments
+              Own the Infrastructure of Tomorrow, Today
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0 }}

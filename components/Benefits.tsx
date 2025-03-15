@@ -5,23 +5,23 @@ import { motion } from 'framer-motion';
 export default function Benefits() {
   const benefits = [
     {
-      title: "Real-World Backed",
-      description: "Every investment is tied to actual machines doing valuable work",
+      title: "Own Real Infrastructure",
+      description: "Secure your wealth with tokenized ownership of physical machines generating reliable revenue",
       delay: 0
     },
     {
-      title: "Future-Ready",
-      description: "As smart devices become essential, your investment grows in value",
+      title: "AI-Managed Assets",
+      description: "Our AI agents handle everything from verification to revenue distribution automatically",
       delay: 0.1
     },
     {
-      title: "Hands-Off Income",
-      description: "No technical knowledge needed – the system manages everything",
+      title: "Future-Proof Investments",
+      description: "As AI and automation grow, owning the infrastructure becomes more valuable than labor",
       delay: 0.2
     },
     {
-      title: "Start With Any Amount",
-      description: "Begin with as little as $10 and grow your portfolio over time",
+      title: "Decentralized Ownership",
+      description: "Break the monopoly on critical infrastructure by democratizing access to ownership",
       delay: 0.3
     }
   ];
@@ -34,7 +34,7 @@ export default function Benefits() {
             Why Smart Machine Investments Make Sense
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            The infrastructure powering our digital future is becoming the next big investment opportunity
+            Future wealth belongs to those who own infrastructure, not those who work for it
           </p>
         </div>
 
@@ -55,16 +55,15 @@ export default function Benefits() {
           ))}
         </div>
 
-        {/* Illustration suggestion */}
-        <div className="mt-16 p-6 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-100 dark:border-blue-800 max-w-4xl mx-auto transition-colors duration-300">
-          <p className="font-semibold text-blue-800 dark:text-blue-300 mb-2 text-center">Illustration Suggestion:</p>
-          <p className="text-blue-700 dark:text-blue-400 text-center">
-            Create four modern icon illustrations with subtle animations:
-            <br/>1. Real-World Backed: A physical machine with a digital authentication checkmark
-            <br/>2. Future-Ready: A graph with upward trajectory, with small IoT devices along the curve
-            <br/>3. Hands-Off Income: A relaxed person receiving notifications of income while the system works automatically
-            <br/>4. Start Small: A small stack of coins growing into a larger stack over time
-          </p>
+        <div className="mt-12 text-center">
+          <a 
+            href="https://home.dobprotocol.com/home"
+            target="_blank"
+            rel="noopener noreferrer" 
+            className="inline-flex h-12 items-center justify-center rounded-md bg-blue-600 px-10 py-3 text-base font-medium text-white shadow-lg transition-all hover:bg-blue-700"
+          >
+            Start Investing Now
+          </a>
         </div>
       </div>
     </section>
