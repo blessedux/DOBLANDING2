@@ -3,153 +3,211 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Icons } from "./icons";
 
 const Footer = () => {
   return (
-    <footer className="w-full border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-colors duration-300">
-      <div className="container px-4 md:px-6 py-12 mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium dark:text-gray-100">DobProtocol</h3>
-            <p className="max-w-xs text-gray-600 dark:text-gray-300">
-              Enabling fractional ownership of income-generating machines and technology assets.
-            </p>
-            <div className="flex space-x-4">
-              <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
-                <Icons.twitter className="h-5 w-5" />
-                <span className="sr-only">Twitter</span>
-              </Link>
-              <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
-                <Icons.instagram className="h-5 w-5" />
-                <span className="sr-only">Instagram</span>
-              </Link>
-              <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
-                <Icons.github className="h-5 w-5" />
-                <span className="sr-only">GitHub</span>
-              </Link>
-              <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
-                <Icons.linkedin className="h-5 w-5" />
-                <span className="sr-only">LinkedIn</span>
-              </Link>
+    <>
+      {/* CSS for the hover animation */}
+      <style jsx global>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .style2 {
+          position: relative;
+          display: inline-block;
+          vertical-align: bottom;
+          overflow: hidden;
+          transition: all 0.4s;
+          padding: 0.25rem 0.75rem 0.25rem 2rem; /* Increased left padding for arrow */
+          border-radius: 9999px; /* Full rounded */
+          margin: -0.25rem 0;
+          min-width: max-content; /* Ensure container is at least as wide as content */
+        }
+        .style2:after {
+          content: attr(data-link);
+          background: #4F46E5;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start; /* Align content to the left */
+          position: absolute;
+          top: 0; 
+          left: -150%;
+          width: 150%; /* Wider container to ensure text fits */
+          height: 100%;
+          transition: all 0.4s;
+          border-radius: 9999px; /* Full rounded */
+          padding-left: 0.75rem; /* Padding on the left for alignment */
+        }
+        .style2:after::before {
+          content: "→";
+          margin-right: 0.5rem;
+          animation: spin 2s linear infinite;
+        }
+        .style2:hover:after {
+          left: 0;
+        }
+        .dark .style2:after {
+          background: #818CF8;
+          color: white;
+        }
+        
+        /* For the arrow icon and its animation */
+        .arrow-container {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          width: 100%;
+        }
+        
+        .arrow-icon {
+          display: inline-block;
+          margin-right: 8px;
+          transform-origin: center;
+          animation: spin 2s linear infinite;
+          opacity: 0;
+          transition: opacity 0.3s;
+          position: absolute;
+          left: -1.25rem; /* Positioned further left */
+        }
+        
+        .style2:hover .arrow-icon {
+          opacity: 1;
+        }
+        
+        /* Glass effect container */
+        .glass-container {
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          background-color: rgba(255, 255, 255, 0.8);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .dark .glass-container {
+          background-color: rgba(31, 41, 55, 0.8);
+          border: 1px solid rgba(75, 85, 99, 0.18);
+        }
+      `}</style>
+
+      <footer className="w-full py-12 px-4 relative bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-7xl mx-auto glass-container dark:bg-gray-800/70 rounded-2xl shadow-xl dark:shadow-gray-900/30 p-8 flex flex-col md:flex-row items-center justify-between border-gray-100 dark:border-gray-700 transition-all duration-300 relative overflow-hidden"
+        >
+          {/* Logo Section */}
+          <Link href="/" className="flex items-center space-x-3 mb-6 md:mb-0">
+            <Image
+              src="/dob_imagotipo.svg"
+              alt="DOB Protocol"
+              width={150}
+              height={150}
+              className="h-24 w-full transition-all duration-300"
+            />
+          </Link>
+
+          {/* Navigation Links */}
+          <div className="hidden md:grid grid-cols-3 gap-12 ml-auto w-1/2 h-full">
+            {/* DOB Token Section */}
+            <div className="flex flex-col items-start justify-center h-full mt-0">
+              <span className="text-sm font-medium text-gray-500 dark:text-gray-400">$DOB token</span>
+              <div className="flex flex-col space-y-2 mt-1">
+                <Link href="/buy-dob" className="text-sm text-[#4F46E5] dark:text-blue-400 transition-colors style2" data-link="→ Buy $DOB">
+                  <span className="arrow-container">
+                    <span className="arrow-icon">→</span>
+                    Buy $DOB
+                  </span>
+                </Link>
+                <Link href="/tokenomics" className="text-sm text-[#4F46E5] dark:text-blue-400 transition-colors style2" data-link="→ Tokenomics">
+                  <span className="arrow-container">
+                    <span className="arrow-icon">→</span>
+                    Tokenomics
+                  </span>
+                </Link>
+                <Link href="/roadmap" className="text-sm text-[#4F46E5] dark:text-blue-400 transition-colors style2" data-link="→ Roadmap">
+                  <span className="arrow-container">
+                    <span className="arrow-icon">→</span>
+                    Roadmap
+                  </span>
+                </Link>
+              </div>
+            </div>
+
+            {/* DOBI AI-Agent Section */}
+            <div className="flex flex-col items-start h-full mt-0">
+              <span className="text-sm font-medium text-gray-500 dark:text-gray-400">DOBI AI-Agent</span>
+              <div className="flex flex-col space-y-2 mt-1">
+                <Link href="/buy-dobi" className="text-sm text-[#4F46E5] dark:text-blue-400 transition-colors style2" data-link="→ Buy $DOBI">
+                  <span className="arrow-container">
+                    <span className="arrow-icon">→</span>
+                    Buy $DOBI
+                  </span>
+                </Link>
+                <Link href="/workflow" className="text-sm text-[#4F46E5] dark:text-blue-400 transition-colors style2" data-link="→ Workflow">
+                  <span className="arrow-container">
+                    <span className="arrow-icon">→</span>
+                    Workflow
+                  </span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Support Section */}
+            <div className="flex flex-col items-start h-full mt-0">
+              <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Support</span>
+              <div className="flex flex-col space-y-2 mt-1">
+                <Link href="/faq" className="text-sm text-[#4F46E5] dark:text-blue-400 transition-colors style2" data-link="→ FAQ">
+                  <span className="arrow-container">
+                    <span className="arrow-icon">→</span>
+                    FAQ
+                  </span>
+                </Link>
+                <Link href="/wiki" className="text-sm text-[#4F46E5] dark:text-blue-400 transition-colors style2" data-link="→ Wiki">
+                  <span className="arrow-container">
+                    <span className="arrow-icon">→</span>
+                    Wiki
+                  </span>
+                </Link>
+              </div>
             </div>
           </div>
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium dark:text-gray-100">Investment Opportunities</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Helium Miners
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  DIMO Vehicle Hardware
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Solar Panels
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Compute Resources
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Coming Soon
-                </Link>
-              </li>
-            </ul>
+
+          {/* Social Links */}
+          <div className="flex flex-col items-center space-y-4">
+            <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Networks</span>
+            <div className="flex items-center space-x-6">
+              <Link href="https://t.me/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                <Image src="/telegram.svg" alt="Telegram" width={20} height={20} />
+              </Link>
+              <Link href="https://twitter.com/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                <Image src="/x-twitter.svg" alt="X (Twitter)" width={20} height={20} />
+              </Link>
+              <Link href="https://linkedin.com/company/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                <Image src="/linkedin.svg" alt="LinkedIn" width={20} height={20} />
+              </Link>
+            </div>
+            <Link 
+              href="/contact"
+              className="mt-4 px-4 py-2 text-gray-500 dark:text-gray-400 rounded-lg hover:bg-[#f0f0f0] dark:hover:bg-gray-700 transition-colors style2"
+              data-link="→ Contact us"
+            >
+              <span className="arrow-container">
+                <span className="arrow-icon">→</span>
+                Contact us
+              </span>
+            </Link>
           </div>
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium dark:text-gray-100">Resources</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Documentation
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Whitepaper
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Investor Dashboard
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium dark:text-gray-100">Legal</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Cookie Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Risk Disclosure
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                  Securities Information
-                </Link>
-              </li>
-            </ul>
-          </div>
+        </motion.div>
+        
+        <div className="max-w-7xl mx-auto mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+          <p>© {new Date().getFullYear()} DOB Protocol. All rights reserved.</p>
         </div>
-        <div className="flex flex-col md:flex-row justify-between items-center mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            © {new Date().getFullYear()} DobProtocol. All rights reserved.
-          </p>
-          <div className="mt-4 md:mt-0">
-            <form className="flex">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="min-w-0 flex-auto appearance-none rounded-md border border-gray-200 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500"
-              />
-              <button
-                type="submit"
-                className="ml-4 inline-flex items-center justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-700 dark:hover:bg-blue-600"
-              >
-                Subscribe
-              </button>
-            </form>
-            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-              Subscribe to our newsletter for updates on new investment opportunities.
-            </p>
-          </div>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 };
 

@@ -62,9 +62,9 @@ const rightBottomCardVariants = {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[90vh] flex items-center pt-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <section className="absolute top-0 left-0 right-0 w-full min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 m-0 p-0">
+      <div className="container mx-auto px-4 h-screen flex items-center pt-16 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
           {/* Left Content */}
           <div className="flex flex-col justify-center">
             <motion.h1 

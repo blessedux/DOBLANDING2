@@ -5,6 +5,7 @@ import HowItWorks from "../components/HowItWorks"
 import Benefits from "@/components/Benefits"
 import Partners from "@/components/Partners"
 import CTA from "../components/CTA"
+import TrustedBy from "@/components/TrustedBy"
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Solution />
       <HowItWorks />
       <Benefits />
+      <TrustedBy />
       <Partners />
       <CTA />
     </main>
