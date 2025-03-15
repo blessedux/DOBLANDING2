@@ -13,6 +13,9 @@ const Navbar = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isHoveringNav, setIsHoveringNav] = useState(false);
   const [blurAmount, setBlurAmount] = useState(0);
+  const [shouldSlideDown, setShouldSlideDown] = useState(false);
+  const [hoveringButton, setHoveringButton] = useState<string | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const [scope, animate] = useAnimate();
 
@@ -20,6 +23,8 @@ const Navbar = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
+      // Enable slide down animation only when initially showing
+      setShouldSlideDown(true);
     }, 2000);
     
     return () => clearTimeout(timer);
@@ -48,6 +53,16 @@ const Navbar = () => {
       const scrollPosition = window.scrollY;
       setIsScrolled(scrollPosition > 20);
       setIsAtTop(scrollPosition === 0);
+      
+      // If we were at the top and now scrolled down, enable slide down
+      if (isAtTop && scrollPosition > 0) {
+        setShouldSlideDown(true);
+      }
+      
+      // If we scrolled back to top, disable slide down for next appearance
+      if (scrollPosition === 0) {
+        setShouldSlideDown(false);
+      }
     };
     
     // Initial check
@@ -55,7 +70,7 @@ const Navbar = () => {
     
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isAtTop]);
 
   const dobDropdownItems = [
     { label: 'Buy $DOB', href: '/buy-dob' },
@@ -74,12 +89,34 @@ const Navbar = () => {
 
   const handleNavMouseEnter = () => {
     setIsHoveringNav(true);
+    setIsClosing(false);
   };
 
   const handleNavMouseLeave = () => {
     setIsHoveringNav(false);
-    // Only close dropdown when cursor leaves the navbar completely
+    
+    // Set closing state to trigger staggered exit animation
+    setIsClosing(true);
+    
+    // First, close the dropdown (collapse height)
     setActiveDropdown(null);
+    
+    // Then, after a delay, reset the hovering button state to change border radius
+    setTimeout(() => {
+      setHoveringButton(null);
+      setIsClosing(false);
+    }, 400); // Delay should be long enough for height collapse animation
+  };
+
+  const handleButtonMouseEnter = (buttonName: string) => {
+    setIsClosing(false);
+    setHoveringButton(buttonName);
+    // Short delay before showing dropdown for a more polished experience
+    setTimeout(() => {
+      if (hoveringButton === buttonName && !isClosing) {
+        setActiveDropdown(buttonName);
+      }
+    }, 250); // Increased delay to allow border animation to complete first
   };
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -87,20 +124,28 @@ const Navbar = () => {
   // CSS for button hover effects
   const buttonHoverClass = "relative before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-gray-300 dark:before:hover:border-gray-600 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100";
 
-  // Animation variants - synchronized timing
-  const navVariants = {
-    closed: { 
-      height: "4rem",
-      borderRadius: "9999px"
-    },
-    open: { 
-      height: "16rem", // Increased height to fit all dropdown items
-      borderRadius: "1rem",
-      transition: {
-        duration: 0.4,
-        ease: "easeInOut"
-      }
-    }
+  // Entry transition (opening)
+  const borderRadiusEntryTransition = {
+    duration: 0.6, // Slightly faster for border radius
+    ease: [0.4, 0.0, 0.2, 1]
+  };
+  
+  const heightEntryTransition = {
+    duration: 0.8, // Normal duration for height
+    delay: 0.15, // Delay height animation to start after border radius has begun changing
+    ease: [0.4, 0.0, 0.2, 1]
+  };
+  
+  // Exit transition (closing) - reversed order
+  const heightExitTransition = {
+    duration: 0.5, // Slightly faster collapse
+    ease: [0.4, 0.0, 0.2, 1]
+  };
+  
+  const borderRadiusExitTransition = {
+    duration: 1.5, // Slowed down to 1/3 of original speed (was 0.5)
+    delay: 0.3, // Delay border radius change until after height has mostly collapsed
+    ease: [0.4, 0.0, 0.2, 1]
   };
 
   // Updated dropdown variants - removed slide animation
@@ -118,7 +163,8 @@ const Navbar = () => {
       height: "auto",
       transition: {
         duration: 0.4,
-        ease: "easeInOut"
+        ease: "easeInOut",
+        delay: 0.2 // Delay dropdown content until navbar has expanded
       }
     }
   };
@@ -128,6 +174,27 @@ const Navbar = () => {
 
   // Calculate fade-out speed - twice as fast
   const fadeOutDuration = 0.75; // 1.5s / 2 = 0.75s
+
+  // Calculate the vertical position - only slide down when appearing, not when disappearing
+  const navbarPosition = shouldSlideDown && !isAtTop ? '1rem' : '0';
+
+  // Determine border radius based on button hover or active dropdown
+  const borderRadius = hoveringButton || activeDropdown ? "16px" : "9999px";
+  const navHeight = activeDropdown ? "16rem" : "4rem";
+
+  // Calculate the appropriate transitions based on whether we're opening or closing
+  const getTransitions = () => {
+    if (isClosing) {
+      return {
+        borderRadius: borderRadiusExitTransition,
+        height: heightExitTransition
+      };
+    }
+    return {
+      borderRadius: borderRadiusEntryTransition,
+      height: heightEntryTransition
+    };
+  };
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4">
@@ -143,18 +210,23 @@ const Navbar = () => {
       >
         <motion.nav 
           ref={scope}
-          variants={navVariants}
-          initial="closed"
-          animate={activeDropdown ? "open" : "closed"}
-          className="relative rounded-full px-5 py-0 overflow-visible"
+          initial={{ height: "4rem", borderRadius: "9999px" }}
+          animate={{ 
+            borderRadius: borderRadius,
+            height: navHeight,
+          }}
+          transition={getTransitions()}
+          className="relative px-5 py-0 overflow-visible mt-4"
           style={{
+            transform: `translateY(${navbarPosition})`,
             opacity: showNavbar ? (isScrolled ? 1 : 0.95) : 0,
             backdropFilter: `blur(${blurAmount}px)`,
             backgroundColor: isScrolled 
               ? theme === 'dark' ? 'rgba(17, 24, 39, 0.8)' : 'rgba(255, 255, 255, 0.8)' 
               : theme === 'dark' ? 'rgba(17, 24, 39, 0.7)' : 'rgba(255, 255, 255, 0.7)',
             boxShadow: isScrolled ? '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' : 'none',
-            transition: `opacity ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out, 
+            transition: `transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        opacity ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out, 
                         backdrop-filter ${isAtTop ? 1.0 : 2.5}s ease-in-out, 
                         background-color ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out, 
                         box-shadow ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out`
@@ -189,10 +261,19 @@ const Navbar = () => {
                   {/* Full-height hover area */}
                   <div 
                     className="absolute inset-0 -top-[20px] -bottom-[100px] w-[80px]" 
-                    onMouseEnter={() => setActiveDropdown('dob')}
+                    onMouseEnter={() => {
+                      setHoveringButton('dob');
+                      setIsClosing(false);
+                      setTimeout(() => {
+                        if (hoveringButton === 'dob' && !isClosing) {
+                          setActiveDropdown('dob');
+                        }
+                      }, 180); // Delay dropdown appearance to see border radius change first
+                    }}
                   />
                   <button
                     className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
+                    onMouseEnter={() => handleButtonMouseEnter('dob')}
                   >
                     <span>DOB</span>
                     <svg
@@ -236,10 +317,19 @@ const Navbar = () => {
                   {/* Full-height hover area */}
                   <div 
                     className="absolute inset-0 -top-[20px] -bottom-[100px] w-[80px]" 
-                    onMouseEnter={() => setActiveDropdown('dobi')}
+                    onMouseEnter={() => {
+                      setHoveringButton('dobi');
+                      setIsClosing(false);
+                      setTimeout(() => {
+                        if (hoveringButton === 'dobi' && !isClosing) {
+                          setActiveDropdown('dobi');
+                        }
+                      }, 180); // Delay dropdown appearance to see border radius change first
+                    }}
                   />
                   <button
                     className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
+                    onMouseEnter={() => handleButtonMouseEnter('dobi')}
                   >
                     <span>DOBI</span>
                     <svg
