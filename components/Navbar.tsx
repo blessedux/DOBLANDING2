@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence, useAnimate } from 'framer-motion';
@@ -18,6 +18,8 @@ const Navbar = () => {
   const [isClosing, setIsClosing] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const [scope, animate] = useAnimate();
+  const dropdownTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Delay navbar appearance
   useEffect(() => {
@@ -87,9 +89,22 @@ const Navbar = () => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
 
+  // Clear any existing timers to prevent race conditions
+  const clearAllTimers = () => {
+    if (dropdownTimerRef.current) {
+      clearTimeout(dropdownTimerRef.current);
+      dropdownTimerRef.current = null;
+    }
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  };
+
   const handleNavMouseEnter = () => {
     setIsHoveringNav(true);
     setIsClosing(false);
+    clearAllTimers();
   };
 
   const handleNavMouseLeave = () => {
@@ -102,21 +117,27 @@ const Navbar = () => {
     setActiveDropdown(null);
     
     // Then, after a delay, reset the hovering button state to change border radius
-    setTimeout(() => {
+    clearAllTimers();
+    closeTimerRef.current = setTimeout(() => {
       setHoveringButton(null);
       setIsClosing(false);
     }, 400); // Delay should be long enough for height collapse animation
   };
 
-  const handleButtonMouseEnter = (buttonName: string) => {
-    setIsClosing(false);
+  const activateDropdown = (buttonName: string) => {
+    // Set hovering state immediately
     setHoveringButton(buttonName);
-    // Short delay before showing dropdown for a more polished experience
-    setTimeout(() => {
-      if (hoveringButton === buttonName && !isClosing) {
+    setIsClosing(false);
+
+    // Clear any existing timers to prevent race conditions
+    clearAllTimers();
+    
+    // Schedule dropdown to appear after border radius animation is complete
+    dropdownTimerRef.current = setTimeout(() => {
+      if (!isClosing) {
         setActiveDropdown(buttonName);
       }
-    }, 250); // Increased delay to allow border animation to complete first
+    }, 350); // Increased delay to ensure border radius animation completes first
   };
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -126,13 +147,14 @@ const Navbar = () => {
 
   // Entry transition (opening)
   const borderRadiusEntryTransition = {
-    duration: 0.6, // Slightly faster for border radius
-    ease: [0.4, 0.0, 0.2, 1]
+    duration: 1.0, // Increased from 0.7s for smoother transition
+    ease: [0.25, 0.1, 0.25, 1.0], // Cubic bezier curve for more natural motion
+    type: "tween" // Ensure we're using tween for smooth interpolation
   };
   
   const heightEntryTransition = {
     duration: 0.8, // Normal duration for height
-    delay: 0.15, // Delay height animation to start after border radius has begun changing
+    delay: 0.35, // Slightly increased to ensure border radius has more time to animate
     ease: [0.4, 0.0, 0.2, 1]
   };
   
@@ -143,9 +165,10 @@ const Navbar = () => {
   };
   
   const borderRadiusExitTransition = {
-    duration: 1.5, // Slowed down to 1/3 of original speed (was 0.5)
+    duration: 2.2, // Increased from 2.0 for smoother transition
     delay: 0.3, // Delay border radius change until after height has mostly collapsed
-    ease: [0.4, 0.0, 0.2, 1]
+    ease: [0.25, 0.1, 0.25, 1.0], // Cubic bezier curve for more natural motion
+    type: "tween" // Ensure we're using tween for smooth interpolation
   };
 
   // Updated dropdown variants - removed slide animation
@@ -164,7 +187,7 @@ const Navbar = () => {
       transition: {
         duration: 0.4,
         ease: "easeInOut",
-        delay: 0.2 // Delay dropdown content until navbar has expanded
+        delay: 0.3 // Increased delay to ensure it appears after the border radius change
       }
     }
   };
@@ -195,6 +218,11 @@ const Navbar = () => {
       height: heightEntryTransition
     };
   };
+
+  // Cleanup timers on unmount
+  useEffect(() => {
+    return () => clearAllTimers();
+  }, []);
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4">
@@ -261,19 +289,11 @@ const Navbar = () => {
                   {/* Full-height hover area */}
                   <div 
                     className="absolute inset-0 -top-[20px] -bottom-[100px] w-[80px]" 
-                    onMouseEnter={() => {
-                      setHoveringButton('dob');
-                      setIsClosing(false);
-                      setTimeout(() => {
-                        if (hoveringButton === 'dob' && !isClosing) {
-                          setActiveDropdown('dob');
-                        }
-                      }, 180); // Delay dropdown appearance to see border radius change first
-                    }}
+                    onMouseEnter={() => activateDropdown('dob')}
                   />
                   <button
                     className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
-                    onMouseEnter={() => handleButtonMouseEnter('dob')}
+                    onMouseEnter={() => activateDropdown('dob')}
                   >
                     <span>DOB</span>
                     <svg
@@ -317,19 +337,11 @@ const Navbar = () => {
                   {/* Full-height hover area */}
                   <div 
                     className="absolute inset-0 -top-[20px] -bottom-[100px] w-[80px]" 
-                    onMouseEnter={() => {
-                      setHoveringButton('dobi');
-                      setIsClosing(false);
-                      setTimeout(() => {
-                        if (hoveringButton === 'dobi' && !isClosing) {
-                          setActiveDropdown('dobi');
-                        }
-                      }, 180); // Delay dropdown appearance to see border radius change first
-                    }}
+                    onMouseEnter={() => activateDropdown('dobi')}
                   />
                   <button
                     className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
-                    onMouseEnter={() => handleButtonMouseEnter('dobi')}
+                    onMouseEnter={() => activateDropdown('dobi')}
                   >
                     <span>DOBI</span>
                     <svg

@@ -3,8 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 
 const Footer = () => {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <>
       {/* CSS for the hover animation */}
@@ -99,16 +102,22 @@ const Footer = () => {
           transition={{ duration: 0.6 }}
           className="max-w-7xl mx-auto glass-container dark:bg-gray-800/70 rounded-2xl shadow-xl dark:shadow-gray-900/30 p-8 flex flex-col md:flex-row items-center justify-between border-gray-100 dark:border-gray-700 transition-all duration-300 relative overflow-hidden"
         >
-          {/* Logo Section */}
-          <Link href="/" className="flex items-center space-x-3 mb-6 md:mb-0">
-            <Image
-              src="/dob_imagotipo.svg"
-              alt="DOB Protocol"
-              width={150}
-              height={150}
-              className="h-24 w-full transition-all duration-300"
-            />
-          </Link>
+          {/* Logo Section - Now with theme toggle */}
+          <div className="flex items-center space-x-3">
+            <button 
+              onClick={toggleTheme} 
+              className="focus:outline-none"
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              <Image
+                src="/dob_imagotipo.svg"
+                alt="DOB Protocol"
+                width={150}
+                height={150}
+                className="h-24 w-full cursor-pointer transition-transform hover:scale-105"
+              />
+            </button>
+          </div>
 
           {/* Navigation Links */}
           <div className="hidden md:grid grid-cols-3 gap-12 ml-auto w-1/2 h-full">
