@@ -7,24 +7,6 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
-// Card shadow settings for hover effects
-const cardShadowStyle = {
-  initial: {
-    boxShadow: '0 15px 35px -10px rgba(0, 0, 0, 0.1)',
-    transition: { duration: 0.3, ease: [0.25, 0.8, 0.25, 1] }
-  },
-  hover: {
-    boxShadow: '0 25px 50px -12px rgba(89, 124, 233, 0.6)', // Purple neon effect
-    y: -10,
-    scale: 1.05,
-    zIndex: 10,
-    transition: { 
-      duration: 0.3, 
-      ease: [0.25, 0.8, 0.25, 1]
-    }
-  }
-};
-
 // Define types for AnimatedText component
 interface AnimatedTextProps {
   text: string;
@@ -116,11 +98,7 @@ export default function CTA() {
         </div>
         
         <div className="mx-auto mt-16 grid grid-cols-1 gap-6 md:grid-cols-3 max-w-5xl">
-          <motion.div 
-            className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800 transition-colors duration-300"
-            initial={cardShadowStyle.initial}
-            whileHover={cardShadowStyle.hover}
-          >
+          <div className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800 transition-colors duration-300">
             <div className="mb-4">
               <svg className="w-10 h-10 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -128,13 +106,9 @@ export default function CTA() {
             </div>
             <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">Zero Debt Financing</h3>
             <p className="text-gray-600 dark:text-gray-300">Convert future device earnings into immediate capital without giving up equity or taking on traditional debt. Deploy more machines faster.</p>
-          </motion.div>
+          </div>
           
-          <motion.div 
-            className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800 transition-colors duration-300"
-            initial={cardShadowStyle.initial}
-            whileHover={cardShadowStyle.hover}
-          >
+          <div className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800 transition-colors duration-300">
             <div className="mb-4">
               <svg className="w-10 h-10 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -142,13 +116,9 @@ export default function CTA() {
             </div>
             <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">Seamless Operations</h3>
             <p className="text-gray-600 dark:text-gray-300">Our AI agents automate revenue verification and distribution, freeing you to focus on what matters – growing your network and optimizing performance.</p>
-          </motion.div>
+          </div>
           
-          <motion.div 
-            className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800 transition-colors duration-300"
-            initial={cardShadowStyle.initial}
-            whileHover={cardShadowStyle.hover}
-          >
+          <div className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800 transition-colors duration-300">
             <div className="mb-4">
               <svg className="w-10 h-10 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -156,7 +126,7 @@ export default function CTA() {
             </div>
             <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">Fast-Track Growth</h3>
             <p className="text-gray-600 dark:text-gray-300">DePIN businesses using DOB typically scale 3-5x faster than competitors. Get the capital you need when opportunities arise, not months later.</p>
-          </motion.div>
+          </div>
         </div>
         
         <div className="mt-16 text-center">
@@ -174,7 +144,7 @@ export default function CTA() {
               href="https://t.me/dobprotocol_official"
               target="_blank"
               rel="noopener noreferrer" 
-              className="gradient-button"
+              className="gradient-button z-10"
             >
               Schedule a Demo
             </a>
