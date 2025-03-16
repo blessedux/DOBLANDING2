@@ -220,6 +220,7 @@ export default function CTA() {
         .gradient-button-wrapper {
           position: relative;
           display: inline-block;
+          margin: 2px;
         }
         
         .gradient-button {
@@ -236,7 +237,8 @@ export default function CTA() {
           cursor: pointer;
           text-decoration: none;
           overflow: hidden;
-          transition: all 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+          border: 2px solid transparent;
         }
         
         .gradient-button-bg {
@@ -251,16 +253,17 @@ export default function CTA() {
           animation: AnimateBorder 4s ease infinite;
           z-index: 0;
           transform: translate(-2px, -2px);
-          transition: filter 0.5s ease;
-        }
-        
-        .gradient-button-wrapper:hover .gradient-button-bg {
-          filter: blur(6px);
+          opacity: 1;
+          filter: blur(2.5px);
         }
         
         .gradient-button-wrapper:hover .gradient-button {
-          transform: translateY(-2px);
+          transform: translateY(-2px) scale(1.05);
           box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.5);
+        }
+        
+        .gradient-button-wrapper:hover .gradient-button-bg {
+          transform: translate(-2px, -3px);
         }
         
         @keyframes AnimateBorder {
