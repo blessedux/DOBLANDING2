@@ -1,8 +1,32 @@
+'use client';
+
 import Image from "next/image"
+import { motion } from 'framer-motion';
+
+// Animation variants
+const leftTopCardVariants = {
+  initial: { y: -50, opacity: 0 },
+  animate: { y: 0, opacity: 1, transition: { duration: 1.2, ease: 'easeOut' } }
+};
+
+const leftBottomCardVariants = {
+  initial: { y: -50, opacity: 0 },
+  animate: { y: 0, opacity: 1, transition: { duration: 1.4, ease: 'easeOut', delay: 0.2 } }
+};
+
+const rightTopCardVariants = {
+  initial: { y: 50, opacity: 0 },
+  animate: { y: 0, opacity: 1, transition: { duration: 1.2, ease: 'easeOut' } }
+};
+
+const rightBottomCardVariants = {
+  initial: { y: 50, opacity: 0 },
+  animate: { y: 0, opacity: 1, transition: { duration: 1.4, ease: 'easeOut', delay: 0.2 } }
+};
 
 export default function Solution() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 transition-colors duration-300">
+    <section id="solution" className="w-full py-16 md:py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 transition-colors duration-300">
       <div className="container px-4 md:px-6 mx-auto max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
@@ -34,13 +58,81 @@ export default function Solution() {
             </ul>
           </div>
           
-          {/* Right side placeholder for illustration */}
-          <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-8 flex items-center justify-center min-h-[400px] transition-colors duration-300">
-            <div className="text-center">
-              <p className="font-semibold text-blue-800 dark:text-blue-300 mb-4">Illustration Suggestion:</p>
-              <p className="text-blue-700 dark:text-blue-400">
-                Create an animation showing a physical device (solar panel or router) breaking into digital tokens/shares that flow to diverse people's wallets. Show the machine continuing to operate while sending income to multiple owners.
-              </p>
+          {/* Animated Cards */}
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-lg">
+              {/* Left Column */}
+              <div className="flex flex-col space-y-4">
+                <motion.div
+                  className="rounded-lg shadow-md overflow-hidden h-32 relative"
+                  variants={leftTopCardVariants}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{ once: true, margin: "-50px" }}
+                >
+                  <Image 
+                    src="/icons/cubos.gif" 
+                    alt="Animated cubes representing tokenized assets" 
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    className="rounded-lg"
+                  />
+                </motion.div>
+                
+                <motion.div
+                  className="rounded-lg shadow-md overflow-hidden h-48 relative"
+                  variants={leftBottomCardVariants}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{ once: true, margin: "-50px" }}
+                >
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover rounded-lg"
+                  >
+                    <source src="/icons/mockup.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </motion.div>
+              </div>
+              
+              {/* Right Column */}
+              <div className="flex flex-col space-y-4">
+                <motion.div
+                  className="rounded-lg shadow-md overflow-hidden h-48 relative"
+                  variants={rightTopCardVariants}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{ once: true, margin: "-50px" }}
+                >
+                  <Image 
+                    src="/icons/dashboard.gif" 
+                    alt="User dashboard showing investment returns" 
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    className="rounded-lg"
+                  />
+                </motion.div>
+                
+                <motion.div
+                  className="rounded-lg shadow-md overflow-hidden h-32 relative"
+                  variants={rightBottomCardVariants}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{ once: true, margin: "-50px" }}
+                >
+                  <Image 
+                    src="/icons/cubos.gif" 
+                    alt="Animated cubes representing fractional ownership" 
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    className="rounded-lg"
+                  />
+                </motion.div>
+              </div>
             </div>
           </div>
         </div>

@@ -9,15 +9,18 @@ import TrustedBy from "@/components/TrustedBy"
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      <Hero />
-      
-      <Solution />
-      <HowItWorks />
-      <Benefits />
-      <TrustedBy />
-      <Partners />
-      <CTA />
+    <main className="flex flex-col min-h-screen overflow-hidden m-0 p-0">
+      <div className="h-screen m-0 p-0">
+        <Hero />
+      </div>
+      <div>
+        <Solution />
+        <HowItWorks />
+        <Benefits />
+        <TrustedBy />
+        <Partners />
+        <CTA />
+      </div>
     </main>
   )
 }

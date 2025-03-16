@@ -75,14 +75,14 @@ const Navbar = () => {
   }, [isAtTop]);
 
   const dobDropdownItems = [
-    { label: 'Buy $DOB', href: '/buy-dob' },
-    { label: 'Tokenomics', href: '/tokenomics' },
-    { label: 'Roadmap', href: '/roadmap' },
+    { label: 'Buy $DOB', href: 'https://presale.dobprotocol.com/', target: '_blank' },
+    { label: 'Tokenomics', href: '/tokenomics', target: '_blank' },
+    { label: 'Roadmap', href: '/roadmap', target: '_blank' },
   ];
 
   const dobiDropdownItems = [
-    { label: 'Buy $DOBI', href: '/buy-dobi' },
-    { label: 'AI Agent Workflow', href: '/workflow' },
+    { label: 'Buy $DOBI', href: 'https://app.virtuals.io/virtuals/13315', target: '_blank' },
+    { label: 'AI Agent Workflow', href: 'https://dobi.agents.dobprotocol.com/', target: '_blank' },
   ];
 
   const handleDropdownToggle = (dropdown: string) => {
@@ -110,34 +110,28 @@ const Navbar = () => {
   const handleNavMouseLeave = () => {
     setIsHoveringNav(false);
     
-    // Set closing state to trigger staggered exit animation
+    // Set closing state to trigger exit animation
     setIsClosing(true);
     
-    // First, close the dropdown (collapse height)
+    // Immediately close the dropdown
     setActiveDropdown(null);
     
-    // Then, after a delay, reset the hovering button state to change border radius
+    // Reset the hovering button state immediately to have synchronized animations
     clearAllTimers();
+    setHoveringButton(null);
+    
+    // Add a small timeout to reset the closing state after animations complete
     closeTimerRef.current = setTimeout(() => {
-      setHoveringButton(null);
       setIsClosing(false);
-    }, 400); // Delay should be long enough for height collapse animation
+    }, 300); // Shorter delay since we've sped up animations
   };
 
   const activateDropdown = (buttonName: string) => {
-    // Set hovering state immediately
+    // Set all states immediately for synchronized animations
     setHoveringButton(buttonName);
     setIsClosing(false);
-
-    // Clear any existing timers to prevent race conditions
     clearAllTimers();
-    
-    // Schedule dropdown to appear after border radius animation is complete
-    dropdownTimerRef.current = setTimeout(() => {
-      if (!isClosing) {
-        setActiveDropdown(buttonName);
-      }
-    }, 350); // Increased delay to ensure border radius animation completes first
+    setActiveDropdown(buttonName);
   };
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -145,49 +139,50 @@ const Navbar = () => {
   // CSS for button hover effects
   const buttonHoverClass = "relative before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-gray-300 dark:before:hover:border-gray-600 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100";
 
-  // Entry transition (opening)
+  // Define separate entry and exit transitions
+  // Entry transitions (opening)
   const borderRadiusEntryTransition = {
-    duration: 1.0, // Increased from 0.7s for smoother transition
-    ease: [0.25, 0.1, 0.25, 1.0], // Cubic bezier curve for more natural motion
-    type: "tween" // Ensure we're using tween for smooth interpolation
+    duration: 0.15, // Very fast border radius change
+    ease: [0.25, 0.1, 0.25, 1.0],
+    type: "tween"
   };
   
   const heightEntryTransition = {
-    duration: 0.8, // Normal duration for height
-    delay: 0.35, // Slightly increased to ensure border radius has more time to animate
-    ease: [0.4, 0.0, 0.2, 1]
+    duration: 0.4, // Slower dropdown animation
+    delay: 0.05, // Small delay to ensure border radius starts changing first
+    ease: [0.25, 0.1, 0.25, 1.0]
   };
-  
-  // Exit transition (closing) - reversed order
+
+  // Exit transitions (closing) - reversed order
   const heightExitTransition = {
-    duration: 0.5, // Slightly faster collapse
-    ease: [0.4, 0.0, 0.2, 1]
+    duration: 0.25, // Faster collapse
+    ease: [0.25, 0.1, 0.25, 1.0]
   };
   
   const borderRadiusExitTransition = {
-    duration: 2.2, // Increased from 2.0 for smoother transition
-    delay: 0.3, // Delay border radius change until after height has mostly collapsed
-    ease: [0.25, 0.1, 0.25, 1.0], // Cubic bezier curve for more natural motion
-    type: "tween" // Ensure we're using tween for smooth interpolation
+    duration: 0.3, // Slightly slower border radius change for smoothness
+    delay: 0.2, // Delay border radius change until dropdown is mostly collapsed
+    ease: [0.25, 0.1, 0.25, 1.0],
+    type: "tween"
   };
-
-  // Updated dropdown variants - removed slide animation
+  
+  // Updated dropdown variants with different entry/exit behaviors
   const dropdownVariants = {
     hidden: { 
       opacity: 0,
       height: 0,
       transition: {
-        duration: 0.4,
-        ease: "easeInOut"
+        duration: 0.25, // Faster exit for height
+        ease: [0.25, 0.1, 0.25, 1.0]
       }
     },
     visible: { 
       opacity: 1,
       height: "auto",
       transition: {
-        duration: 0.4,
-        ease: "easeInOut",
-        delay: 0.3 // Increased delay to ensure it appears after the border radius change
+        duration: 0.4, // Slower entry
+        ease: [0.25, 0.1, 0.25, 1.0],
+        delay: 0.1 // Small delay to let border radius change first
       }
     }
   };
@@ -205,7 +200,7 @@ const Navbar = () => {
   const borderRadius = hoveringButton || activeDropdown ? "16px" : "9999px";
   const navHeight = activeDropdown ? "16rem" : "4rem";
 
-  // Calculate the appropriate transitions based on whether we're opening or closing
+  // Provide different transitions based on whether we're opening or closing
   const getTransitions = () => {
     if (isClosing) {
       return {
@@ -244,7 +239,7 @@ const Navbar = () => {
             height: navHeight,
           }}
           transition={getTransitions()}
-          className="relative px-5 py-0 overflow-visible mt-4"
+          className="relative px-5 py-0 overflow-visible"
           style={{
             transform: `translateY(${navbarPosition})`,
             opacity: showNavbar ? (isScrolled ? 1 : 0.95) : 0,
@@ -286,13 +281,14 @@ const Navbar = () => {
               <div className="hidden md:flex items-center justify-end flex-1 ml-6 space-x-4">
                 {/* DOB Dropdown - Full height column */}
                 <div className="relative h-full flex flex-col items-center">
-                  {/* Full-height hover area */}
+                  {/* Expanded hover area for better hit detection */}
                   <div 
-                    className="absolute inset-0 -top-[20px] -bottom-[100px] w-[80px]" 
+                    className="absolute inset-0 -top-[20px] -bottom-[100px] -left-[10px] -right-[10px] w-[100px]" 
                     onMouseEnter={() => activateDropdown('dob')}
                   />
                   <button
-                    className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
+                    className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
+                    onClick={() => activateDropdown('dob')}
                     onMouseEnter={() => activateDropdown('dob')}
                   >
                     <span>DOB</span>
@@ -321,7 +317,9 @@ const Navbar = () => {
                             <Link
                               key={item.href}
                               href={item.href}
-                              className="text-sm dark:text-gray-300 text-gray-700 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-200"
+                              target={item.target}
+                              rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
+                              className="text-sm dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium transition-colors duration-200"
                             >
                               {item.label}
                             </Link>
@@ -334,13 +332,14 @@ const Navbar = () => {
 
                 {/* DOBI AI-Agent Dropdown - Full height column */}
                 <div className="relative h-full flex flex-col items-center">
-                  {/* Full-height hover area */}
+                  {/* Expanded hover area for better hit detection */}
                   <div 
-                    className="absolute inset-0 -top-[20px] -bottom-[100px] w-[80px]" 
+                    className="absolute inset-0 -top-[20px] -bottom-[100px] -left-[10px] -right-[10px] w-[100px]" 
                     onMouseEnter={() => activateDropdown('dobi')}
                   />
                   <button
-                    className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
+                    className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
+                    onClick={() => activateDropdown('dobi')}
                     onMouseEnter={() => activateDropdown('dobi')}
                   >
                     <span>DOBI</span>
@@ -369,7 +368,9 @@ const Navbar = () => {
                             <Link
                               key={item.href}
                               href={item.href}
-                              className="text-sm dark:text-gray-300 text-gray-700 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-200"
+                              target={item.target}
+                              rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
+                              className="text-sm dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium transition-colors duration-200"
                             >
                               {item.label}
                             </Link>
@@ -380,22 +381,22 @@ const Navbar = () => {
                   </AnimatePresence>
                 </div>
 
-                {/* Regular Links */}
+                {/* Regular Links - Update hover colors to match new primary color */}
                 <Link 
                   href="/faq" 
-                  className={`dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass}`}
+                  className={`dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass}`}
                 >
                   FAQ
                 </Link>
                 <Link 
                   href="/wiki" 
-                  className={`dark:text-gray-300 text-gray-700 hover:text-[#4F46E5] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass}`}
+                  className={`dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass}`}
                 >
                   Wiki
                 </Link>
                 <Link
                   href="https://home.dobprotocol.com/home"
-                  className={`px-5 py-2 bg-[#4F46E5] text-white rounded-full hover:bg-[#4338CA] transition-colors dark:bg-[#6366F1] dark:hover:bg-[#4F46E5] relative before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-white/30 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100`}
+                  className={`px-5 py-2 bg-[#597CE9] text-white rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7] relative before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-white/30 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100`}
                 >
                   Invest
                 </Link>
@@ -450,7 +451,7 @@ const Navbar = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
               className="md:hidden mt-2 rounded-xl backdrop-blur-lg bg-white/90 dark:bg-gray-800/90 shadow-lg overflow-hidden"
             >
               <div className="px-4 py-3 space-y-4">
@@ -483,7 +484,9 @@ const Navbar = () => {
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="block text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium py-1 transition-colors duration-200"
+                            target={item.target}
+                            rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
+                            className="block text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-1 transition-colors duration-200"
                             onClick={() => setMobileMenuOpen(false)}
                           >
                             {item.label}
@@ -523,7 +526,9 @@ const Navbar = () => {
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="block text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium py-1 transition-colors duration-200"
+                            target={item.target}
+                            rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
+                            className="block text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-1 transition-colors duration-200"
                             onClick={() => setMobileMenuOpen(false)}
                           >
                             {item.label}
@@ -550,15 +555,8 @@ const Navbar = () => {
                   Wiki
                 </Link>
                 <Link
-                  href="/contact"
-                  className={`block px-2 py-1 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 ${buttonHoverClass}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Contact
-                </Link>
-                <Link
                   href="https://home.dobprotocol.com/home"
-                  className="block px-4 py-2 bg-[#4F46E5] text-white text-center rounded-full hover:bg-[#4338CA] transition-colors dark:bg-[#6366F1] dark:hover:bg-[#4F46E5] relative before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-white/30 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100"
+                  className="block px-4 py-2 bg-[#597CE9] text-white text-center rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7] relative before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-white/30 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Invest now

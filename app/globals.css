@@ -2,8 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+html, body, #__next, main {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Reset any default margins/paddings on all elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: block; /* Prevent any flex behavior on body */
+}
+
+/* Remove top spacing specifically */
+html, body, main, div, section {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-block-start: 0;
+  padding-block-end: 0;
+}
+
+/* Ensure section layout is clean */
+main > div {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 @layer utilities {
@@ -20,7 +49,7 @@ body {
     --card-foreground: 20 14.3% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;
-    --primary: 24 9.8% 10%;
+    --primary: 224 74% 63%;
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 60 4.8% 95.9%;
     --secondary-foreground: 24 9.8% 10%;
@@ -49,7 +78,7 @@ body {
     --card-foreground: 220 15% 95%;
     --popover: 220 13% 12%;
     --popover-foreground: 220 15% 95%;
-    --primary: 221 83% 65%; /* Vibrant blue for primary actions */
+    --primary: 224 74% 63%;
     --primary-foreground: 220 15% 95%;
     --secondary: 220 13% 18%; /* Slightly lighter for secondary elements */
     --secondary-foreground: 220 15% 95%;
