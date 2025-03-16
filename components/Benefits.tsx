@@ -193,16 +193,73 @@ export default function Benefits() {
         </motion.div>
 
         <div className="mt-12 text-center">
-          <a 
-            href="https://home.dobprotocol.com/home"
-            target="_blank"
-            rel="noopener noreferrer" 
-            className="inline-flex h-12 items-center justify-center rounded-md bg-primary-600 px-10 py-3 text-base font-medium text-white shadow-lg transition-all hover:bg-blue-700"
-          >
-            Start Investing Now
-          </a>
+          <div className="gradient-button-wrapper">
+            <a 
+              href="https://home.dobprotocol.com/home"
+              target="_blank"
+              rel="noopener noreferrer" 
+              className="gradient-button bg-primary-600 text-white font-medium"
+            >
+              Start Investing Now
+            </a>
+            <div className="gradient-button-bg"></div>
+          </div>
         </div>
       </div>
+      
+      <style jsx>{`
+        .gradient-button-wrapper {
+          position: relative;
+          display: inline-block;
+        }
+        
+        .gradient-button {
+          display: inline-flex;
+          position: relative;
+          z-index: 1;
+          font-weight: 600;
+          font-size: 1rem;
+          line-height: 1.5rem;
+          padding: 0.75rem 2.5rem;
+          border-radius: 50px;
+          cursor: pointer;
+          text-decoration: none;
+          overflow: hidden;
+          transition: all 0.3s ease;
+        }
+        
+        .gradient-button-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: calc(100% + 4px);
+          height: calc(100% + 4px);
+          background: linear-gradient(90deg, #4F46E5 0%, #8B5CF6 30%, #EC4899 68%, #3B82F6 100%);
+          background-size: 300% 300%;
+          border-radius: 50px;
+          animation: AnimateBorder 4s ease infinite;
+          z-index: 0;
+          transform: translate(-2px, -2px);
+          transition: filter 0.5s ease;
+          opacity: 0;
+        }
+        
+        .gradient-button-wrapper:hover .gradient-button-bg {
+          filter: blur(6px);
+          opacity: 1;
+        }
+        
+        .gradient-button-wrapper:hover .gradient-button {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.5);
+        }
+        
+        @keyframes AnimateBorder {
+          0% { background-position: 0% 50% }
+          50% { background-position: 100% 50% }
+          100% { background-position: 0% 50% }
+        }
+      `}</style>
     </section>
   );
 }

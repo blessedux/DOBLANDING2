@@ -204,14 +204,17 @@ const Hero = () => {
               >
                 Learn more
               </a>
-              <a 
-                href="https://home.dobprotocol.com/home"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-lg transition-all duration-400 hover:shadow-purple-glow shadow-purple z-10"
-              >
-                Invest now
-              </a>  
+              <div className="gradient-button-wrapper">
+                <a 
+                  href="https://home.dobprotocol.com/home"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="gradient-button bg-primary-600 text-white font-bold"
+                >
+                  Invest now
+                </a>
+                <div className="gradient-button-bg"></div>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -233,14 +236,56 @@ const Hero = () => {
           box-shadow: 0 0 28px 10px rgba(89, 124, 233, 0.8);
         }
 
-        .shadow-purple {
-          box-shadow: 0 0 0px 0px rgba(79, 70, 229, 0);
-          transition: all 0.4s ease;
+        .gradient-button-wrapper {
+          position: relative;
+          display: inline-block;
         }
         
-        .hover\\:shadow-purple-glow:hover {
-          box-shadow: 0 0 25px 5px rgba(79, 70, 229, 0.6);
+        .gradient-button {
+          display: inline-flex;
+          position: relative;
+          z-index: 1;
+          font-weight: 600;
+          font-size: 1rem;
+          line-height: 1.5rem;
+          padding: 0.75rem 2.5rem;
+          border-radius: 0.5rem;
+          cursor: pointer;
+          text-decoration: none;
+          overflow: hidden;
+          transition: all 0.3s ease;
+        }
+        
+        .gradient-button-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: calc(100% + 4px);
+          height: calc(100% + 4px);
+          background: linear-gradient(90deg, #4F46E5 0%, #8B5CF6 30%, #EC4899 68%, #3B82F6 100%);
+          background-size: 300% 300%;
+          border-radius: 0.5rem;
+          animation: AnimateBorder 4s ease infinite;
+          z-index: 0;
+          transform: translate(-2px, -2px);
+          transition: filter 0.5s ease;
+          opacity: 0;
+        }
+        
+        .gradient-button-wrapper:hover .gradient-button-bg {
+          filter: blur(6px);
+          opacity: 1;
+        }
+        
+        .gradient-button-wrapper:hover .gradient-button {
           transform: translateY(-2px);
+          box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.5);
+        }
+        
+        @keyframes AnimateBorder {
+          0% { background-position: 0% 50% }
+          50% { background-position: 100% 50% }
+          100% { background-position: 0% 50% }
         }
       `}</style>
     </section>
