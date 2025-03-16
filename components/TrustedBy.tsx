@@ -183,7 +183,7 @@ const TrustedBy = () => {
             </motion.div>
           ) : (
             <motion.img 
-              src="/partners/avalanche.svg" 
+              src="/partners/Avalanche.svg" 
               alt="Avalanche" 
               onError={() => handleError('avalanche')}
               className="h-16 object-contain purple-hover-target"
@@ -233,7 +233,7 @@ const TrustedBy = () => {
             </motion.div>
           ) : (
             <motion.img 
-              src="/partners/celo.svg" 
+              src="/partners/Celo.svg" 
               alt="Celo" 
               onError={() => handleError('celo')}
               className="h-16 object-contain purple-hover-target"
