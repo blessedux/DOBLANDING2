@@ -47,17 +47,17 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer ref={footerRef} className="w-full py-24 px-4 mt-[-200px] relative footer-container light-mode">
+    <footer ref={footerRef} className="w-full py-24 md:py-24 px-4 mt-[-200px] md:mt-[-200px] relative footer-container light-mode">
       <motion.div 
         ref={cardRef}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="max-w-7xl mx-auto rounded-2xl p-8 mt-[170px] flex flex-col md:flex-row items-start md:items-center justify-between relative z-10 glassmorphism light-mode-container"
+        className="max-w-7xl mx-auto rounded-2xl p-4 md:p-8 mt-[140px] md:mt-[170px] flex flex-col md:flex-row items-start md:items-center justify-between relative z-10 glassmorphism light-mode-container"
       >
         <div className="w-full flex flex-row justify-between items-start md:items-center">
           {/* Left side: Logo + Social Icons on mobile */}
-          <div className="flex flex-col md:flex-row items-start space-y-6 md:space-y-0">
+          <div className="flex flex-col items-start space-y-4 md:space-y-0 pl-2 md:pl-0">
             {/* Logo with theme toggle functionality */}
             <button 
               className="focus:outline-none relative flex items-center space-x-3"
@@ -69,12 +69,12 @@ const Footer = () => {
                 alt="DOB Protocol"
                 width={150}
                 height={150}
-                className="h-24 w-full cursor-pointer"
+                className="h-20 md:h-24 w-full cursor-pointer"
               />
             </button>
 
             {/* Social Links (now part of left column on mobile) */}
-            <div className="flex md:hidden items-center space-x-6 mt-4">
+            <div className="flex md:hidden items-center space-x-6 mt-2 pl-1">
               <Link href="https://t.me/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image src="/telegram.svg" alt="Telegram" width={20} height={20} />
               </Link>
@@ -88,9 +88,9 @@ const Footer = () => {
           </div>
 
           {/* Right side: Support links on mobile */}
-          <div className="md:hidden flex flex-col items-start justify-start mt-0">
+          <div className="md:hidden flex flex-col items-start justify-start mt-1 pr-2">
             <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-1">Support</span>
-            <div className="flex flex-col items-start w-full space-y-2">
+            <div className="flex flex-col items-start w-full space-y-1">
               <Link href="/faq" className="footer-animated-link">
                 <span className="arrow">→</span>
                 <span>FAQ</span>
@@ -197,11 +197,18 @@ const Footer = () => {
         
         .footer-container {
           overflow: hidden;
-          min-height: 400px;
-          padding-top: 200px;
+          min-height: 320px;
+          padding-top: 170px;
           background: transparent;
           position: relative;
           z-index: 10;
+        }
+        
+        @media (min-width: 768px) {
+          .footer-container {
+            min-height: 400px;
+            padding-top: 200px;
+          }
         }
         
         /* Light mode styling (default) */
@@ -259,6 +266,13 @@ const Footer = () => {
           overflow: hidden;
           transition: color 0.3s ease;
           z-index: 1;
+        }
+        
+        @media (max-width: 767px) {
+          .footer-animated-link {
+            padding: 0.15rem 0.4rem;
+            font-size: 0.8rem;
+          }
         }
         
         .footer-animated-link:hover {
