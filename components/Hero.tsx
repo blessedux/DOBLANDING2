@@ -2,15 +2,28 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Hero = () => {
   // Calculate animation end time for planning subsequent animations
   // Base animation takes around 3.6s (3.2s duration + 0.3s initial delay + small buffer)
   const headingAnimationEndTime = 3.6;
+  const subtitleDelayTime = headingAnimationEndTime;
+  const interactivityDelayTime = headingAnimationEndTime + 1; // Add 1 second after subtitle starts
   
   // State to track which word is being hovered
   const [hoveredWordGroup, setHoveredWordGroup] = useState<number | null>(null);
+  // State to track if animation sequence is complete and hover should be enabled
+  const [hoverEnabled, setHoverEnabled] = useState(false);
+
+  // Enable hover effect after subtitle has faded in
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHoverEnabled(true);
+    }, interactivityDelayTime * 1000); // Convert to milliseconds
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   // Text animation variants
   const container = {
@@ -65,19 +78,23 @@ const Hero = () => {
     { id: 3, text: "Today", className: "inline-block sm:inline ml-3 cursor-pointer", variant: "today" }
   ];
 
-  // Function to handle word hover
+  // Function to handle word hover - only if hover is enabled
   const handleWordHover = (id) => {
-    setHoveredWordGroup(id);
+    if (hoverEnabled) {
+      setHoveredWordGroup(id);
+    }
   };
   
   // Function to handle mouse leave
   const handleMouseLeave = () => {
-    setHoveredWordGroup(null);
+    if (hoverEnabled) {
+      setHoveredWordGroup(null);
+    }
   };
 
   // Function to get blur style based on current hover state
   const getBlurStyle = (id) => {
-    if (hoveredWordGroup === null) return {};
+    if (!hoverEnabled || hoveredWordGroup === null) return {};
     
     return id !== hoveredWordGroup
       ? { filter: 'blur(10px)', opacity: 0.7, transition: 'filter 0.3s ease, opacity 0.3s ease' }
@@ -168,7 +185,7 @@ const Hero = () => {
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: headingAnimationEndTime }}
+              transition={{ duration: 1, delay: subtitleDelayTime }}
               className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8"
             >
               Own pieces of smart devices that earn money – from solar panels to WiFi networks
@@ -176,7 +193,7 @@ const Hero = () => {
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: headingAnimationEndTime + 0.3 }}
+              transition={{ duration: 1, delay: subtitleDelayTime + 0.3 }}
               className="flex flex-wrap gap-4 justify-center"
             >
               <a 
