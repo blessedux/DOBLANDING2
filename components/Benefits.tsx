@@ -1,28 +1,60 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+
+// Card shadow settings (from Solution section)
+const cardShadowStyle = {
+  initial: {
+    boxShadow: '0 15px 35px -10px rgba(0, 0, 0, 0.5)',
+  },
+  hover: {
+    boxShadow: '0 25px 50px -12px rgba(89, 124, 233, 0.6)', // Purple neon effect
+    y: -10,
+    scale: 1.05,
+    zIndex: 10,
+    transition: { 
+      duration: 0.3, 
+      ease: [0.25, 0.8, 0.25, 1]
+    }
+  }
+};
 
 export default function Benefits() {
+  const benefitsRef = useRef<HTMLDivElement>(null);
+  
   const benefits = [
     {
       title: "Own Real Infrastructure",
       description: "Secure your wealth with tokenized ownership of physical machines generating reliable revenue",
-      delay: 0
+      delay: 0,
+      bgFrom: "from-blue-50",
+      bgTo: "to-white",
+      darkBgFrom: "dark:from-blue-900/20"
     },
     {
       title: "AI-Managed Assets",
       description: "Our AI agents handle everything from verification to revenue distribution automatically",
-      delay: 0.1
+      delay: 0.1,
+      bgFrom: "from-indigo-50",
+      bgTo: "to-white",
+      darkBgFrom: "dark:from-indigo-900/20"
     },
     {
       title: "Future-Proof Investments",
       description: "As AI and automation grow, owning the infrastructure becomes more valuable than labor",
-      delay: 0.2
+      delay: 0.2,
+      bgFrom: "from-purple-50",
+      bgTo: "to-white",
+      darkBgFrom: "dark:from-purple-900/20"
     },
     {
       title: "Decentralized Ownership",
       description: "Break the monopoly on critical infrastructure by democratizing access to ownership",
-      delay: 0.3
+      delay: 0.3,
+      bgFrom: "from-violet-50",
+      bgTo: "to-white",
+      darkBgFrom: "dark:from-violet-900/20"
     }
   ];
 
@@ -38,22 +70,60 @@ export default function Benefits() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {benefits.map((benefit, index) => (
-            <div
-              key={index}
-              className="flex flex-col p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-gray-900/10 hover:shadow-md dark:hover:shadow-gray-900/20 transition-all border border-gray-100 dark:border-gray-700"
-            >
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
-                <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold mb-3 dark:text-gray-100">{benefit.title}</h3>
-              <p className="text-gray-600 dark:text-gray-300">{benefit.description}</p>
-            </div>
-          ))}
-        </div>
+        <motion.div 
+          ref={benefitsRef}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+        >
+          {benefits.map((benefit, index) => {
+            const { scrollYProgress } = useScroll({
+              target: benefitsRef,
+              offset: ["start 70%", "start 30%"]
+            });
+            
+            // Calculate when this specific card should animate
+            const cardProgress = useTransform(
+              scrollYProgress,
+              [0.2 + index * 0.1, 0.4 + index * 0.1], 
+              [0, 1]
+            );
+            
+            return (
+              <motion.div
+                key={index}
+                className={`flex flex-col p-6 rounded-xl border border-gray-100 dark:border-gray-700 bg-gradient-to-b ${benefit.bgFrom} ${benefit.bgTo} ${benefit.darkBgFrom} dark:to-gray-800`}
+                style={{
+                  opacity: cardProgress,
+                  filter: useTransform(
+                    cardProgress,
+                    [0, 1],
+                    ["blur(8px)", "blur(0px)"]
+                  ),
+                  transform: useTransform(
+                    cardProgress,
+                    [0, 1],
+                    ["translateY(15px)", "translateY(0px)"]
+                  ),
+                  boxShadow: cardShadowStyle.initial.boxShadow
+                }}
+                whileHover={{
+                  boxShadow: cardShadowStyle.hover.boxShadow,
+                  y: cardShadowStyle.hover.y,
+                  scale: cardShadowStyle.hover.scale,
+                  zIndex: cardShadowStyle.hover.zIndex,
+                  transition: cardShadowStyle.hover.transition
+                }}
+              >
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
+                  <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 dark:text-gray-100">{benefit.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{benefit.description}</p>
+              </motion.div>
+            );
+          })}
+        </motion.div>
 
         <div className="mt-12 text-center">
           <a 
