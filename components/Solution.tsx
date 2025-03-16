@@ -254,7 +254,7 @@ export default function Solution() {
                     playsInline
                     className="w-full h-full object-cover rounded-lg"
                   >
-                    <source src="/icons/mockup.mp4" type="video/mp4" />
+                    <source src="/Mockup_compressed.webm" type="video/webm" />
                     Your browser does not support the video tag.
                   </video>
                 </motion.div>

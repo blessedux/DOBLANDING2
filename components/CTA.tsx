@@ -159,12 +159,10 @@ export default function CTA() {
           z-index: 20;
           overflow: visible;
           color: #1a202c;
-          background: #FFFFFF;
-          background-image: linear-gradient(to bottom, 
+          background: linear-gradient(to bottom, 
             #FFFFFF 0%, 
             #FFFFFF 70%, 
-            rgba(255, 255, 255, 0.5) 85%,
-            rgba(255, 255, 255, 0) 100%);
+            #FFFFFF 100%);
         }
         
         .cta-section::before {
@@ -195,12 +193,10 @@ export default function CTA() {
         
         @media (prefers-color-scheme: dark) {
           .cta-section {
-            background: rgba(31, 41, 55, 1);
-            background-image: linear-gradient(to bottom, 
+            background: linear-gradient(to bottom, 
               rgba(31, 41, 55, 1) 0%, 
-              rgba(31, 41, 55, 1) 50%,
-              rgba(31, 41, 55, 0.7) 80%,
-              rgba(31, 41, 55, 0) 100%);
+              rgba(31, 41, 55, 0.9) 50%,
+              rgba(66, 66, 77, 0.65) 100%);
             color: white;
           }
           
