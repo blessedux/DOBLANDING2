@@ -227,8 +227,8 @@ export default function Solution() {
                   }}
                 >
                   <Image 
-                    src="/icons/cubos.gif" 
-                    alt="Animated cubes representing tokenized assets" 
+                    src="/icons/solar-panel.gif" 
+                    alt="Solar panel animation representing DePIN energy infrastructure" 
                     fill
                     style={{ objectFit: 'cover' }}
                     className="rounded-lg"
@@ -276,7 +276,7 @@ export default function Solution() {
                 >
                   <Image 
                     src="/icons/dashboard.gif" 
-                    alt="User dashboard showing investment returns" 
+                    alt="Network visualization showing connected DePIN infrastructure" 
                     fill
                     style={{ objectFit: 'cover' }}
                     className="rounded-lg"
@@ -296,8 +296,8 @@ export default function Solution() {
                   }}
                 >
                   <Image 
-                    src="/icons/cubos.gif" 
-                    alt="Animated cubes representing fractional ownership" 
+                    src="/icons/smart-city.gif" 
+                    alt="Smart city visualization representing DePIN ecosystem" 
                     fill
                     style={{ objectFit: 'cover' }}
                     className="rounded-lg"
