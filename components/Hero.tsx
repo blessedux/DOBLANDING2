@@ -186,7 +186,7 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: subtitleDelayTime }}
-              className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8"
+              className="text-xl md:text-2xl text-white dark:text-gray-300 mb-8"
             >
               Own pieces of smart devices that earn money – from solar panels to WiFi networks
             </motion.p>

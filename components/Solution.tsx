@@ -81,7 +81,6 @@ interface AnimatedTextProps {
 // Text animation component
 const AnimatedText = ({ text, className }: AnimatedTextProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const characters = Array.from(text);
   const { theme } = useTheme();
   const isDarkMode = theme === 'dark';
   
@@ -91,36 +90,39 @@ const AnimatedText = ({ text, className }: AnimatedTextProps) => {
     offset: ["start 70%", "end 30%"]
   });
   
+  // Split text into words instead of characters
+  const words = text.split(' ');
+  
   return (
     <motion.div ref={containerRef} className={`${className} overflow-hidden`}>
-      {characters.map((char, index) => {
-        // Calculate progress value for this character
-        const charProgress = useTransform(
+      {words.map((word, index) => {
+        // Calculate progress value for this word
+        const wordProgress = useTransform(
           scrollYProgress,
-          [0, index / (characters.length * 1.5), (index + 1) / (characters.length * 1.5), 1],
+          [0, index / (words.length * 1.5), (index + 1) / (words.length * 1.5), 1],
           [0, 0, 1, 1]
         );
         
         return (
           <motion.span
-            key={`${char}-${index}`}
+            key={`${word}-${index}`}
             style={{
-              display: char === ' ' ? 'inline-block' : 'inline-block',
-              width: char === ' ' ? '0.25em' : 'auto',
-              opacity: useTransform(charProgress, [0, 1], [0.85, 1]),
+              display: 'inline-block',
+              opacity: useTransform(wordProgress, [0, 1], [0.85, 1]),
+              marginRight: '0.25em',
             }}
           >
             <motion.span
               style={{
                 display: 'inline-block',
                 color: useTransform(
-                  charProgress,
+                  wordProgress,
                   [0, 1],
                   ["#597CE9", isDarkMode ? "#ffffff" : "#000000"]
                 ),
               }}
             >
-              {char}
+              {word}
             </motion.span>
           </motion.span>
         );
@@ -131,6 +133,7 @@ const AnimatedText = ({ text, className }: AnimatedTextProps) => {
 
 export default function Solution() {
   const sectionRef = useRef<HTMLElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   
   return (
     <section 
@@ -146,31 +149,59 @@ export default function Solution() {
               className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6 dark:text-gray-100"
             />
             <AnimatedText 
-              text="DobProtocol splits ownership of valuable machines into affordable digital shares, giving you access to steady income from technology that's building tomorrow's world."
+              text="We tokenize physical infrastructure into utility tokens — each verified by AI agents embedded in the machines. This creates secure investments with high yields from predictable, real-world revenue streams."
               className="text-xl text-gray-600 dark:text-gray-300 mb-8"
             />
             
-            {/* List items */}
-            <ul className="space-y-4">
-              <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 dark:text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="dark:text-gray-300">Invest in real-world machines with as little as $10</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 dark:text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="dark:text-gray-300">Receive automatic payments as your devices generate revenue</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 dark:text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="dark:text-gray-300">Build a diverse portfolio of income-producing technology</span>
-              </li>
-            </ul>
+            {/* List items with blur animation */}
+            <motion.ul 
+              ref={listRef}
+              className="space-y-4"
+            >
+              {[
+                "Invest in real-world machines with as little as $10",
+                "Receive automatic payments as your devices generate revenue",
+                "Build a diverse portfolio of income-producing technology"
+              ].map((item, index) => {
+                const { scrollYProgress } = useScroll({
+                  target: listRef,
+                  offset: ["start 80%", "start 40%"]
+                });
+                
+                // Calculate when this specific item should animate
+                // Stagger the animations by delaying each item's trigger point
+                const itemProgress = useTransform(
+                  scrollYProgress,
+                  [0.2 + index * 0.15, 0.4 + index * 0.15], 
+                  [0, 1]
+                );
+                
+                return (
+                  <motion.li 
+                    key={index}
+                    className="flex items-start"
+                    style={{
+                      opacity: itemProgress,
+                      filter: useTransform(
+                        itemProgress,
+                        [0, 1],
+                        ["blur(8px)", "blur(0px)"]
+                      ),
+                      transform: useTransform(
+                        itemProgress,
+                        [0, 1],
+                        ["translateY(10px)", "translateY(0px)"]
+                      )
+                    }}
+                  >
+                    <motion.div 
+                      className="w-4 h-4 mt-1 rounded-full bg-blue-500 dark:bg-blue-400 mr-3 flex-shrink-0"
+                    ></motion.div>
+                    <span className="dark:text-gray-300">{item}</span>
+                  </motion.li>
+                );
+              })}
+            </motion.ul>
           </div>
           
           {/* Animated Cards */}
