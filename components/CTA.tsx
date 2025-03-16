@@ -173,23 +173,23 @@ export default function CTA() {
           bottom: -100px;
           left: 0;
           width: 100%;
-          height: 300px;
+          height: 250px;
           background: transparent;
           pointer-events: none;
           z-index: 15;
-          backdrop-filter: blur(15px);
-          -webkit-backdrop-filter: blur(15px);
-          opacity: 1;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          opacity: 0.7;
           transform: translateY(-50%);
           mask-image: linear-gradient(to top, 
             rgba(0, 0, 0, 0) 0%, 
-            rgba(0, 0, 0, 0.4) 25%, 
-            rgba(0, 0, 0, 0.8) 50%, 
+            rgba(0, 0, 0, 0.3) 30%, 
+            rgba(0, 0, 0, 0.6) 60%, 
             rgba(0, 0, 0, 1) 100%);
           -webkit-mask-image: linear-gradient(to top, 
             rgba(0, 0, 0, 0) 0%, 
-            rgba(0, 0, 0, 0.4) 25%, 
-            rgba(0, 0, 0, 0.8) 50%, 
+            rgba(0, 0, 0, 0.3) 30%, 
+            rgba(0, 0, 0, 0.6) 60%, 
             rgba(0, 0, 0, 1) 100%);
         }
         
@@ -205,9 +205,9 @@ export default function CTA() {
           }
           
           .cta-section::before {
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            opacity: 0.9;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            opacity: 0.7;
           }
         }
         
@@ -220,7 +220,6 @@ export default function CTA() {
         .gradient-button-wrapper {
           position: relative;
           display: inline-block;
-          margin: 2px;
         }
         
         .gradient-button {
@@ -237,7 +236,7 @@ export default function CTA() {
           cursor: pointer;
           text-decoration: none;
           overflow: hidden;
-          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+          transition: all 0.3s ease;
           border: 2px solid transparent;
         }
         
@@ -254,16 +253,16 @@ export default function CTA() {
           z-index: 0;
           transform: translate(-2px, -2px);
           opacity: 1;
-          filter: blur(2.5px);
+          filter: blur(3px);
+        }
+        
+        .gradient-button-wrapper:hover .gradient-button-bg {
+          /* No changes to the gradient on hover */
         }
         
         .gradient-button-wrapper:hover .gradient-button {
           transform: translateY(-2px) scale(1.05);
           box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.5);
-        }
-        
-        .gradient-button-wrapper:hover .gradient-button-bg {
-          transform: translate(-2px, -3px);
         }
         
         @keyframes AnimateBorder {

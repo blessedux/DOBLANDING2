@@ -22,15 +22,6 @@ const Footer = () => {
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
-      // Calculate opacity based on vertical position
-      // 0 at the top (0%), gradually increasing to 1 at 30% down the footer
-      const opacityFactor = Math.min(y / (rect.height * 0.3), 1);
-      
-      // Update CSS variables
-      footer.style.setProperty('--mouse-x', `${x}px`);
-      footer.style.setProperty('--mouse-y', `${y}px`);
-      footer.style.setProperty('--light-opacity', opacityFactor.toString());
-      
       // Calculate percentage position for card movement (from -1 to 1)
       const xPercentage = ((x / rect.width) - 0.5) * 2; // -1 to 1
       const yPercentage = ((y / rect.height) - 0.5) * 2; // -1 to 1
@@ -55,8 +46,6 @@ const Footer = () => {
 
   return (
     <footer ref={footerRef} className="w-full py-24 px-4 mt-[-200px] relative footer-container light-mode">
-      <div className="footer-light"></div>
-      
       <motion.div 
         ref={cardRef}
         initial={{ opacity: 0, y: 20 }}
@@ -160,37 +149,12 @@ const Footer = () => {
         }
         
         .footer-container {
-          --mouse-x: 50%;
-          --mouse-y: 50%;
-          --light-opacity: 0;
           overflow: hidden;
           min-height: 400px;
           padding-top: 200px;
           background: transparent;
           position: relative;
           z-index: 10;
-        }
-        
-        .footer-light {
-          position: absolute;
-          width: 500px;
-          height: 500px;
-          border-radius: 50%;
-          background: radial-gradient(
-            circle at center,
-            rgba(79, 70, 229, 0.7) 0%,
-            rgba(79, 70, 229, 0.4) 20%,
-            rgba(79, 70, 229, 0.15) 40%,
-            transparent 70%
-          );
-          left: var(--mouse-x);
-          top: var(--mouse-y);
-          transform: translate(-50%, -50%);
-          pointer-events: none;
-          z-index: 5;
-          filter: blur(30px);
-          opacity: calc(0.9 * var(--light-opacity));
-          transition: opacity 0.1s ease-out;
         }
         
         /* Light mode styling (default) */
