@@ -405,19 +405,36 @@ const Navbar = () => {
                   </AnimatePresence>
                 </div>
 
-                {/* Regular Links - Update hover colors to match new primary color */}
-                <Link 
-                  href="/faq" 
-                  className={`dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass}`}
+                {/* Regular Links */}
+                <motion.div
+                  initial={{ y: -5, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -5, opacity: 0 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
+                  className="text-left"
                 >
-                  FAQ
-                </Link>
-                <Link 
-                  href="/wiki" 
-                  className={`dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass}`}
+                  <Link
+                    href="/faq"
+                    className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base text-left"
+                  >
+                    FAQ
+                  </Link>
+                </motion.div>
+                
+                <motion.div
+                  initial={{ y: -5, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -5, opacity: 0 }}
+                  transition={{ duration: 0.2, delay: 0.15 }}
+                  className="text-left"
                 >
-                  Wiki
-                </Link>
+                  <Link
+                    href="/wiki"
+                    className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base text-left"
+                  >
+                    Wiki
+                  </Link>
+                </motion.div>
                 <Link
                   href="https://home.dobprotocol.com/home"
                   className={`px-5 py-2 bg-[#597CE9] text-white rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7] relative before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-white/30 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100`}
@@ -478,9 +495,9 @@ const Navbar = () => {
                     ease: [0.25, 0.1, 0.25, 1.0],
                     staggerChildren: 0.05
                   }}
-                  className="md:hidden w-full pt-6 pb-4 px-2 relative overflow-hidden"
+                  className="md:hidden w-full pt-8 pb-4 px-2 relative overflow-hidden"
                 >
-                  <div className="space-y-4">
+                  <div className="space-y-4 mt-12">
                     {/* DOB Section */}
                     <div>
                       <motion.div
@@ -489,7 +506,7 @@ const Navbar = () => {
                         exit={{ y: -5, opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         onClick={() => handleDropdownToggle('dob-mobile')}
-                        className={`flex items-center justify-between w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors`}
+                        className={`flex items-center justify-between w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors text-left`}
                       >
                         <span className="text-base">DOB</span>
                         <svg
@@ -538,6 +555,7 @@ const Navbar = () => {
                                   duration: 0.2,
                                   delay: index * 0.05 + 0.1
                                 }}
+                                className="text-left"
                               >
                                 <Link
                                   href={item.href}
@@ -562,7 +580,7 @@ const Navbar = () => {
                         exit={{ y: -5, opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         onClick={() => handleDropdownToggle('dobi-mobile')}
-                        className={`flex items-center justify-between w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors`}
+                        className={`flex items-center justify-between w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors text-left`}
                       >
                         <span className="text-base">DOBI</span>
                         <svg
@@ -611,6 +629,7 @@ const Navbar = () => {
                                   duration: 0.2,
                                   delay: index * 0.05 + 0.1
                                 }}
+                                className="text-left"
                               >
                                 <Link
                                   href={item.href}
@@ -633,10 +652,11 @@ const Navbar = () => {
                       animate={{ y: 0, opacity: 1 }}
                       exit={{ y: -5, opacity: 0 }}
                       transition={{ duration: 0.2, delay: 0.1 }}
+                      className="text-left"
                     >
                       <Link
                         href="/faq"
-                        className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base"
+                        className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base text-left"
                       >
                         FAQ
                       </Link>
@@ -647,10 +667,11 @@ const Navbar = () => {
                       animate={{ y: 0, opacity: 1 }}
                       exit={{ y: -5, opacity: 0 }}
                       transition={{ duration: 0.2, delay: 0.15 }}
+                      className="text-left"
                     >
                       <Link
                         href="/wiki"
-                        className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base"
+                        className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base text-left"
                       >
                         Wiki
                       </Link>
