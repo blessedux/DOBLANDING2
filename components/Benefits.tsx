@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 // Card shadow settings (from Solution section)
 const cardShadowStyle = {
@@ -18,6 +19,65 @@ const cardShadowStyle = {
       ease: [0.25, 0.8, 0.25, 1]
     }
   }
+};
+
+// Define types for AnimatedText component
+interface AnimatedTextProps {
+  text: string;
+  className: string;
+}
+
+// Text animation component with word-by-word animation
+const AnimatedText = ({ text, className }: AnimatedTextProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  const isDarkMode = theme === 'dark';
+  
+  // Setup scroll animation
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 70%", "end 30%"]
+  });
+  
+  // Split text into words instead of characters
+  const words = text.split(' ');
+  
+  return (
+    <motion.div ref={containerRef} className={`${className} overflow-hidden`}>
+      {words.map((word, index) => {
+        // Calculate progress value for this word
+        const wordProgress = useTransform(
+          scrollYProgress,
+          [0, index / (words.length * 1.5), (index + 1) / (words.length * 1.5), 1],
+          [0, 0, 1, 1]
+        );
+        
+        return (
+          <motion.span
+            key={`${word}-${index}`}
+            style={{
+              display: 'inline-block',
+              opacity: useTransform(wordProgress, [0, 1], [0.85, 1]),
+              marginRight: '0.25em',
+            }}
+          >
+            <motion.span
+              style={{
+                display: 'inline-block',
+                color: useTransform(
+                  wordProgress,
+                  [0, 1],
+                  ["#597CE9", isDarkMode ? "#ffffff" : "#000000"]
+                ),
+              }}
+            >
+              {word}
+            </motion.span>
+          </motion.span>
+        );
+      })}
+    </motion.div>
+  );
 };
 
 export default function Benefits() {
@@ -62,12 +122,14 @@ export default function Benefits() {
     <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 transition-colors duration-300">
       <div className="container px-4 md:px-6 mx-auto max-w-7xl">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4 dark:text-gray-100">
-            Stop Chasing Money. Start Building Wealth.
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Earn up to 30% annual yield through our DefAI model and LDI platform. We finance decentralized infrastructure devices with AI-managed revenue distribution, creating passive income from the machine economy.
-          </p>
+          <AnimatedText 
+            text="Stop Chasing Money. Start Building Wealth."
+            className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4 dark:text-gray-100"
+          />
+          <AnimatedText 
+            text="Earn up to 30% annual yield through our DefAI model and LDI platform. We finance decentralized infrastructure devices with AI-managed revenue distribution, creating passive income from the machine economy."
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
+          />
         </div>
 
         <motion.div 
