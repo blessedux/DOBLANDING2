@@ -4,10 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 const Footer = () => {
   const footerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const { theme, toggleTheme } = useTheme();
   
   // Set up cursor tracking using CSS variables for better performance
   useEffect(() => {
@@ -53,18 +55,63 @@ const Footer = () => {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className="max-w-7xl mx-auto rounded-2xl p-8 mt-[170px] flex flex-col md:flex-row items-start md:items-center justify-between relative z-10 glassmorphism light-mode-container"
       >
-        {/* Logo Section */}
-        <Link href="/" className="flex items-center space-x-3">
-          <Image
-            src="/dob_imagotipo.svg"
-            alt="DOB Protocol"
-            width={150}
-            height={150}
-            className="h-24 w-full"
-          />
-        </Link>
+        <div className="w-full flex flex-row justify-between items-start md:items-center">
+          {/* Left side: Logo + Social Icons on mobile */}
+          <div className="flex flex-col md:flex-row items-start space-y-6 md:space-y-0">
+            {/* Logo with theme toggle functionality */}
+            <button 
+              className="focus:outline-none relative flex items-center space-x-3"
+              onClick={toggleTheme}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              <Image
+                src="/dob_imagotipo.svg"
+                alt="DOB Protocol"
+                width={150}
+                height={150}
+                className="h-24 w-full cursor-pointer"
+              />
+            </button>
 
-        {/* Navigation Links */}
+            {/* Social Links (now part of left column on mobile) */}
+            <div className="flex md:hidden items-center space-x-6 mt-4">
+              <Link href="https://t.me/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                <Image src="/telegram.svg" alt="Telegram" width={20} height={20} />
+              </Link>
+              <Link href="https://twitter.com/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                <Image src="/x-twitter.svg" alt="X (Twitter)" width={20} height={20} />
+              </Link>
+              <Link href="https://linkedin.com/company/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                <Image src="/linkedin.svg" alt="LinkedIn" width={20} height={20} />
+              </Link>
+            </div>
+          </div>
+
+          {/* Right side: Support links on mobile */}
+          <div className="md:hidden flex flex-col items-start justify-start mt-0">
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-1">Support</span>
+            <div className="flex flex-col items-start w-full space-y-2">
+              <Link href="/faq" className="footer-animated-link">
+                <span className="arrow">→</span>
+                <span>FAQ</span>
+              </Link>
+              <Link href="/wiki" className="footer-animated-link">
+                <span className="arrow">→</span>
+                <span>Wiki</span>
+              </Link>
+              <Link href="/careers" className="footer-animated-link">
+                <span className="arrow">→</span>
+                <span>Careers</span>
+              </Link>
+              <Link href="/contact" className="footer-animated-link">
+                <span className="arrow">→</span>
+                <span>Contact us</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Links - Desktop only */}
         <div className="hidden md:grid grid-cols-3 gap-12 ml-auto w-1/2 h-full">
           {/* DOB Token Section */}
           <div className="flex flex-col items-start justify-start h-full mt-0">
@@ -100,7 +147,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Support Section */}
+          {/* Support Section - Desktop */}
           <div className="flex flex-col items-start justify-start h-full mt-0">
             <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-1">Support</span>
             <div className="flex flex-col items-start w-full space-y-2">
@@ -124,8 +171,8 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Social Links */}
-        <div className="flex flex-col items-start md:items-center space-y-4">
+        {/* Social Links - Desktop only */}
+        <div className="hidden md:flex flex-col items-start md:items-center space-y-4">
           <div className="flex items-center space-x-6">
             <Link href="https://t.me/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
               <Image src="/telegram.svg" alt="Telegram" width={20} height={20} />
