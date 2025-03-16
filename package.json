@@ -7,19 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "node -e \"try { require('tailwindcss-animate') } catch(e) { console.log('Installing tailwindcss-animate...'); require('child_process').execSync('yarn add tailwindcss-animate@1.0.7 --exact || npm install tailwindcss-animate@1.0.7 --save-exact') }\""
+    "postinstall": "node -e \"const deps = ['tailwindcss-animate@1.0.7', 'class-variance-authority@0.7.1', 'clsx@2.1.1', 'tailwind-merge@3.0.2']; for (const dep of deps) { try { require(dep.split('@')[0]); } catch(e) { console.log('Installing ' + dep + '...'); require('child_process').execSync('yarn add ' + dep + ' --exact || npm install ' + dep + ' --save-exact'); } }\""
   },
   "dependencies": {
     "@codaworks/react-glow": "^1.0.6",
     "@radix-ui/react-slot": "^1.1.2",
-    "clsx": "^2.1.1",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
     "framer-motion": "^12.5.0",
     "next": "14.2.16",
     "react": "^18",
     "react-dom": "^18",
     "react-intersection-observer": "^9.16.0",
     "shadcn-ui": "^0.9.4",
-    "tailwind-merge": "^3.0.1",
+    "tailwind-merge": "3.0.2",
     "tailwindcss-animate": "1.0.7"
   },
   "devDependencies": {
