@@ -197,7 +197,15 @@ const Navbar = () => {
   const navbarPosition = shouldSlideDown && !isAtTop ? '1rem' : '0';
 
   // Determine border radius based on button hover or active dropdown
-  const borderRadius = hoveringButton || activeDropdown ? "16px" : "9999px";
+  // On mobile, use 3% radius when dropdown is open, otherwise use default radius
+  const getBorderRadius = () => {
+    if (mobileMenuOpen) {
+      return "3%"; // More subtle rounding for mobile dropdown
+    }
+    return hoveringButton || activeDropdown ? "16px" : "9999px";
+  };
+  
+  const borderRadius = getBorderRadius();
   
   // Calculate navHeight based on active dropdown or mobile menu
   const getNavHeight = () => {
@@ -205,9 +213,9 @@ const Navbar = () => {
     if (mobileMenuOpen) {
       // Add extra height for mobile dropdown if active
       if (activeDropdown === 'dob-mobile' || activeDropdown === 'dobi-mobile') {
-        return "22rem"; // More space for dropdown items
+        return "26rem"; // More space for dropdown items on mobile
       }
-      return "18rem"; // Base height for mobile menu
+      return "22rem"; // Base height for mobile menu - increased from 18rem
     }
     
     // For desktop dropdowns
@@ -470,9 +478,9 @@ const Navbar = () => {
                     ease: [0.25, 0.1, 0.25, 1.0],
                     staggerChildren: 0.05
                   }}
-                  className="md:hidden w-full pt-4 pb-3 relative overflow-hidden"
+                  className="md:hidden w-full pt-6 pb-4 px-2 relative overflow-hidden"
                 >
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {/* DOB Section */}
                     <div>
                       <motion.div
@@ -481,11 +489,11 @@ const Navbar = () => {
                         exit={{ y: -5, opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         onClick={() => handleDropdownToggle('dob-mobile')}
-                        className={`flex items-center justify-between w-full px-3 py-2 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors`}
+                        className={`flex items-center justify-between w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors`}
                       >
-                        <span>DOB</span>
+                        <span className="text-base">DOB</span>
                         <svg
-                          className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === 'dob-mobile' ? 'rotate-180' : ''}`}
+                          className={`w-5 h-5 transition-transform duration-300 ${activeDropdown === 'dob-mobile' ? 'rotate-180' : ''}`}
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -519,7 +527,7 @@ const Navbar = () => {
                             initial="hidden"
                             animate="visible"
                             exit="hidden"
-                            className="mt-1 pl-5 space-y-2 overflow-hidden"
+                            className="mt-2 pl-6 space-y-3 overflow-hidden"
                           >
                             {dobDropdownItems.map((item, index) => (
                               <motion.div
@@ -535,7 +543,7 @@ const Navbar = () => {
                                   href={item.href}
                                   target={item.target}
                                   rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
-                                  className="block text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-1.5 transition-colors duration-200"
+                                  className="block text-sm md:text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-2 transition-colors duration-200"
                                 >
                                   {item.label}
                                 </Link>
@@ -554,11 +562,11 @@ const Navbar = () => {
                         exit={{ y: -5, opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         onClick={() => handleDropdownToggle('dobi-mobile')}
-                        className={`flex items-center justify-between w-full px-3 py-2 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors`}
+                        className={`flex items-center justify-between w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors`}
                       >
-                        <span>DOBI</span>
+                        <span className="text-base">DOBI</span>
                         <svg
-                          className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === 'dobi-mobile' ? 'rotate-180' : ''}`}
+                          className={`w-5 h-5 transition-transform duration-300 ${activeDropdown === 'dobi-mobile' ? 'rotate-180' : ''}`}
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -592,7 +600,7 @@ const Navbar = () => {
                             initial="hidden"
                             animate="visible"
                             exit="hidden"
-                            className="mt-1 pl-5 space-y-2 overflow-hidden"
+                            className="mt-2 pl-6 space-y-3 overflow-hidden"
                           >
                             {dobiDropdownItems.map((item, index) => (
                               <motion.div
@@ -608,7 +616,7 @@ const Navbar = () => {
                                   href={item.href}
                                   target={item.target}
                                   rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
-                                  className="block text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-1.5 transition-colors duration-200"
+                                  className="block text-sm md:text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-2 transition-colors duration-200"
                                 >
                                   {item.label}
                                 </Link>
@@ -628,7 +636,7 @@ const Navbar = () => {
                     >
                       <Link
                         href="/faq"
-                        className="block w-full px-3 py-2 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors"
+                        className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base"
                       >
                         FAQ
                       </Link>
@@ -642,14 +650,14 @@ const Navbar = () => {
                     >
                       <Link
                         href="/wiki"
-                        className="block w-full px-3 py-2 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors"
+                        className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base"
                       >
                         Wiki
                       </Link>
                     </motion.div>
                     
                     <motion.div 
-                      className="pt-2"
+                      className="pt-3"
                       initial={{ y: -5, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       exit={{ y: -5, opacity: 0 }}
@@ -657,7 +665,7 @@ const Navbar = () => {
                     >
                       <Link
                         href="https://home.dobprotocol.com/home"
-                        className="block w-full px-4 py-2 bg-[#597CE9] text-white text-center rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7]"
+                        className="block w-full px-4 py-3 bg-[#597CE9] text-white text-center rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7] text-base font-semibold"
                       >
                         Invest now
                       </Link>
