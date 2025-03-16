@@ -161,33 +161,33 @@ export default function CTA() {
           color: #1a202c;
           background: linear-gradient(to bottom, 
             #FFFFFF 0%, 
-            #FFFFFF 70%, 
+            #FFFFFF 60%, 
             #FFFFFF 100%);
         }
         
         .cta-section::before {
           content: '';
           position: absolute;
-          bottom: -100px;
+          bottom: -120px;
           left: 0;
           width: 100%;
-          height: 250px;
+          height: 280px;
           background: transparent;
           pointer-events: none;
           z-index: 15;
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          opacity: 0.7;
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          opacity: 0.85;
           transform: translateY(-50%);
           mask-image: linear-gradient(to top, 
             rgba(0, 0, 0, 0) 0%, 
-            rgba(0, 0, 0, 0.3) 30%, 
-            rgba(0, 0, 0, 0.6) 60%, 
+            rgba(0, 0, 0, 0.4) 30%, 
+            rgba(0, 0, 0, 0.7) 60%, 
             rgba(0, 0, 0, 1) 100%);
           -webkit-mask-image: linear-gradient(to top, 
             rgba(0, 0, 0, 0) 0%, 
-            rgba(0, 0, 0, 0.3) 30%, 
-            rgba(0, 0, 0, 0.6) 60%, 
+            rgba(0, 0, 0, 0.4) 30%, 
+            rgba(0, 0, 0, 0.7) 60%, 
             rgba(0, 0, 0, 1) 100%);
         }
         
@@ -195,7 +195,7 @@ export default function CTA() {
           .cta-section {
             background: linear-gradient(to bottom, 
               rgba(31, 41, 55, 1) 0%, 
-              rgba(31, 41, 55, 0.9) 50%,
+              rgba(31, 41, 55, 0.85) 60%,
               rgba(66, 66, 77, 0.65) 100%);
             color: white;
           }
