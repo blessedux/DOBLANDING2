@@ -8,10 +8,10 @@ export default function HowItWorks() {
       <div className="container px-4 md:px-6 mx-auto max-w-7xl">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4 dark:text-gray-100">
-            Three Simple Steps to Earning from Smart Machines
+            Own the Digital Real Estate of Tomorrow
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Start your journey to passive income from technology infrastructure in minutes
+            Secure your stake in Web3 and AI infrastructure — the backbone of future technologies that generate automated revenue streams
           </p>
         </div>
 

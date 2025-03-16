@@ -102,7 +102,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 mt-0 pt-0">
+    <section className="relative w-full h-screen  overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 mt-0 pt-0">
       {/* Background video */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <iframe 
@@ -186,7 +186,7 @@ const Hero = () => {
                 className="relative px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-lg transition-all duration-400 hover:shadow-purple-glow shadow-purple z-10"
               >
                 Invest now
-              </a>
+              </a>  
             </motion.div>
           </div>
         </div>

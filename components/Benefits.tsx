@@ -31,10 +31,10 @@ export default function Benefits() {
       <div className="container px-4 md:px-6 mx-auto max-w-7xl">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4 dark:text-gray-100">
-            Why Smart Machine Investments Make Sense
+            Stop Chasing Money. Start Building Wealth.
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Future wealth belongs to those who own infrastructure, not those who work for it
+            Earn up to 30% annual yield through our DefAI model and LDI platform. We finance decentralized infrastructure devices with AI-managed revenue distribution, creating passive income from the machine economy.
           </p>
         </div>
 
@@ -60,7 +60,7 @@ export default function Benefits() {
             href="https://home.dobprotocol.com/home"
             target="_blank"
             rel="noopener noreferrer" 
-            className="inline-flex h-12 items-center justify-center rounded-md bg-blue-600 px-10 py-3 text-base font-medium text-white shadow-lg transition-all hover:bg-blue-700"
+            className="inline-flex h-12 items-center justify-center rounded-md bg-primary-600 px-10 py-3 text-base font-medium text-white shadow-lg transition-all hover:bg-blue-700"
           >
             Start Investing Now
           </a>

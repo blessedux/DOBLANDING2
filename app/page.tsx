@@ -6,7 +6,7 @@ import Benefits from "@/components/Benefits"
 import Partners from "@/components/Partners"
 import CTA from "../components/CTA"
 import TrustedBy from "@/components/TrustedBy"
-
+import DamCards from "@/components/DamCards"
 export default function Home() {
   return (
     <main className="flex flex-col min-h-screen overflow-hidden m-0 p-0">
@@ -19,6 +19,7 @@ export default function Home() {
         <Benefits />
         <TrustedBy />
         <Partners />
+        <DamCards />
         <CTA />
       </div>
     </main>

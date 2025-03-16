@@ -68,31 +68,6 @@ export default function Partners() {
           ))}
         </div>
 
-        {/* Partnership integration message */}
-        <div className="mt-16 bg-blue-50 dark:bg-blue-900/20 p-8 rounded-xl max-w-4xl mx-auto transition-colors duration-300">
-          <h3 className="text-xl font-bold mb-4 text-center dark:text-gray-100">How Our Partnerships Benefit You</h3>
-          <ul className="space-y-4">
-            <li className="flex items-start">
-              <svg className="w-6 h-6 text-blue-600 dark:text-blue-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              <span className="dark:text-gray-300">Access to verified, high-performing machines across multiple technology sectors</span>
-            </li>
-            <li className="flex items-start">
-              <svg className="w-6 h-6 text-blue-600 dark:text-blue-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              <span className="dark:text-gray-300">Technical integration ensures reliable performance data and income tracking</span>
-            </li>
-            <li className="flex items-start">
-              <svg className="w-6 h-6 text-blue-600 dark:text-blue-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              <span className="dark:text-gray-300">Combined expertise creates a more resilient and profitable ecosystem</span>
-            </li>
-          </ul>
-        </div>
-
         {/* Illustration suggestion */}
         <div className="mt-12 p-6 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-100 dark:border-blue-800 mx-auto transition-colors duration-300">
           <p className="font-semibold text-blue-800 dark:text-blue-300 mb-2 text-center">Illustration Suggestion:</p>
