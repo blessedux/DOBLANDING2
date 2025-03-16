@@ -356,6 +356,7 @@ const TrustedBy = () => {
           overflow: hidden;
           position: relative;
           padding: 20px 0;
+          --marquee-duration: 30s;
         }
         
         .marquee {
@@ -366,8 +367,15 @@ const TrustedBy = () => {
         
         .marquee-content {
           display: flex;
-          animation: marquee 30s linear infinite;
+          animation: marquee var(--marquee-duration) linear infinite;
           white-space: nowrap;
+        }
+        
+        /* Speed up marquee on mobile devices by 2.5x */
+        @media (max-width: 768px) {
+          .marquee-container {
+            --marquee-duration: 12s;
+          }
         }
         
         .partner-logo {
