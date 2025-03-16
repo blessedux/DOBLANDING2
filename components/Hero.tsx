@@ -102,27 +102,35 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative w-full h-screen  overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 mt-0 pt-0">
-      {/* Background video */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <iframe 
-          className="pointer-events-none"
-          src="https://player.vimeo.com/video/1066229665?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
-          style={{ 
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '100vw',
-            height: '56.25vw', /* Given a 16:9 aspect ratio */
-            minHeight: '100vh',
-            minWidth: '177.77vh', /* Given a 16:9 aspect ratio */
-          }}
-          frameBorder="0" 
-          allow="autoplay; fullscreen" 
-          title="Background Video"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-50/30 to-white/40 dark:from-gray-900/40 dark:to-gray-800/40 transition-colors duration-300" />
+    <section className="relative w-full h-screen overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 mt-0 pt-0">
+      {/* Background video with shadow */}
+      <div className="absolute inset-0 w-full h-full">
+        <div className="relative w-full h-full p-12">
+          <div className="relative w-full h-full rounded-[2%] overflow-hidden bg-black" 
+              style={{ 
+                boxShadow: '0 0 40px 15px rgba(0, 0, 0, 0.8)'
+              }}>
+            <iframe 
+              className="pointer-events-none"
+              src="https://player.vimeo.com/video/1066229665?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
+              style={{ 
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '120%',
+                height: '120%',
+                minWidth: '100%',
+                minHeight: '100%',
+                objectFit: 'cover',
+              }}
+              frameBorder="0" 
+              allow="autoplay; fullscreen" 
+              title="Background Video"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-gray-50/30 to-white/40 dark:from-gray-900/40 dark:to-gray-800/40 transition-colors duration-300 rounded-[2%]" />
+          </div>
+        </div>
       </div>
       
       <div className="container mx-auto px-4 h-full flex items-center justify-center relative z-10">

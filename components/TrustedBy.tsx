@@ -153,6 +153,21 @@ const TrustedBy = () => {
       )
     },
     {
+      id: 'virtuals',
+      component: (
+        <div className="partner-logo bg-transparent">
+          <Image 
+            src="/partners/virtuals.svg" 
+            alt="Virtuals" 
+            width={140} 
+            height={70} 
+            unoptimized 
+            className="h-16 w-auto object-contain virtuals-logo"
+          />
+        </div>
+      )
+    },
+    {
       id: 'odisea',
       component: (
         <div className="partner-logo bg-transparent">
@@ -249,6 +264,14 @@ const TrustedBy = () => {
           100% {
             transform: translateX(-50%);
           }
+        }
+
+        .virtuals-logo {
+          filter: brightness(0) saturate(100%);
+        }
+
+        :global(.dark) .virtuals-logo {
+          filter: brightness(0) saturate(100%) invert(0.85);
         }
       `}</style>
     </section>
