@@ -198,7 +198,23 @@ const Navbar = () => {
 
   // Determine border radius based on button hover or active dropdown
   const borderRadius = hoveringButton || activeDropdown ? "16px" : "9999px";
-  const navHeight = activeDropdown ? "16rem" : "4rem";
+  
+  // Calculate navHeight based on active dropdown or mobile menu
+  const getNavHeight = () => {
+    // If mobile menu is open, provide more height
+    if (mobileMenuOpen) {
+      // Add extra height for mobile dropdown if active
+      if (activeDropdown === 'dob-mobile' || activeDropdown === 'dobi-mobile') {
+        return "22rem"; // More space for dropdown items
+      }
+      return "18rem"; // Base height for mobile menu
+    }
+    
+    // For desktop dropdowns
+    return activeDropdown ? "16rem" : "4rem";
+  };
+  
+  const navHeight = getNavHeight();
 
   // Provide different transitions based on whether we're opening or closing
   const getTransitions = () => {
@@ -441,130 +457,217 @@ const Navbar = () => {
                 </button>
               </div>
             </div>
+            
+            {/* Mobile Menu - Inside navbar container */}
+            <AnimatePresence>
+              {mobileMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ 
+                    duration: 0.3, 
+                    ease: [0.25, 0.1, 0.25, 1.0],
+                    staggerChildren: 0.05
+                  }}
+                  className="md:hidden w-full pt-4 pb-3 relative overflow-hidden"
+                >
+                  <div className="space-y-3">
+                    {/* DOB Section */}
+                    <div>
+                      <motion.div
+                        initial={{ y: -5, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -5, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        onClick={() => handleDropdownToggle('dob-mobile')}
+                        className={`flex items-center justify-between w-full px-3 py-2 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors`}
+                      >
+                        <span>DOB</span>
+                        <svg
+                          className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === 'dob-mobile' ? 'rotate-180' : ''}`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </motion.div>
+                      <AnimatePresence mode="wait">
+                        {activeDropdown === 'dob-mobile' && (
+                          <motion.div
+                            variants={{
+                              hidden: { 
+                                opacity: 0,
+                                height: 0,
+                                y: -10,
+                                transition: {
+                                  duration: 0.2,
+                                  ease: [0.25, 0.1, 0.25, 1.0]
+                                }
+                              },
+                              visible: { 
+                                opacity: 1,
+                                height: "auto",
+                                y: 0,
+                                transition: {
+                                  duration: 0.3,
+                                  ease: [0.25, 0.1, 0.25, 1.0]
+                                }
+                              }
+                            }}
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
+                            className="mt-1 pl-5 space-y-2 overflow-hidden"
+                          >
+                            {dobDropdownItems.map((item, index) => (
+                              <motion.div
+                                key={item.href}
+                                initial={{ opacity: 0, x: -5 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ 
+                                  duration: 0.2,
+                                  delay: index * 0.05 + 0.1
+                                }}
+                              >
+                                <Link
+                                  href={item.href}
+                                  target={item.target}
+                                  rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
+                                  className="block text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-1.5 transition-colors duration-200"
+                                >
+                                  {item.label}
+                                </Link>
+                              </motion.div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* DOBI Section */}
+                    <div>
+                      <motion.div
+                        initial={{ y: -5, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -5, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        onClick={() => handleDropdownToggle('dobi-mobile')}
+                        className={`flex items-center justify-between w-full px-3 py-2 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors`}
+                      >
+                        <span>DOBI</span>
+                        <svg
+                          className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === 'dobi-mobile' ? 'rotate-180' : ''}`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </motion.div>
+                      <AnimatePresence mode="wait">
+                        {activeDropdown === 'dobi-mobile' && (
+                          <motion.div
+                            variants={{
+                              hidden: { 
+                                opacity: 0,
+                                height: 0,
+                                y: -10,
+                                transition: {
+                                  duration: 0.2,
+                                  ease: [0.25, 0.1, 0.25, 1.0]
+                                }
+                              },
+                              visible: { 
+                                opacity: 1,
+                                height: "auto",
+                                y: 0,
+                                transition: {
+                                  duration: 0.3,
+                                  ease: [0.25, 0.1, 0.25, 1.0]
+                                }
+                              }
+                            }}
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
+                            className="mt-1 pl-5 space-y-2 overflow-hidden"
+                          >
+                            {dobiDropdownItems.map((item, index) => (
+                              <motion.div
+                                key={item.href}
+                                initial={{ opacity: 0, x: -5 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ 
+                                  duration: 0.2,
+                                  delay: index * 0.05 + 0.1
+                                }}
+                              >
+                                <Link
+                                  href={item.href}
+                                  target={item.target}
+                                  rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
+                                  className="block text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-1.5 transition-colors duration-200"
+                                >
+                                  {item.label}
+                                </Link>
+                              </motion.div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Regular Links */}
+                    <motion.div
+                      initial={{ y: -5, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -5, opacity: 0 }}
+                      transition={{ duration: 0.2, delay: 0.1 }}
+                    >
+                      <Link
+                        href="/faq"
+                        className="block w-full px-3 py-2 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors"
+                      >
+                        FAQ
+                      </Link>
+                    </motion.div>
+                    
+                    <motion.div
+                      initial={{ y: -5, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -5, opacity: 0 }}
+                      transition={{ duration: 0.2, delay: 0.15 }}
+                    >
+                      <Link
+                        href="/wiki"
+                        className="block w-full px-3 py-2 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors"
+                      >
+                        Wiki
+                      </Link>
+                    </motion.div>
+                    
+                    <motion.div 
+                      className="pt-2"
+                      initial={{ y: -5, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -5, opacity: 0 }}
+                      transition={{ duration: 0.2, delay: 0.2 }}
+                    >
+                      <Link
+                        href="https://home.dobprotocol.com/home"
+                        className="block w-full px-4 py-2 bg-[#597CE9] text-white text-center rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7]"
+                      >
+                        Invest now
+                      </Link>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </motion.nav>
-
-        {/* Mobile Menu - Separate from main navbar */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="md:hidden mt-2 rounded-xl backdrop-blur-lg bg-white/90 dark:bg-gray-800/90 shadow-lg overflow-hidden"
-            >
-              <div className="px-4 py-3 space-y-4">
-                {/* DOB Section */}
-                <div>
-                  <div
-                    onClick={() => handleDropdownToggle('dob-mobile')}
-                    className={`flex items-center justify-between px-2 py-1 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer ${buttonHoverClass}`}
-                  >
-                    <span>DOB</span>
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                  <AnimatePresence>
-                    {activeDropdown === 'dob-mobile' && (
-                      <motion.div
-                        variants={dropdownVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="hidden"
-                        className="mt-1 pl-4 space-y-1"
-                      >
-                        {dobDropdownItems.map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            target={item.target}
-                            rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
-                            className="block text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-1 transition-colors duration-200"
-                            onClick={() => setMobileMenuOpen(false)}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* DOBI Section */}
-                <div>
-                  <div
-                    onClick={() => handleDropdownToggle('dobi-mobile')}
-                    className={`flex items-center justify-between px-2 py-1 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer ${buttonHoverClass}`}
-                  >
-                    <span>DOBI</span>
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                  <AnimatePresence>
-                    {activeDropdown === 'dobi-mobile' && (
-                      <motion.div
-                        variants={dropdownVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="hidden"
-                        className="mt-1 pl-4 space-y-1"
-                      >
-                        {dobiDropdownItems.map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            target={item.target}
-                            rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
-                            className="block text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-1 transition-colors duration-200"
-                            onClick={() => setMobileMenuOpen(false)}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* Regular Links */}
-                <Link
-                  href="/faq"
-                  className={`block px-2 py-1 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 ${buttonHoverClass}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  FAQ
-                </Link>
-                <Link
-                  href="/wiki"
-                  className={`block px-2 py-1 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 ${buttonHoverClass}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Wiki
-                </Link>
-                <Link
-                  href="https://home.dobprotocol.com/home"
-                  className="block px-4 py-2 bg-[#597CE9] text-white text-center rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7] relative before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-white/30 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Invest now
-                </Link>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </motion.div>
     </div>
   );
