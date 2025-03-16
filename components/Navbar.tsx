@@ -226,13 +226,10 @@ const Navbar = () => {
   
   // Calculate navHeight based on active dropdown or mobile menu
   const getNavHeight = () => {
-    // If mobile menu is open, provide more height
+    // If mobile menu is open, provide a consistent height
     if (mobileMenuOpen) {
-      // Add extra height for mobile dropdown if active
-      if (activeDropdown === 'dob-mobile' || activeDropdown === 'dobi-mobile') {
-        return "28rem"; // More space for dropdown items on mobile
-      }
-      return "22rem"; // Base height for mobile menu - increased from 18rem
+      // Use consistent height for mobile menu regardless of dropdown state
+      return "36rem"; // Single fixed height for all mobile menu states
     }
     
     // For desktop dropdowns
@@ -460,10 +457,17 @@ const Navbar = () => {
                 </Link>
               </div>
 
-              {/* Mobile menu button */}
-              <div className="md:hidden flex justify-end w-full">
+              {/* Mobile menu button - positioned at the very end */}
+              <div className="md:hidden flex items-center justify-end z-20">
                 <button 
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  onClick={() => {
+                    setMobileMenuOpen(!mobileMenuOpen);
+                    // Reset mobile dropdown state when closing
+                    if (mobileMenuOpen) {
+                      setActiveDropdown(null);
+                      setIsMobileDropdownActive(false);
+                    }
+                  }}
                   className={`dark:text-gray-300 text-gray-700 hover:text-gray-900 dark:hover:text-white p-1.5 ${buttonHoverClass}`}
                   aria-label="Toggle mobile menu"
                 >
@@ -563,32 +567,6 @@ const Navbar = () => {
                             exit="hidden"
                             className="mt-2 pl-0 space-y-3 overflow-hidden"
                           >
-                            {/* Back button */}
-                            <motion.div
-                              initial={{ opacity: 0, x: -5 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ duration: 0.2 }}
-                              className="text-left mb-2"
-                            >
-                              <button
-                                onClick={() => {
-                                  setActiveDropdown(null);
-                                  setIsMobileDropdownActive(false);
-                                }}
-                                className="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-2 px-4 transition-colors duration-200"
-                              >
-                                <svg
-                                  className="w-4 h-4 mr-1 rotate-90"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                                Back to menu
-                              </button>
-                            </motion.div>
-                            
                             {dobDropdownItems.map((item, index) => (
                               <motion.div
                                 key={item.href}
@@ -604,7 +582,7 @@ const Navbar = () => {
                                   href={item.href}
                                   target={item.target}
                                   rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
-                                  className="block text-sm md:text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-2 px-4 transition-colors duration-200"
+                                  className="block text-sm md:text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-3 px-4 transition-colors duration-200"
                                 >
                                   {item.label}
                                 </Link>
@@ -671,32 +649,6 @@ const Navbar = () => {
                                   exit="hidden"
                                   className="mt-2 pl-0 space-y-3 overflow-hidden"
                                 >
-                                  {/* Back button */}
-                                  <motion.div
-                                    initial={{ opacity: 0, x: -5 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.2 }}
-                                    className="text-left mb-2"
-                                  >
-                                    <button
-                                      onClick={() => {
-                                        setActiveDropdown(null);
-                                        setIsMobileDropdownActive(false);
-                                      }}
-                                      className="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-2 px-4 transition-colors duration-200"
-                                    >
-                                      <svg
-                                        className="w-4 h-4 mr-1 rotate-90"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                      >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                      </svg>
-                                      Back to menu
-                                    </button>
-                                  </motion.div>
-                                  
                                   {dobiDropdownItems.map((item, index) => (
                                     <motion.div
                                       key={item.href}
@@ -712,7 +664,7 @@ const Navbar = () => {
                                         href={item.href}
                                         target={item.target}
                                         rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
-                                        className="block text-sm md:text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-2 px-4 transition-colors duration-200"
+                                        className="block text-sm md:text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-3 px-4 transition-colors duration-200"
                                       >
                                         {item.label}
                                       </Link>

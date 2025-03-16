@@ -296,8 +296,8 @@ export default function Solution() {
                   }}
                 >
                   <Image 
-                    src="/icons/smart-city.gif" 
-                    alt="Smart city visualization representing DePIN ecosystem" 
+                    src="/icons/EVCharger.webp" 
+                    alt="Electric vehicle charging station for DePIN infrastructure" 
                     fill
                     style={{ objectFit: 'cover' }}
                     className="rounded-lg"
