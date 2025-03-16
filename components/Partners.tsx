@@ -1,5 +1,72 @@
 'use client'
 import Image from 'next/image';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import { useTheme } from '../context/ThemeContext';
+
+// Define types for AnimatedText component
+interface AnimatedTextProps {
+  text: string;
+  className: string;
+}
+
+// Text animation component
+const AnimatedText = ({ text, className }: AnimatedTextProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  const isDarkMode = theme === 'dark';
+  
+  // Setup scroll animation
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 80%", "end 30%"]
+  });
+  
+  // Split text into words
+  const words = text.split(' ');
+  
+  return (
+    <motion.div ref={containerRef} className={`${className} overflow-hidden`}>
+      {words.map((word, index) => {
+        // Calculate progress value for this word
+        const wordProgress = useTransform(
+          scrollYProgress,
+          [0, index / (words.length * 1.5), (index + 1) / (words.length * 1.5), 1],
+          [0, 0, 1, 1]
+        );
+        
+        return (
+          <motion.span
+            key={`${word}-${index}`}
+            style={{
+              display: 'inline-block',
+              opacity: useTransform(wordProgress, [0, 1], [0.55, 1]),
+              marginRight: '0.25em',
+              filter: useTransform(
+                wordProgress,
+                [0, 1],
+                ["blur(4px)", "blur(0px)"]
+              ),
+            }}
+          >
+            <motion.span
+              style={{
+                display: 'inline-block',
+                color: useTransform(
+                  wordProgress,
+                  [0, 1],
+                  ["#597CE9", isDarkMode ? "#ffffff" : "#000000"]
+                ),
+              }}
+            >
+              {word}
+            </motion.span>
+          </motion.span>
+        );
+      })}
+    </motion.div>
+  );
+};
 
 export default function Partners() {
   const partners = [
@@ -33,12 +100,14 @@ export default function Partners() {
     <section className="w-full py-12 md:py-24 lg:py-32 bg-white dark:bg-gray-800 transition-colors duration-300">
       <div className="container px-4 md:px-6 mx-auto max-w-7xl">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4 dark:text-gray-100">
-            Working with Technology Leaders
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            We've partnered with established networks to bring you trusted, income-producing machine investments
-          </p>
+          <AnimatedText
+            text="Working with Technology Leaders"
+            className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4 dark:text-gray-100"
+          />
+          <AnimatedText
+            text="We've partnered with established networks to bring you trusted, income-producing machine investments"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
+          />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -66,14 +135,6 @@ export default function Partners() {
               <p className="text-gray-600 dark:text-gray-300">{partner.description}</p>
             </a>
           ))}
-        </div>
-
-        {/* Illustration suggestion */}
-        <div className="mt-12 p-6 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-100 dark:border-blue-800 mx-auto transition-colors duration-300">
-          <p className="font-semibold text-blue-800 dark:text-blue-300 mb-2 text-center">Illustration Suggestion:</p>
-          <p className="text-blue-700 dark:text-blue-400 text-center">
-            Create a hub-and-spoke design with the DobProtocol logo in center, connected to partner logos by animated lines showing data/value flowing in both directions. When a user hovers over each partner logo, a simple popup should appear explaining the partnership benefit.
-          </p>
         </div>
       </div>
     </section>

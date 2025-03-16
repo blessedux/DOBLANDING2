@@ -97,7 +97,7 @@ const Hero = () => {
     if (!hoverEnabled || hoveredWordGroup === null) return {};
     
     return id !== hoveredWordGroup
-      ? { filter: 'blur(10px)', opacity: 0.7, transition: 'filter 0.3s ease, opacity 0.3s ease' }
+      ? { filter: 'blur(10px)', opacity: 0.88, transition: 'filter 0.3s ease, opacity 0.3s ease' }
       : { filter: 'blur(0px)', opacity: 1, transition: 'filter 0.3s ease, opacity 0.3s ease' };
   };
   
@@ -155,7 +155,7 @@ const Hero = () => {
           {/* Content */}
           <div className="flex flex-col justify-center text-center">
             <motion.h1 
-              className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-800 dark:text-gray-100 mb-6"
+              className="text-5xl md:text-6xl lg:text-7xl font-bold text-white dark:text-gray-100 mb-6"
               variants={container}
               initial="hidden"
               animate="visible"
