@@ -122,23 +122,23 @@ const Hero = () => {
     <section className="relative w-full h-screen overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 mt-0 pt-0">
       {/* Background video with shadow */}
       <div className="absolute inset-0 w-full h-full">
-        <div className="relative w-full h-full p-12 sm:p-8 mobile-video-container">
+        <div className="relative w-full h-full p-12 sm:p-6 xs:p-4 mobile-video-container">
           <div className="relative w-full h-full rounded-[2%] overflow-hidden bg-black" 
               style={{ 
                 boxShadow: '0 0 40px 15px rgba(0, 0, 0, 0.8)'
               }}>
             <iframe 
-              className="pointer-events-none"
+              className="pointer-events-none video-frame"
               src="https://player.vimeo.com/video/1066229665?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
               style={{ 
                 position: 'absolute',
                 top: '50%',
                 left: '50%',
-                transform: 'translate(-50%, -50%) scale(1.5)',
-                width: '150%',
-                height: '150%',
-                minWidth: '100%',
-                minHeight: '100%',
+                transform: 'translate(-50%, -50%) scale(1.2)',
+                width: '120%',
+                height: '120%',
+                minWidth: '120%',
+                minHeight: '120%',
                 objectFit: 'cover',
               }}
               frameBorder="0" 
@@ -150,8 +150,8 @@ const Hero = () => {
         </div>
       </div>
       
-      <div className="container mx-auto px-4 md:px-6 h-full flex items-center justify-center relative z-10">
-        <div className="w-full max-w-4xl mx-auto pt-16 md:pt-0">
+      <div className="container mx-auto px-4 h-full flex items-center justify-center relative z-10">
+        <div className="w-full max-w-4xl mx-auto pt-16 sm:pt-10 md:pt-0">
           {/* Content */}
           <div className="flex flex-col justify-center text-center">
             <motion.h1 
@@ -288,25 +288,38 @@ const Hero = () => {
           100% { background-position: 0% 50% }
         }
 
-        /* Mobile video container styling */
+        /* Mobile video container styling - only for smaller screens */
         @media (max-width: 640px) {
-          .mobile-video-container iframe {
-            transform: translate(-50%, -50%) scale(2.2) !important;
-            width: 200% !important;
-            height: 200% !important;
+          .video-frame {
+            transform: translate(-50%, -50%) scale(3) !important;
+            width: 300% !important;
+            height: 300% !important;
           }
           
           .mobile-video-container {
-            padding: 8px !important;
+            padding: 4px !important;
           }
         }
         
-        /* Medium screens */
+        /* Extra small screens - very aggressive scaling */
+        @media (max-width: 480px) {
+          .video-frame {
+            transform: translate(-50%, -50%) scale(3.5) !important;
+            width: 350% !important;
+            height: 350% !important;
+          }
+          
+          .mobile-video-container {
+            padding: 2px !important;
+          }
+        }
+        
+        /* Medium screens - moderate scaling */
         @media (min-width: 641px) and (max-width: 1024px) {
-          .mobile-video-container iframe {
-            transform: translate(-50%, -50%) scale(1.8) !important;
-            width: 180% !important;
-            height: 180% !important;
+          .video-frame {
+            transform: translate(-50%, -50%) scale(1.5) !important;
+            width: 150% !important;
+            height: 150% !important;
           }
         }
       `}</style>
