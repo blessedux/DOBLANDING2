@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "node -e \"try { require('tailwindcss-animate') } catch(e) { console.log('Installing tailwindcss-animate...'); require('child_process').execSync('yarn add tailwindcss-animate@1.0.7 --exact || npm install tailwindcss-animate@1.0.7 --save-exact') }\""
   },
   "dependencies": {
     "@codaworks/react-glow": "^1.0.6",

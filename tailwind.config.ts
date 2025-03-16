@@ -1,5 +1,13 @@
 import type { Config } from "tailwindcss";
-import animate from "tailwindcss-animate";
+
+// Using a dynamic require with a try/catch to handle potential import failures
+let animatePlugin;
+try {
+  animatePlugin = require('tailwindcss-animate');
+} catch (e) {
+  console.warn('Warning: tailwindcss-animate plugin not found, continuing without it');
+  animatePlugin = null;
+}
 
 const config: Config = {
     darkMode: 'class',
@@ -115,7 +123,8 @@ const config: Config = {
   	}
   },
   plugins: [
-    animate,
+    // Only add animate plugin if it was successfully loaded
+    ...(animatePlugin ? [animatePlugin] : []),
     require('@codaworks/react-glow/tailwind')
   ],
 };

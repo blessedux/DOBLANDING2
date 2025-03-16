@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "installCommand": "yarn install --no-lockfile && yarn add tailwindcss-animate@1.0.7 --exact",
+  "buildCommand": "yarn build"
+} 

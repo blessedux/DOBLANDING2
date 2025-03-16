@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Manually add animations if tailwindcss-animate is missing */
+@layer utilities {
+  .animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+  }
+  .animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
+  }
+}
+
+@layer keyframes {
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+}
+
 html, body, #__next, main {
   margin: 0;
   padding: 0;
