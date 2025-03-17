@@ -54,7 +54,7 @@ const Footer = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`max-w-7xl mx-auto rounded-2xl p-4 md:p-8 mt-[165px] md:mt-[195px] flex flex-col md:flex-row items-start md:items-center justify-between relative z-10 glassmorphism ${isDarkMode ? 'footer-dark' : 'footer-light'}`}
+        className={`max-w-7xl mx-auto rounded-2xl p-6 md:p-10 px-8 md:px-12 mt-[165px] md:mt-[195px] flex flex-col md:flex-row items-start md:items-center justify-between relative z-10 glassmorphism ${isDarkMode ? 'footer-dark' : 'footer-light'}`}
       >
         <div className="w-full flex flex-row justify-between items-start md:items-center">
           {/* Left side: Logo + Social Icons on mobile */}
@@ -113,10 +113,10 @@ const Footer = () => {
         </div>
 
         {/* Navigation Links - Desktop only */}
-        <div className="hidden md:grid grid-cols-3 gap-12 ml-auto w-1/2 h-full">
+        <div className="hidden md:grid grid-cols-3 gap-12 ml-0 mr-auto w-3/5 h-full">
           {/* DOB Token Section */}
           <div className="flex flex-col items-start justify-start h-full mt-0">
-            <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-1">$DOB token</span>
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-2">$DOB token</span>
             <div className="flex flex-col items-start w-full space-y-2">
               <Link href="/buy-dob" className="footer-animated-link">
                 <span className="arrow">→</span>
@@ -135,7 +135,7 @@ const Footer = () => {
 
           {/* DOBI AI-Agent Section */}
           <div className="flex flex-col items-start justify-start h-full mt-0">
-            <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-1">DOBI AI-Agent</span>
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-2">DOBI AI-Agent</span>
             <div className="flex flex-col items-start w-full space-y-2">
               <Link href="/buy-dobi" className="footer-animated-link">
                 <span className="arrow">→</span>
@@ -150,7 +150,7 @@ const Footer = () => {
 
           {/* Support Section - Desktop */}
           <div className="flex flex-col items-start justify-start h-full mt-0">
-            <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-1">Support</span>
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-2">Support</span>
             <div className="flex flex-col items-start w-full space-y-2">
               <Link href="/faq" className="footer-animated-link">
                 <span className="arrow">→</span>
@@ -174,15 +174,15 @@ const Footer = () => {
 
         {/* Social Links - Desktop only */}
         <div className="hidden md:flex flex-col items-start md:items-center space-y-4">
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-8">
             <Link href="https://t.me/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-              <Image src="/telegram.svg" alt="Telegram" width={40} height={40} />
+              <Image src="/telegram.svg" alt="Telegram" width={50} height={50} />
             </Link>
             <Link href="https://twitter.com/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-              <Image src="/x-twitter.svg" alt="X (Twitter)" width={40} height={20} />
+              <Image src="/x-twitter.svg" alt="X (Twitter)" width={50} height={50} />
             </Link>
             <Link href="https://linkedin.com/company/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-              <Image src="/linkedin.svg" alt="LinkedIn" width={40} height={20} />
+              <Image src="/linkedin.svg" alt="LinkedIn" width={50} height={50} />
             </Link>
           </div>
         </div>
@@ -254,6 +254,7 @@ const Footer = () => {
           font-size: 0.875rem;
           color: #4F46E5;
           padding: 0.25rem 0.5rem;
+          padding-left: 0;
           border-radius: 0.375rem;
           text-align: left;
           width: 100%;
@@ -264,7 +265,7 @@ const Footer = () => {
         
         @media (max-width: 767px) {
           .footer-animated-link {
-            padding: 0.15rem 0.4rem;
+            padding: 0.15rem 0;
             font-size: 0.8rem;
           }
         }

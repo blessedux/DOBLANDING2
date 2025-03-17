@@ -294,13 +294,6 @@ export default function CTA() {
           100% { background-position: 0% 50% }
         }
         
-        /* Extend the transition overlay for smoother blending */
-        .transition-overlay {
-          pointer-events: none;
-          z-index: 10;
-          height: 60px;
-        }
-        
         /* Add a new overlay to hide any potential edge between sections */
         .cta-section::after {
           content: '';
@@ -309,9 +302,16 @@ export default function CTA() {
           left: 0;
           width: 100%;
           height: 4px;
-          background: #16181C;
           z-index: 16;
           pointer-events: none;
+        }
+        
+        .cta-light::after {
+          background: #FFFFFF;
+        }
+        
+        .cta-dark::after {
+          background: #16181C;
         }
       `}</style>
     </section>
