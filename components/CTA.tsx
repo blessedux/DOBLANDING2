@@ -166,6 +166,7 @@ export default function CTA() {
         .transition-overlay {
           pointer-events: none;
           z-index: 10;
+          height: 60px; /* Increased height for better blending */
         }
         
         .cta-light .transition-overlay {
@@ -216,7 +217,7 @@ export default function CTA() {
           height: 150px;
           background: transparent;
           pointer-events: none;
-          z-index: 15;
+          z-index: 5;
           backdrop-filter: blur(15px);
           -webkit-backdrop-filter: blur(15px);
           opacity: 0.7;
@@ -291,6 +292,26 @@ export default function CTA() {
           0% { background-position: 0% 50% }
           50% { background-position: 100% 50% }
           100% { background-position: 0% 50% }
+        }
+        
+        /* Extend the transition overlay for smoother blending */
+        .transition-overlay {
+          pointer-events: none;
+          z-index: 10;
+          height: 60px;
+        }
+        
+        /* Add a new overlay to hide any potential edge between sections */
+        .cta-section::after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 100%;
+          height: 4px;
+          background: #16181C;
+          z-index: 16;
+          pointer-events: none;
         }
       `}</style>
     </section>

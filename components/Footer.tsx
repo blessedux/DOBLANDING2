@@ -48,13 +48,13 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer ref={footerRef} className="w-full py-24 md:py-24 px-4 mt-[-220px] md:mt-[-220px] relative footer-container">
+    <footer ref={footerRef} className="w-full py-24 md:py-24 px-4 mt-[-225px] md:mt-[-225px] relative footer-container">
       <motion.div 
         ref={cardRef}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`max-w-7xl mx-auto rounded-2xl p-4 md:p-8 mt-[160px] md:mt-[190px] flex flex-col md:flex-row items-start md:items-center justify-between relative z-10 glassmorphism ${isDarkMode ? 'footer-dark' : 'footer-light'}`}
+        className={`max-w-7xl mx-auto rounded-2xl p-4 md:p-8 mt-[165px] md:mt-[195px] flex flex-col md:flex-row items-start md:items-center justify-between relative z-10 glassmorphism ${isDarkMode ? 'footer-dark' : 'footer-light'}`}
       >
         <div className="w-full flex flex-row justify-between items-start md:items-center">
           {/* Left side: Logo + Social Icons on mobile */}
@@ -199,7 +199,7 @@ const Footer = () => {
         .footer-container {
           overflow: hidden;
           min-height: 320px;
-          padding-top: 190px;
+          padding-top: 195px;
           background: transparent;
           position: relative;
           z-index: 10;
@@ -208,7 +208,7 @@ const Footer = () => {
         @media (min-width: 768px) {
           .footer-container {
             min-height: 400px;
-            padding-top: 220px;
+            padding-top: 225px;
           }
         }
         
@@ -230,6 +230,7 @@ const Footer = () => {
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           border: 1px solid rgba(255, 255, 255, 0.05);
+          border-top: none;
           box-shadow: 
             0 8px 32px 0 rgba(79, 70, 229, 0.2),
             0 0 0 1px rgba(79, 70, 229, 0.1) inset;
