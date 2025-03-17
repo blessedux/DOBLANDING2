@@ -10,6 +10,7 @@ const Footer = () => {
   const footerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const { theme, toggleTheme } = useTheme();
+  const isDarkMode = theme === 'dark';
   
   // Set up cursor tracking using CSS variables for better performance
   useEffect(() => {
@@ -47,13 +48,13 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer ref={footerRef} className="w-full py-24 md:py-24 px-4 mt-[-200px] md:mt-[-200px] relative footer-container light-mode">
+    <footer ref={footerRef} className="w-full py-24 md:py-24 px-4 mt-[-200px] md:mt-[-200px] relative footer-container">
       <motion.div 
         ref={cardRef}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="max-w-7xl mx-auto rounded-2xl p-4 md:p-8 mt-[140px] md:mt-[170px] flex flex-col md:flex-row items-start md:items-center justify-between relative z-10 glassmorphism light-mode-container"
+        className={`max-w-7xl mx-auto rounded-2xl p-4 md:p-8 mt-[140px] md:mt-[170px] flex flex-col md:flex-row items-start md:items-center justify-between relative z-10 glassmorphism ${isDarkMode ? 'footer-dark' : 'footer-light'}`}
       >
         <div className="w-full flex flex-row justify-between items-start md:items-center">
           {/* Left side: Logo + Social Icons on mobile */}
@@ -211,45 +212,37 @@ const Footer = () => {
           }
         }
         
-        /* Light mode styling (default) */
-        .light-mode-container.glassmorphism {
-          background-color: #FFFFFF !important;
-          background: #FFFFFF !important;
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.7);
-          box-shadow: 
-            0 8px 32px 0 rgba(79, 70, 229, 0.12),
-            0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+        /* Light mode styling */
+        .footer-light.glassmorphism {
+          background-color: #FFFFFF;
+          background: #FFFFFF;
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
+          border: 1px solid rgba(255, 255, 255, 0.9);
+          box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.08);
           transition: all 0.3s ease, transform 0.2s ease;
         }
         
         /* Dark mode styling */
-        @media (prefers-color-scheme: dark) {
-          .glassmorphism.light-mode-container {
-            background: rgba(66, 66, 77, 0.65) !important;
-            background-color: rgba(66, 66, 77, 0.65) !important;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 
-              0 8px 32px 0 rgba(79, 70, 229, 0.2),
-              0 0 0 1px rgba(79, 70, 229, 0.1) inset;
-          }
+        .footer-dark.glassmorphism {
+          background: rgba(66, 66, 77, 0.65);
+          background-color: rgba(66, 66, 77, 0.65);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          box-shadow: 
+            0 8px 32px 0 rgba(79, 70, 229, 0.2),
+            0 0 0 1px rgba(79, 70, 229, 0.1) inset;
         }
         
         .glassmorphism:hover {
-          box-shadow: 
-            0 12px 42px 0 rgba(79, 70, 229, 0.3),
-            0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+          box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.12);
         }
         
-        @media (prefers-color-scheme: dark) {
-          .glassmorphism:hover {
-            box-shadow: 
-              0 12px 42px 0 rgba(79, 70, 229, 0.3),
-              0 0 0 1px rgba(79, 70, 229, 0.2) inset;
-          }
+        .footer-dark.glassmorphism:hover {
+          box-shadow: 
+            0 12px 42px 0 rgba(79, 70, 229, 0.3),
+            0 0 0 1px rgba(79, 70, 229, 0.2) inset;
         }
         
         /* Footer animated links styling */
@@ -308,14 +301,12 @@ const Footer = () => {
           transform: translateX(0);
         }
         
-        @media (prefers-color-scheme: dark) {
-          .footer-animated-link {
-            color: #4F46E5;
-          }
-          
-          .footer-animated-link:hover {
-            color: white;
-          }
+        .footer-animated-link {
+          color: #4F46E5;
+        }
+        
+        .footer-animated-link:hover {
+          color: white;
         }
       `}</style>
     </footer>

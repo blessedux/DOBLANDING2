@@ -76,7 +76,7 @@ export default function CTA() {
   const isDarkMode = theme === 'dark';
 
   return (
-    <section className="w-full py-12 md:py-24 cta-section">
+    <section className={`w-full py-12 md:py-24 cta-section ${isDarkMode ? 'cta-dark' : 'cta-light'}`}>
       <div className="container px-4 md:px-6 mx-auto max-w-7xl">
         <div className="flex flex-col items-center space-y-6 text-center">
           <div className="space-y-4 max-w-3xl mx-auto">
@@ -158,22 +158,51 @@ export default function CTA() {
           position: relative;
           z-index: 20;
           overflow: visible;
+        }
+        
+        .cta-light {
           color: #1a202c;
           background: #FFFFFF;
         }
         
-        .cta-section::before {
+        .cta-light::before {
           content: '';
           position: absolute;
           bottom: -120px;
           left: 0;
           width: 100%;
-          height: 250px;
+          height: 150px;
           background: transparent;
           pointer-events: none;
           z-index: 15;
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
+          opacity: 0;
+          transform: translateY(-50%);
+          mask-image: none;
+          -webkit-mask-image: none;
+        }
+        
+        .cta-dark {
+          color: white;
+          background: linear-gradient(to bottom, 
+            rgba(31, 41, 55, 1) 0%, 
+            rgba(31, 41, 55, 0.85) 60%,
+            rgba(66, 66, 77, 0.65) 100%);
+        }
+        
+        .cta-dark::before {
+          content: '';
+          position: absolute;
+          bottom: -120px;
+          left: 0;
+          width: 100%;
+          height: 150px;
+          background: transparent;
+          pointer-events: none;
+          z-index: 15;
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
           opacity: 0.7;
           transform: translateY(-50%);
           mask-image: linear-gradient(to top, 
@@ -186,22 +215,6 @@ export default function CTA() {
             rgba(0, 0, 0, 0.4) 30%, 
             rgba(0, 0, 0, 0.7) 60%, 
             rgba(0, 0, 0, 1) 100%);
-        }
-        
-        @media (prefers-color-scheme: dark) {
-          .cta-section {
-            background: linear-gradient(to bottom, 
-              rgba(31, 41, 55, 1) 0%, 
-              rgba(31, 41, 55, 0.85) 60%,
-              rgba(66, 66, 77, 0.65) 100%);
-            color: white;
-          }
-          
-          .cta-section::before {
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            opacity: 0.7;
-          }
         }
         
         /* Make sure content is above the blur effect */
