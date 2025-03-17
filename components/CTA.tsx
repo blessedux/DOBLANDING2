@@ -154,7 +154,7 @@ export default function CTA() {
       </div>
       
       {/* Bottom transition overlay */}
-      <div className="absolute bottom-0 left-0 w-full h-20 transition-overlay"></div>
+      <div className="absolute bottom-0 left-0 w-full h-36 transition-overlay"></div>
       
       <style jsx>{`
         .cta-section {
@@ -173,7 +173,7 @@ export default function CTA() {
         }
         
         .cta-dark .transition-overlay {
-          background: linear-gradient(to bottom, rgba(66, 66, 77, 0) 0%, rgb(66, 66, 77) 100%);
+          background: linear-gradient(to bottom, rgba(66, 66, 77, 0) 0%, #424253 100%);
         }
         
         .cta-light {
@@ -203,8 +203,8 @@ export default function CTA() {
           color: white;
           background: linear-gradient(to bottom, 
             rgba(31, 41, 55, 1) 0%, 
-            rgba(31, 41, 55, 0.85) 50%,
-            rgb(66, 66, 77) 100%);
+            rgba(31, 41, 55, 0.9) 40%,
+            #424253 100%);
         }
         
         .cta-dark::before {
