@@ -77,7 +77,7 @@ export default function CTA() {
 
   return (
     <section className={`w-full py-12 md:py-24 cta-section ${isDarkMode ? 'cta-dark' : 'cta-light'}`}>
-      <div className="container px-4 md:px-6 mx-auto max-w-7xl">
+      <div className="container px-4 md:px-6 mx-auto max-w-7xl relative z-30">
         <div className="flex flex-col items-center space-y-6 text-center">
           <div className="space-y-4 max-w-3xl mx-auto">
             <div className="space-y-1">
@@ -153,11 +153,27 @@ export default function CTA() {
         </div>
       </div>
       
+      {/* Bottom transition overlay */}
+      <div className="absolute bottom-0 left-0 w-full h-20 transition-overlay"></div>
+      
       <style jsx>{`
         .cta-section {
           position: relative;
           z-index: 20;
           overflow: visible;
+        }
+        
+        .transition-overlay {
+          pointer-events: none;
+          z-index: 10;
+        }
+        
+        .cta-light .transition-overlay {
+          background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+        }
+        
+        .cta-dark .transition-overlay {
+          background: linear-gradient(to bottom, rgba(66, 66, 77, 0) 0%, rgba(66, 66, 77, 0.65) 100%);
         }
         
         .cta-light {
@@ -187,7 +203,7 @@ export default function CTA() {
           color: white;
           background: linear-gradient(to bottom, 
             rgba(31, 41, 55, 1) 0%, 
-            rgba(31, 41, 55, 0.85) 60%,
+            rgba(31, 41, 55, 0.85) 50%,
             rgba(66, 66, 77, 0.65) 100%);
         }
         
