@@ -173,7 +173,7 @@ export default function CTA() {
         }
         
         .cta-dark .transition-overlay {
-          background: linear-gradient(to bottom, rgba(66, 66, 77, 0) 0%, #424253 100%);
+          background: linear-gradient(to bottom, rgba(22, 24, 28, 0) 0%, #16181C 100%);
         }
         
         .cta-light {
@@ -204,7 +204,7 @@ export default function CTA() {
           background: linear-gradient(to bottom, 
             rgba(31, 41, 55, 1) 0%, 
             rgba(31, 41, 55, 0.9) 40%,
-            #424253 100%);
+            #16181C 100%);
         }
         
         .cta-dark::before {

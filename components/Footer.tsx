@@ -225,8 +225,8 @@ const Footer = () => {
         
         /* Dark mode styling */
         .footer-dark.glassmorphism {
-          background: #424253;
-          background-color: #424253;
+          background: #16181C;
+          background-color: #16181C;
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           border: 1px solid rgba(255, 255, 255, 0.05);
