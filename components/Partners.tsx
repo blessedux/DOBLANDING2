@@ -93,6 +93,18 @@ export default function Partners() {
       description: "Building smarter autonomous systems",
       url: "https://bittensor.com/",
       logo: "/icons/bittensor.png"
+    },
+    { 
+      name: "IoTeX", 
+      description: "DePIN + AI for everyone",
+      url: "https://iotex.io/",
+      logo: "/icons/IOTX.png"
+    },
+    { 
+      name: "SpaceCoin", 
+      description: "Decentralized infrastructure for space",
+      url: "https://spacecoin.org/",
+      logo: "/icons/spacecoin_logo.png"
     }
   ];
 
@@ -110,7 +122,7 @@ export default function Partners() {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {partners.map((partner, index) => (
             <a 
               key={index}
