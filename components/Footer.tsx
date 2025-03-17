@@ -176,13 +176,13 @@ const Footer = () => {
         <div className="hidden md:flex flex-col items-start md:items-center space-y-4">
           <div className="flex items-center space-x-6">
             <Link href="https://t.me/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-              <Image src="/telegram.svg" alt="Telegram" width={20} height={20} />
+              <Image src="/telegram.svg" alt="Telegram" width={40} height={40} />
             </Link>
             <Link href="https://twitter.com/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-              <Image src="/x-twitter.svg" alt="X (Twitter)" width={20} height={20} />
+              <Image src="/x-twitter.svg" alt="X (Twitter)" width={40} height={20} />
             </Link>
             <Link href="https://linkedin.com/company/dobprotocol" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-              <Image src="/linkedin.svg" alt="LinkedIn" width={20} height={20} />
+              <Image src="/linkedin.svg" alt="LinkedIn" width={40} height={20} />
             </Link>
           </div>
         </div>
@@ -225,8 +225,8 @@ const Footer = () => {
         
         /* Dark mode styling */
         .footer-dark.glassmorphism {
-          background: rgba(66, 66, 77, 0.65);
-          background-color: rgba(66, 66, 77, 0.65);
+          background: rgb(66, 66, 77);
+          background-color: rgb(66, 66, 77);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           border: 1px solid rgba(255, 255, 255, 0.05);
