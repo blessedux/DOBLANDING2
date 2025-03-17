@@ -215,12 +215,12 @@ const Footer = () => {
         .light-mode-container.glassmorphism {
           background-color: #FFFFFF !important;
           background: #FFFFFF !important;
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.5);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.7);
           box-shadow: 
-            0 8px 32px 0 rgba(79, 70, 229, 0.15),
-            0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            0 8px 32px 0 rgba(79, 70, 229, 0.12),
+            0 0 0 1px rgba(255, 255, 255, 0.7) inset;
           transition: all 0.3s ease, transform 0.2s ease;
         }
         

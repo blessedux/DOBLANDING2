@@ -159,10 +159,7 @@ export default function CTA() {
           z-index: 20;
           overflow: visible;
           color: #1a202c;
-          background: linear-gradient(to bottom, 
-            #FFFFFF 0%, 
-            #FFFFFF 60%, 
-            #FFFFFF 100%);
+          background: #FFFFFF;
         }
         
         .cta-section::before {
@@ -171,13 +168,13 @@ export default function CTA() {
           bottom: -120px;
           left: 0;
           width: 100%;
-          height: 280px;
+          height: 250px;
           background: transparent;
           pointer-events: none;
           z-index: 15;
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          opacity: 0.85;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          opacity: 0.7;
           transform: translateY(-50%);
           mask-image: linear-gradient(to top, 
             rgba(0, 0, 0, 0) 0%, 
