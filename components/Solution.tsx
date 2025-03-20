@@ -227,7 +227,7 @@ export default function Solution() {
                   }}
                 >
                   <Image 
-                    src="/icons/solar-panel.gif" 
+                    src="/router_screenshot.png" 
                     alt="Solar panel animation representing DePIN energy infrastructure" 
                     fill
                     style={{ objectFit: 'cover' }}
@@ -275,7 +275,7 @@ export default function Solution() {
                   }}
                 >
                   <Image 
-                    src="/satelite.gif" 
+                    src="/antenna.png" 
                     alt="Satellite animation representing space infrastructure" 
                     fill
                     style={{ objectFit: 'cover' }}

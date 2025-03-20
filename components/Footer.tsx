@@ -118,15 +118,15 @@ const Footer = () => {
           <div className="flex flex-col items-start justify-start h-full mt-0">
             <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-2">$DOB token</span>
             <div className="flex flex-col items-start w-full space-y-2">
-              <Link href="/buy-dob" className="footer-animated-link">
+              <Link href="https://presale.dobprotocol.com/" className="footer-animated-link">
                 <span className="arrow">→</span>
                 <span>Buy $DOB</span>
               </Link>
-              <Link href="/tokenomics" className="footer-animated-link">
+              <Link href="https://dobprotocol.notion.site/DOB-Tokenomics-Roadmap-17beffc346f181959c10c001070ba64a" className="footer-animated-link">
                 <span className="arrow">→</span>
                 <span>Tokenomics</span>
               </Link>
-              <Link href="/roadmap" className="footer-animated-link">
+              <Link href="https://dobprotocol.notion.site/Dobprotocol-Roadmap-17beffc346f18122affcefebb73fa03c" className="footer-animated-link">
                 <span className="arrow">→</span>
                 <span>Roadmap</span>
               </Link>
@@ -137,11 +137,11 @@ const Footer = () => {
           <div className="flex flex-col items-start justify-start h-full mt-0">
             <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-2">DOBI AI-Agent</span>
             <div className="flex flex-col items-start w-full space-y-2">
-              <Link href="/buy-dobi" className="footer-animated-link">
+              <Link href="https://app.virtuals.io/virtuals/13315" className="footer-animated-link">
                 <span className="arrow">→</span>
                 <span>Buy $DOBI</span>
               </Link>
-              <Link href="/workflow" className="footer-animated-link">
+              <Link href="https://dobi.agents.dobprotocol.com/" className="footer-animated-link">
                 <span className="arrow">→</span>
                 <span>Workflow</span>
               </Link>
@@ -152,21 +152,21 @@ const Footer = () => {
           <div className="flex flex-col items-start justify-start h-full mt-0">
             <span className="text-sm font-medium text-gray-600 dark:text-gray-300 block text-left w-full mb-2">Support</span>
             <div className="flex flex-col items-start w-full space-y-2">
-              <Link href="/faq" className="footer-animated-link">
+              <Link href="https://dobprotocol.notion.site/Dobprotocol-FAQ-17beffc346f180f995f2e1a15c62bf46" className="footer-animated-link">
                 <span className="arrow">→</span>
                 <span>FAQ</span>
               </Link>
-              <Link href="/wiki" className="footer-animated-link">
+              <Link href="https://wiki.dobprotocol.com" className="footer-animated-link">
                 <span className="arrow">→</span>
                 <span>Wiki</span>
               </Link>
-              <Link href="/careers" className="footer-animated-link">
+              <Link href="https://t.me/blessedux" className="footer-animated-link">
                 <span className="arrow">→</span>
                 <span>Careers</span>
               </Link>
-              <Link href="/contact" className="footer-animated-link">
+              <Link href="https://t.me/dobprotocol_official" className="footer-animated-link">
                 <span className="arrow">→</span>
-                <span>Contact us</span>
+                <span>Contact</span>
               </Link>
             </div>
           </div>

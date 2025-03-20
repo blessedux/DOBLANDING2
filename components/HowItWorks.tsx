@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { useTheme } from '../context/ThemeContext';
-
+import Image from 'next/image';
 // Define types for AnimatedText component
 interface AnimatedTextProps {
   text: string;
@@ -179,8 +179,14 @@ export default function HowItWorks() {
 
           {/* Right Column - Blank Card */}
           <div className="h-full flex items-center justify-center">
-            <div className="w-full h-[450px] rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shadow-md transition-colors duration-300 p-6">
-              {/* Blank card content - can be filled later */}
+            <div className="w-full h-[450px] rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shadow-md transition-colors duration-300 p-6 relative overflow-hidden">
+              <Image 
+                src="/icons/charging-station-powering-up-electric-car.jpg" 
+                alt="DOB Protocol" 
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
             </div>
           </div>
         </div>
