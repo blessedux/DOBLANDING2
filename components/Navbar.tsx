@@ -78,8 +78,8 @@ const Navbar = () => {
 
   const dobDropdownItems = [
     { label: 'Buy $DOB', href: 'https://presale.dobprotocol.com/', target: '_blank' },
-    { label: 'Tokenomics', href: '/tokenomics', target: '_blank' },
-    { label: 'Roadmap', href: '/roadmap', target: '_blank' },
+    { label: 'Tokenomics', href: 'https://dobprotocol.notion.site/DOB-Tokenomics-Roadmap-17beffc346f181959c10c001070ba64a', target: '_blank' },
+    { label: 'Roadmap', href: 'https://dobprotocol.notion.site/Dobprotocol-Roadmap-17beffc346f18122affcefebb73fa03c', target: '_blank' },
     { label: 'White Paper', href: 'https://drive.google.com/file/d/1PWjl_nYhb0cx4ewhcfgiKe7EP-qLHkWV/view', target: '_blank' },
   ];
 
@@ -429,7 +429,7 @@ const Navbar = () => {
                   className="text-left"
                 >
                   <Link
-                    href="/faq"
+                    href="https://dobprotocol.notion.site/Dobprotocol-FAQ-17beffc346f180f995f2e1a15c62bf46"
                     className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base text-left"
                   >
                     FAQ
