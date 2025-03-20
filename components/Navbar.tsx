@@ -80,6 +80,7 @@ const Navbar = () => {
     { label: 'Buy $DOB', href: 'https://presale.dobprotocol.com/', target: '_blank' },
     { label: 'Tokenomics', href: '/tokenomics', target: '_blank' },
     { label: 'Roadmap', href: '/roadmap', target: '_blank' },
+    { label: 'White Paper', href: 'https://drive.google.com/file/d/1PWjl_nYhb0cx4ewhcfgiKe7EP-qLHkWV/view', target: '_blank' },
   ];
 
   const dobiDropdownItems = [
@@ -443,7 +444,7 @@ const Navbar = () => {
                   className="text-left"
                 >
                   <Link
-                    href="/wiki"
+                    href="https://wiki.dobprotocol.com"
                     className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base text-left"
                   >
                     Wiki
