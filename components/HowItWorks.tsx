@@ -181,7 +181,7 @@ export default function HowItWorks() {
           <div className="h-full flex items-center justify-center">
             <div className="w-full h-[450px] rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shadow-md transition-colors duration-300 p-6 relative overflow-hidden">
               <Image 
-                src="/icons/charging-station-powering-up-electric-car.jpg" 
+                src="/charging-station-powering-up-electric-car.webp" 
                 alt="DOB Protocol" 
                 fill
                 className="object-cover object-center"
