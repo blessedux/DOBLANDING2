@@ -129,7 +129,7 @@ const Hero = () => {
               }}>
             <iframe 
               className="pointer-events-none video-frame"
-              src="https://www.youtube.com/embed/HJ-zwIHaWZ4?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&playlist=HJ-zwIHaWZ4&vq=hd1080"
+              src="https://www.youtube.com/embed/bFDNrQp7vi4?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&playlist=bFDNrQp7vi4&vq=hd1080"
               style={{ 
                 position: 'absolute',
                 top: '50%',
