@@ -275,8 +275,8 @@ export default function Solution() {
                   }}
                 >
                   <Image 
-                    src="/icons/dashboard.gif" 
-                    alt="Network visualization showing connected DePIN infrastructure" 
+                    src="/satelite.gif" 
+                    alt="Satellite animation representing space infrastructure" 
                     fill
                     style={{ objectFit: 'cover' }}
                     className="rounded-lg"
