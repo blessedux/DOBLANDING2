@@ -104,7 +104,7 @@ export default function Partners() {
       name: "SpaceCoin", 
       description: "Decentralized infrastructure for space",
       url: "https://spacecoin.org/",
-      logo: "/icons/spacecoin_logo.png"
+      logo: "/spacecoin_logo.png"
     }
   ];
 
