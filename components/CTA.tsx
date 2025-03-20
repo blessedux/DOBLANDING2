@@ -76,7 +76,7 @@ export default function CTA() {
   const isDarkMode = theme === 'dark';
 
   return (
-    <section className={`w-full py-12 md:py-24 cta-section ${isDarkMode ? 'cta-dark' : 'cta-light'}`}>
+    <section className={`w-full py-12 md:py-16 cta-section ${isDarkMode ? 'cta-dark' : 'cta-light'}`}>
       <div className="container px-4 md:px-6 mx-auto max-w-7xl relative z-30">
         <div className="flex flex-col items-center space-y-6 text-center">
           <div className="space-y-4 max-w-3xl mx-auto">
@@ -154,7 +154,7 @@ export default function CTA() {
       </div>
       
       {/* Bottom transition overlay */}
-      <div className="absolute bottom-0 left-0 w-full h-36 transition-overlay"></div>
+      <div className="absolute bottom-0 left-0 w-full h-24 transition-overlay"></div>
       
       <style jsx>{`
         .cta-section {
@@ -166,7 +166,7 @@ export default function CTA() {
         .transition-overlay {
           pointer-events: none;
           z-index: 10;
-          height: 60px; /* Increased height for better blending */
+          height: 40px; /* Reduced height for better blending */
         }
         
         .cta-light .transition-overlay {

@@ -697,7 +697,7 @@ const Navbar = () => {
                             className="text-left"
                           >
                             <Link
-                              href="/faq"
+                              href="https://dobprotocol.notion.site/Dobprotocol-FAQ-17beffc346f180f995f2e1a15c62bf46"
                               className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base text-left"
                             >
                               FAQ
