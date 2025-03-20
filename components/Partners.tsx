@@ -113,11 +113,11 @@ export default function Partners() {
       <div className="container px-4 md:px-6 mx-auto max-w-7xl">
         <div className="text-center mb-16">
           <AnimatedText
-            text="Working with Technology Leaders"
+            text="Dobprotocol is Working with Technology Leaders"
             className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4 dark:text-gray-100"
           />
           <AnimatedText
-            text="We've partnered with established networks to bring you trusted, income-producing machine investments"
+            text="We are working on partnerships with established networks to bring you trusted, income-producing machine investments"
             className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
           />
         </div>

@@ -12,13 +12,17 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>('light');
 
   // Initialize theme from localStorage if available (client-side only)
   useEffect(() => {
     const storedTheme = localStorage.getItem('dob-theme') as Theme | null;
     if (storedTheme) {
       setTheme(storedTheme);
+    } else {
+      // Set light mode as default if no theme is stored
+      setTheme('light');
+      localStorage.setItem('dob-theme', 'light');
     }
   }, []);
 

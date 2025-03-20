@@ -140,12 +140,12 @@ const Hero = () => {
                 minWidth: '120%',
                 minHeight: '120%',
                 objectFit: 'cover',
+                filter: 'contrast(1.2) brightness(0.85)',
               }}
               frameBorder="0" 
               allow="autoplay; fullscreen" 
               title="Background Video"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-50/30 to-white/40 dark:from-gray-900/40 dark:to-gray-800/40 transition-colors duration-300 rounded-[2%]" />
           </div>
         </div>
       </div>
@@ -197,7 +197,7 @@ const Hero = () => {
               className="flex flex-wrap gap-4 justify-center"
             >
               <a 
-                href="https://t.me/dobprotocol_official"
+                href="https://wiki.dobprotocol.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
