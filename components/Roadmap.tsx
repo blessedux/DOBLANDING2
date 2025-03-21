@@ -1,60 +1,143 @@
 'use client'
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 
-interface RoadmapItem {
-  phase: string;
-  title: string;
-  description: string;
-  status: 'completed' | 'in-progress' | 'upcoming';
+import { useState, useEffect } from "react"
+import { motion, useAnimation, AnimatePresence, type Variants } from "framer-motion"
+
+// Data for each phase
+const phases = [
+  {
+    id: 1,
+    number: "01",
+    title: "Foundation & Market Entry",
+    subtitle: "Q1-Q3 2025",
+    points: [
+      "Community & Visibility: Grow to 3,000+ active members",
+      "Launch DOB Protocol platform with profit pools & collateralization",
+      "Secure $3M in seed funding from strategic investors",
+      "Deploy $5M in DePIN financing as proof of concept",
+      "Launch DOB token with structured staking model",
+      "Secure early DePIN manufacturer agreements",
+      "Begin global roadshows in key regions"
+    ],
+  },
+  {
+    id: 2,
+    number: "02",
+    title: "Scaling & Institutional Adoption",
+    subtitle: "Q4 2025 - Q2 2026",
+    points: [
+      "Achieve $20M in financed DePIN assets",
+      "Introduce multi-chain support and DeFi protocol integration",
+      "Develop institutional DePIN investment offerings",
+      "Engage traditional finance players and VCs",
+      "Expand team to 20+ members across departments",
+      "Begin groundwork for regulated financing instruments"
+    ],
+  },
+  {
+    id: 3,
+    number: "03",
+    title: "Network Effects & $50M DePIN",
+    subtitle: "Q3-Q4 2026",
+    points: [
+      "Increase global partnerships with power grids & solar networks",
+      "Deploy DOBI AI agent for automated financing",
+      "Formalize structured DePIN finance products",
+      "Secure additional $15M+ in funding",
+      "Expand into IoT, AI infrastructure, and edge computing"
+    ],
+  },
+  {
+    id: 4,
+    number: "04",
+    title: "Industry Leadership & $100M",
+    subtitle: "2027",
+    points: [
+      "Drive global DePIN financing frameworks",
+      "Introduce fully autonomous DePIN financing agents",
+      "Scale TVL to $100M+, ensuring deep liquidity",
+      "Enable fractionalized DePIN investments",
+      "Achieve licensing in key regions"
+    ],
+  },
+  {
+    id: 5,
+    number: "05",
+    title: "Institutional Capital & Mass Adoption",
+    subtitle: "Q1-Q2 2028",
+    points: [
+      "Establish DePIN ETFs & structured products",
+      "Achieve $500M TVL through institutional adoption",
+      "Expand into smart cities and AI economies",
+      "Introduce self-executing, AI-driven lending",
+      "Position as leading DePIN finance ecosystem"
+    ],
+  },
+]
+
+// Animation variants
+const tileVariants: Variants = {
+  hidden: (i: number) => ({
+    rotate: 90,
+    opacity: 0,
+    y: 50,
+  }),
+  visible: (i: number) => ({
+    rotate: 45,
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 20,
+      delay: i * 0.1,
+    },
+  }),
 }
 
-const roadmapData: RoadmapItem[] = [
-  {
-    phase: 'Phase 1',
-    title: 'Foundation',
-    description: 'Launch of DOB Protocol, smart contract development, and initial partnerships.',
-    status: 'completed',
+// Content animation variants
+const contentVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 10,
   },
-  {
-    phase: 'Phase 2',
-    title: 'Growth',
-    description: 'Expansion of liquidity pools, community building, and market presence.',
-    status: 'in-progress',
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    },
   },
-  {
-    phase: 'Phase 3',
-    title: 'Scaling',
-    description: 'Integration with major platforms, enhanced features, and global expansion.',
-    status: 'upcoming',
+  exit: {
+    opacity: 0,
+    y: -10,
+    transition: {
+      duration: 0.3,
+      ease: "easeIn",
+    },
   },
-  {
-    phase: 'Phase 4',
-    title: 'Innovation',
-    description: 'Advanced protocol features, cross-chain capabilities, and ecosystem development.',
-    status: 'upcoming',
-  },
-];
+}
 
 const Roadmap = () => {
-  const [activePhase, setActivePhase] = useState<string>(roadmapData[1].phase);
+  const [activePhase, setActivePhase] = useState(1)
+  const [isInView, setIsInView] = useState(false)
+  const controls = useAnimation()
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return 'bg-green-500';
-      case 'in-progress':
-        return 'bg-primary-500';
-      default:
-        return 'bg-gray-300';
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible")
     }
-  };
+  }, [controls, isInView])
 
   return (
-    <section className="w-full py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section className="w-full py-20 bg-background relative">
+      {/* Add a subtle gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background to-background/80" />
+      
+      <div className="container mx-auto px-4 relative">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
+          <h2 className="text-4xl font-bold mb-4 text-white">
             Our Roadmap
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -62,66 +145,126 @@ const Roadmap = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Interactive Timeline */}
-          <div className="relative">
-            <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-primary-200/30"></div>
-            {roadmapData.map((item, index) => (
-              <motion.div
-                key={item.phase}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
-                className={`relative pl-12 pb-8 cursor-pointer group ${
-                  activePhase === item.phase ? 'opacity-100' : 'opacity-70'
-                }`}
-                onClick={() => setActivePhase(item.phase)}
-              >
-                <div
-                  className={`absolute left-0 w-8 h-8 rounded-full ${
-                    getStatusColor(item.status)
-                  } border-4 border-background transition-transform group-hover:scale-110`}
-                ></div>
-                <h3 className="text-xl font-bold mb-2">{item.phase}</h3>
-                <p className="text-muted-foreground">{item.title}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Phase Details */}
+        <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-center justify-center gap-12 md:gap-24">
           <motion.div
-            key={activePhase}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-gradient-to-br from-primary-100/10 to-primary-400/10 rounded-2xl p-8 border border-primary-500/20"
+            className="relative w-full max-w-sm h-[500px] flex items-center justify-center"
+            initial="hidden"
+            animate="visible"
+            onViewportEnter={() => setIsInView(true)}
           >
-            {roadmapData.map((item) =>
-              item.phase === activePhase ? (
-                <div key={item.phase}>
-                  <div className="flex items-center gap-4 mb-4">
-                    <span
-                      className={`inline-block w-3 h-3 rounded-full ${getStatusColor(
-                        item.status
-                      )}`}
-                    ></span>
-                    <span className="text-sm uppercase tracking-wider text-muted-foreground">
-                      {item.status.replace('-', ' ')}
-                    </span>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              ) : null
-            )}
+            <div className="relative w-[280px] md:w-[350px] h-[400px] md:h-[500px]">
+              {/* Static numbers positioned to the right */}
+              {phases.map((phase, index) => (
+                <motion.div
+                  key={`number-${phase.id}`}
+                  className={`absolute cursor-pointer transition-all duration-300 ${
+                    activePhase === phase.id 
+                      ? "text-primary-400 font-medium text-3xl"
+                      : "text-muted-foreground/50 font-light text-2xl"
+                  }`}
+                  style={{
+                    right: "-40px",
+                    top: 40 + index * (60 * (window.innerWidth >= 768 ? 1.25 : 1)) + 75,
+                  }}
+                  onClick={() => setActivePhase(phase.id)}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.2 }
+                  }}
+                >
+                  {phase.number}
+                </motion.div>
+              ))}
+
+              {phases.map((phase, index) => (
+                <motion.div
+                  key={phase.id}
+                  className="absolute cursor-pointer"
+                  custom={index}
+                  variants={tileVariants}
+                  initial="hidden"
+                  animate={controls}
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    top: 40 + index * (60 * (window.innerWidth >= 768 ? 1.25 : 1)),
+                    left: "50%",
+                    marginLeft: window.innerWidth >= 768 ? "-100px" : "-75px",
+                    zIndex: phases.length - index,
+                    backdropFilter: "blur(10px)",
+                    position: "absolute",
+                  }}
+                  onClick={() => setActivePhase(phase.id)}
+                  whileHover={{
+                    scale: 1.05,
+                    transition: {
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 30,
+                      duration: 0.8,
+                    },
+                  }}
+                >
+                  {/* Background with enhanced glow effect */}
+                  <div
+                    className={`absolute inset-0 rounded-lg transition-all duration-300 ${
+                      activePhase === phase.id
+                        ? "shadow-[0_0_40px_rgba(89,124,233,0.4)]"
+                        : ""
+                    }`}
+                    style={{
+                      background:
+                        activePhase === phase.id
+                          ? "linear-gradient(135deg, rgba(89,124,233,0.95), rgba(89,124,233,0.8))"
+                          : "linear-gradient(135deg, rgba(89,124,233,0.4), rgba(89,124,233,0.2))",
+                      border: activePhase === phase.id
+                        ? "1px solid rgba(255,255,255,0.5)"
+                        : "1px solid rgba(255,255,255,0.1)",
+                      transition: "all 0.5s ease",
+                      transform: "scale(" + (window.innerWidth >= 768 ? "1.33" : "1") + ")",
+                    }}
+                  />
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
+
+          <div className="w-full max-w-md relative h-[500px] flex items-center">
+            <AnimatePresence mode="wait">
+              {phases.map(
+                (phase) =>
+                  activePhase === phase.id && (
+                    <motion.div
+                      key={phase.id}
+                      className="absolute w-full"
+                      variants={contentVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                    >
+                      <div className="space-y-6">
+                        <div className="space-y-1">
+                          <h2 className="text-primary-500 text-2xl font-medium">{phase.title}</h2>
+                          <p className="text-muted-foreground text-sm">{phase.subtitle}</p>
+                        </div>
+                        <ul className="space-y-3">
+                          {phase.points.map((point, i) => (
+                            <li key={i} className="flex items-start text-sm">
+                              <span className="text-primary-500 mr-2 mt-1">•</span>
+                              <span className="text-muted-foreground">{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </motion.div>
+                  ),
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Roadmap; 
+export default Roadmap 
