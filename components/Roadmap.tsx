@@ -14,7 +14,6 @@ const phases = [
       "Community & Visibility: Grow to 3,000+ active members",
       "Launch DOB Protocol platform with profit pools & collateralization",
       "Secure $1M in seed funding from strategic investors",
-      "Deploy $5M in DePIN financing as proof of concept",
       "Launch DOB token with structured staking model",
       "Secure early DePIN manufacturer agreements",
       "Begin global roadshows in key regions"
