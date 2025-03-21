@@ -122,13 +122,44 @@ const contentVariants: Variants = {
 const Roadmap = () => {
   const [activePhase, setActivePhase] = useState(1)
   const [isInView, setIsInView] = useState(false)
+  const [isMobile, setIsMobile] = useState(true)
   const controls = useAnimation()
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    // Set initial value
+    handleResize()
+
+    // Add event listener
+    window.addEventListener('resize', handleResize)
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     if (isInView) {
       controls.start("visible")
     }
   }, [controls, isInView])
+
+  const getScaling = () => {
+    return isMobile ? "scale(1)" : "scale(1.33)"
+  }
+
+  const getMarginLeft = () => {
+    return isMobile ? "-75px" : "-100px"
+  }
+
+  const getTopOffset = (index: number) => {
+    const baseOffset = 40
+    const spacing = 60
+    const scaleFactor = isMobile ? 1 : 1.25
+    return baseOffset + index * (spacing * scaleFactor)
+  }
 
   return (
     <section className="w-full py-20 bg-background relative">
@@ -164,7 +195,7 @@ const Roadmap = () => {
                   }`}
                   style={{
                     right: "-40px",
-                    top: 40 + index * (60 * (window.innerWidth >= 768 ? 1.25 : 1)) + 75,
+                    top: getTopOffset(index) + 75,
                   }}
                   onClick={() => setActivePhase(phase.id)}
                   whileHover={{
@@ -187,9 +218,9 @@ const Roadmap = () => {
                   style={{
                     width: "150px",
                     height: "150px",
-                    top: 40 + index * (60 * (window.innerWidth >= 768 ? 1.25 : 1)),
+                    top: getTopOffset(index),
                     left: "50%",
-                    marginLeft: window.innerWidth >= 768 ? "-100px" : "-75px",
+                    marginLeft: getMarginLeft(),
                     zIndex: phases.length - index,
                     backdropFilter: "blur(10px)",
                     position: "absolute",
@@ -221,7 +252,7 @@ const Roadmap = () => {
                         ? "1px solid rgba(255,255,255,0.5)"
                         : "1px solid rgba(255,255,255,0.1)",
                       transition: "all 0.5s ease",
-                      transform: "scale(" + (window.innerWidth >= 768 ? "1.33" : "1") + ")",
+                      transform: getScaling(),
                     }}
                   />
                 </motion.div>
