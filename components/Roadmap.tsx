@@ -13,7 +13,7 @@ const phases = [
     points: [
       "Community & Visibility: Grow to 3,000+ active members",
       "Launch DOB Protocol platform with profit pools & collateralization",
-      "Secure $3M in seed funding from strategic investors",
+      "Secure $1M in seed funding from strategic investors",
       "Deploy $5M in DePIN financing as proof of concept",
       "Launch DOB token with structured staking model",
       "Secure early DePIN manufacturer agreements",
@@ -26,11 +26,10 @@ const phases = [
     title: "Scaling & Institutional Adoption",
     subtitle: "Q4 2025 - Q2 2026",
     points: [
-      "Achieve $20M in financed DePIN assets",
+      "Achieve $5M in financed DePIN assets",
       "Introduce multi-chain support and DeFi protocol integration",
       "Develop institutional DePIN investment offerings",
       "Engage traditional finance players and VCs",
-      "Expand team to 20+ members across departments",
       "Begin groundwork for regulated financing instruments"
     ],
   },
@@ -43,7 +42,6 @@ const phases = [
       "Increase global partnerships with power grids & solar networks",
       "Deploy DOBI AI agent for automated financing",
       "Formalize structured DePIN finance products",
-      "Secure additional $15M+ in funding",
       "Expand into IoT, AI infrastructure, and edge computing"
     ],
   },
@@ -55,8 +53,7 @@ const phases = [
     points: [
       "Drive global DePIN financing frameworks",
       "Introduce fully autonomous DePIN financing agents",
-      "Scale TVL to $100M+, ensuring deep liquidity",
-      "Enable fractionalized DePIN investments",
+      "Scale TVL to $100M, ensuring deep liquidity",
       "Achieve licensing in key regions"
     ],
   },
