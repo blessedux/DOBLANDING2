@@ -42,11 +42,6 @@ const AnimatedText = ({ text, className }: AnimatedTextProps) => {
               display: 'inline-block',
               opacity: useTransform(wordProgress, [0, 1], [0.55, 1]),
               marginRight: '0.25em',
-              filter: useTransform(
-                wordProgress,
-                [0, 1],
-                ["blur(4px)", "blur(0px)"]
-              ),
             }}
           >
             <motion.span
@@ -151,11 +146,6 @@ export default function HowItWorks() {
                   className={`flex flex-col items-start p-6 bg-gradient-to-b ${step.bgFrom} ${step.bgTo} ${step.darkBgFrom} dark:to-gray-800 rounded-lg shadow-sm dark:shadow-gray-900/10 transition-colors duration-300`}
                   style={{
                     opacity: stepProgress,
-                    filter: useTransform(
-                      stepProgress,
-                      [0, 1],
-                      ["blur(8px)", "blur(0px)"]
-                    ),
                     transform: useTransform(
                       stepProgress,
                       [0, 1],
@@ -183,7 +173,7 @@ export default function HowItWorks() {
               <Image 
                 src="/charging-station-powering-up-electric-car.webp" 
                 alt="DOB Protocol" 
-                fill
+                fill 
                 className="object-cover object-center"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />

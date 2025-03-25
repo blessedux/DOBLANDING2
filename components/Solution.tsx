@@ -110,11 +110,6 @@ const AnimatedText = ({ text, className }: AnimatedTextProps) => {
               display: 'inline-block',
               opacity: useTransform(wordProgress, [0, 1], [0.55, 1]),
               marginRight: '0.25em',
-              filter: useTransform(
-                wordProgress,
-                [0, 1],
-                ["blur(4px)", "blur(0px)"]
-              ),
             }}
           >
             <motion.span
@@ -187,11 +182,6 @@ export default function Solution() {
                     className="flex items-start"
                     style={{
                       opacity: itemProgress,
-                      filter: useTransform(
-                        itemProgress,
-                        [0, 1],
-                        ["blur(8px)", "blur(0px)"]
-                      ),
                       transform: useTransform(
                         itemProgress,
                         [0, 1],

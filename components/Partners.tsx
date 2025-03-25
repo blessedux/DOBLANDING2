@@ -42,11 +42,6 @@ const AnimatedText = ({ text, className }: AnimatedTextProps) => {
               display: 'inline-block',
               opacity: useTransform(wordProgress, [0, 1], [0.55, 1]),
               marginRight: '0.25em',
-              filter: useTransform(
-                wordProgress,
-                [0, 1],
-                ["blur(4px)", "blur(0px)"]
-              ),
             }}
           >
             <motion.span
@@ -124,12 +119,16 @@ export default function Partners() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {partners.map((partner, index) => (
-            <a 
+            <motion.a 
               key={index}
               href={partner.url}
               target="_blank"
               rel="noopener noreferrer"
               className="flex flex-col items-center text-center p-6 bg-gray-50 dark:bg-gray-700 rounded-xl transition-colors duration-300 hover:shadow-lg"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <div className="w-24 h-24 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-4 shadow-sm dark:shadow-gray-900/10">
                 <div className="relative w-16 h-16 flex items-center justify-center overflow-hidden">
@@ -145,7 +144,7 @@ export default function Partners() {
               </div>
               <h3 className="text-xl font-bold mb-2 dark:text-gray-100">{partner.name}</h3>
               <p className="text-gray-600 dark:text-gray-300">{partner.description}</p>
-            </a>
+            </motion.a>
           ))}
         </div>
       </div>

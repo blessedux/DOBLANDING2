@@ -164,12 +164,24 @@ const Roadmap = () => {
       
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 text-white">
+          <motion.h2 
+            className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             Our Roadmap
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             Follow our journey as we revolutionize decentralized options trading
-          </p>
+          </motion.p>
         </div>
 
         <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-center justify-center gap-12 md:gap-24">

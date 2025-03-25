@@ -1,27 +1,19 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, AnimatePresence, useAnimate } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
 const Navbar = () => {
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isAtTop, setIsAtTop] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
-  const [isHoveringNav, setIsHoveringNav] = useState(false);
-  const [blurAmount, setBlurAmount] = useState(0);
-  const [shouldSlideDown, setShouldSlideDown] = useState(false);
-  const [hoveringButton, setHoveringButton] = useState<string | null>(null);
-  const [isClosing, setIsClosing] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isMobileDropdownActive, setIsMobileDropdownActive] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const [scope, animate] = useAnimate();
-  const dropdownTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [shouldSlideDown, setShouldSlideDown] = useState(false);
+  const [blurAmount, setBlurAmount] = useState(0);
 
   // Delay navbar appearance
   useEffect(() => {
@@ -88,175 +80,14 @@ const Navbar = () => {
     { label: 'AI Agent Workflow', href: 'https://dobi.agents.dobprotocol.com/', target: '_blank' },
   ];
 
-  const handleDropdownToggle = (dropdown: string) => {
-    // Check if we're toggling a mobile dropdown
-    const isMobileToggle = dropdown.includes('-mobile');
-    
-    // If we already have this dropdown active, close it
-    if (activeDropdown === dropdown) {
-      setActiveDropdown(null);
-      if (isMobileToggle) {
-        setIsMobileDropdownActive(false);
-      }
-      return;
-    }
-    
-    // If we're opening a mobile dropdown, set the mobile dropdown state
-    if (isMobileToggle) {
-      setIsMobileDropdownActive(true);
-    }
-    
-    setActiveDropdown(dropdown);
-  };
-
-  // Clear any existing timers to prevent race conditions
-  const clearAllTimers = () => {
-    if (dropdownTimerRef.current) {
-      clearTimeout(dropdownTimerRef.current);
-      dropdownTimerRef.current = null;
-    }
-    if (closeTimerRef.current) {
-      clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-    }
-  };
-
-  const handleNavMouseEnter = () => {
-    setIsHoveringNav(true);
-    setIsClosing(false);
-    clearAllTimers();
-  };
-
-  const handleNavMouseLeave = () => {
-    setIsHoveringNav(false);
-    
-    // Set closing state to trigger exit animation
-    setIsClosing(true);
-    
-    // Immediately close the dropdown
-    setActiveDropdown(null);
-    
-    // Reset the hovering button state immediately to have synchronized animations
-    clearAllTimers();
-    setHoveringButton(null);
-    
-    // Add a small timeout to reset the closing state after animations complete
-    closeTimerRef.current = setTimeout(() => {
-      setIsClosing(false);
-    }, 300); // Shorter delay since we've sped up animations
-  };
-
-  const activateDropdown = (buttonName: string) => {
-    // Set all states immediately for synchronized animations
-    setHoveringButton(buttonName);
-    setIsClosing(false);
-    clearAllTimers();
-    setActiveDropdown(buttonName);
-  };
-
-  // CSS for button hover effects
-  const buttonHoverClass = "relative before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-gray-300 dark:before:hover:border-gray-600 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100";
-
-  // Define separate entry and exit transitions
-  // Entry transitions (opening)
-  const borderRadiusEntryTransition = {
-    duration: 0.15, // Very fast border radius change
-    ease: [0.25, 0.1, 0.25, 1.0],
-    type: "tween"
-  };
-  
-  const heightEntryTransition = {
-    duration: 0.4, // Slower dropdown animation
-    delay: 0.05, // Small delay to ensure border radius starts changing first
-    ease: [0.25, 0.1, 0.25, 1.0]
-  };
-
-  // Exit transitions (closing) - reversed order
-  const heightExitTransition = {
-    duration: 0.25, // Faster collapse
-    ease: [0.25, 0.1, 0.25, 1.0]
-  };
-  
-  const borderRadiusExitTransition = {
-    duration: 0.3, // Slightly slower border radius change for smoothness
-    delay: 0.2, // Delay border radius change until dropdown is mostly collapsed
-    ease: [0.25, 0.1, 0.25, 1.0],
-    type: "tween"
-  };
-  
-  // Updated dropdown variants with different entry/exit behaviors
-  const dropdownVariants = {
-    hidden: { 
-      opacity: 0,
-      height: 0,
-      transition: {
-        duration: 0.25, // Faster exit for height
-        ease: [0.25, 0.1, 0.25, 1.0]
-      }
-    },
-    visible: { 
-      opacity: 1,
-      height: "auto",
-      transition: {
-        duration: 0.4, // Slower entry
-        ease: [0.25, 0.1, 0.25, 1.0],
-        delay: 0.1 // Small delay to let border radius change first
-      }
-    }
-  };
-
   // Show navbar only when not at top or when dropdown is active
-  const showNavbar = !isAtTop || activeDropdown !== null;
+  const showNavbar = !isAtTop;
 
   // Calculate fade-out speed - twice as fast
   const fadeOutDuration = 0.75; // 1.5s / 2 = 0.75s
 
   // Calculate the vertical position - only slide down when appearing, not when disappearing
   const navbarPosition = shouldSlideDown && !isAtTop ? '1rem' : '0';
-
-  // Determine border radius based on button hover or active dropdown
-  // On mobile, use 3% radius when dropdown is open, otherwise use default radius
-  const getBorderRadius = () => {
-    if (mobileMenuOpen) {
-      return "3%"; // More subtle rounding for mobile dropdown
-    }
-    return hoveringButton || activeDropdown ? "16px" : "9999px";
-  };
-  
-  const borderRadius = getBorderRadius();
-  
-  // Calculate navHeight based on active dropdown or mobile menu
-  const getNavHeight = () => {
-    // If mobile menu is open, provide a consistent height
-    if (mobileMenuOpen) {
-      // Use consistent height for mobile menu regardless of dropdown state
-      return "36rem"; // Single fixed height for all mobile menu states
-    }
-    
-    // For desktop dropdowns
-    return activeDropdown ? "16rem" : "4rem";
-  };
-  
-  const navHeight = getNavHeight();
-
-  // Provide different transitions based on whether we're opening or closing
-  const getTransitions = () => {
-    if (isClosing) {
-      return {
-        borderRadius: borderRadiusExitTransition,
-        height: heightExitTransition
-      };
-    }
-    return {
-      borderRadius: borderRadiusEntryTransition,
-      height: heightEntryTransition
-    };
-  };
-
-  // Cleanup timers on unmount
-  useEffect(() => {
-    return () => clearAllTimers();
-  }, []);
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4">
@@ -271,14 +102,11 @@ const Navbar = () => {
         className="flex justify-center w-full max-w-3xl"
       >
         <motion.nav 
-          ref={scope}
-          initial={{ height: "4rem", borderRadius: "9999px" }}
+          initial={{ borderRadius: "9999px" }}
           animate={{ 
-            borderRadius: borderRadius,
-            height: navHeight,
+            borderRadius: mobileMenuOpen ? "16px" : "9999px"
           }}
-          transition={getTransitions()}
-          className="relative px-5 py-0 overflow-visible"
+          className="relative px-5 py-0 overflow-visible w-full"
           style={{
             transform: `translateY(${navbarPosition})`,
             opacity: showNavbar ? (isScrolled ? 1 : 0.95) : 0,
@@ -293,454 +121,232 @@ const Navbar = () => {
                         background-color ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out, 
                         box-shadow ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out`
           }}
-          onMouseEnter={handleNavMouseEnter}
-          onMouseLeave={handleNavMouseLeave}
         >
-          {/* Main navbar content - removed horizontal movement */}
-          <div className="flex justify-between items-start h-full relative w-full">
-            <div className="flex items-center justify-between w-full h-16">
-              {/* Logo as dark mode toggle */}
-              <div className="flex-shrink-0 flex items-center">
-                <button 
-                  className="focus:outline-none relative"
-                  onClick={toggleTheme}
-                  aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-                >
-                  <Image 
-                    src="/dob_imagotipo.svg" 
-                    alt="DOB Protocol" 
-                    width={320} 
-                    height={320} 
-                    className="cursor-pointer h-24 w-auto"
-                  />
-                </button>
-              </div>
-
-              {/* Navigation Links - Desktop */}
-              <div className="hidden md:flex items-center justify-end flex-1 ml-6 space-x-4">
-                {/* DOB Dropdown - Full height column */}
-                <div className="relative h-full flex flex-col items-center">
-                  {/* Expanded hover area for better hit detection */}
-                  <div 
-                    className="absolute inset-0 -top-[20px] -bottom-[100px] -left-[10px] -right-[10px] w-[100px]" 
-                    onMouseEnter={() => activateDropdown('dob')}
-                  />
-                  <button
-                    className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
-                    onClick={() => activateDropdown('dob')}
-                    onMouseEnter={() => activateDropdown('dob')}
-                  >
-                    <span>DOB</span>
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-
-                  {/* DOB Dropdown content - fade animation only */}
-                  <AnimatePresence mode="wait">
-                    {activeDropdown === 'dob' && (
-                      <motion.div 
-                        variants={dropdownVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="hidden"
-                        className="absolute left-0 right-0 mt-2 px-3 pb-2 pt-2 z-10 top-[30px]"
-                      >
-                        <div className="flex flex-col gap-1">
-                          {dobDropdownItems.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              target={item.target}
-                              rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
-                              className="text-sm dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium transition-colors duration-200"
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* DOBI AI-Agent Dropdown - Full height column */}
-                <div className="relative h-full flex flex-col items-center">
-                  {/* Expanded hover area for better hit detection */}
-                  <div 
-                    className="absolute inset-0 -top-[20px] -bottom-[100px] -left-[10px] -right-[10px] w-[100px]" 
-                    onMouseEnter={() => activateDropdown('dobi')}
-                  />
-                  <button
-                    className={`flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-white font-medium px-3 py-1.5 ${buttonHoverClass} z-10`}
-                    onClick={() => activateDropdown('dobi')}
-                    onMouseEnter={() => activateDropdown('dobi')}
-                  >
-                    <span>DOBI</span>
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-
-                  {/* DOBI Dropdown content - fade animation only */}
-                  <AnimatePresence mode="wait">
-                    {activeDropdown === 'dobi' && (
-                      <motion.div 
-                        variants={dropdownVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="hidden"
-                        className="absolute left-0 right-0 mt-2 px-3 pb-2 pt-2 z-10 top-[30px]"
-                      >
-                        <div className="flex flex-col gap-1">
-                          {dobiDropdownItems.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              target={item.target}
-                              rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
-                              className="text-sm dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium transition-colors duration-200"
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* Regular Links */}
-                <motion.div
-                  initial={{ y: -5, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -5, opacity: 0 }}
-                  transition={{ duration: 0.2, delay: 0.1 }}
-                  className="text-left"
-                >
-                  <Link
-                    href="https://dobprotocol.notion.site/Dobprotocol-FAQ-17beffc346f180f995f2e1a15c62bf46"
-                    className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base text-left"
-                  >
-                    FAQ
-                  </Link>
-                </motion.div>
-                
-                <motion.div
-                  initial={{ y: -5, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -5, opacity: 0 }}
-                  transition={{ duration: 0.2, delay: 0.15 }}
-                  className="text-left"
-                >
-                  <Link
-                    href="https://wiki.dobprotocol.com"
-                    className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base text-left"
-                  >
-                    Wiki
-                  </Link>
-                </motion.div>
-                <Link
-                  href="https://home.dobprotocol.com/home"
-                  className={`px-5 py-2 bg-[#597CE9] text-white rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7] relative before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-white/30 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100`}
-                >
-                  Invest
-                </Link>
-              </div>
-
-              {/* Mobile menu button - positioned at the very end */}
-              <div className="md:hidden flex items-center justify-end z-20">
-                <button 
-                  onClick={() => {
-                    setMobileMenuOpen(!mobileMenuOpen);
-                    // Reset mobile dropdown state when closing
-                    if (mobileMenuOpen) {
-                      setActiveDropdown(null);
-                      setIsMobileDropdownActive(false);
-                    }
-                  }}
-                  className={`dark:text-gray-300 text-gray-700 hover:text-gray-900 dark:hover:text-white p-1.5 ${buttonHoverClass}`}
-                  aria-label="Toggle mobile menu"
-                >
-                  {mobileMenuOpen ? (
-                    <svg
-                      className="h-6 w-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      className="h-6 w-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 6h16M4 12h16M4 18h16"
-                      />
-                    </svg>
-                  )}
-                </button>
-              </div>
+          {/* Main navbar content */}
+          <div className="flex justify-between items-center h-16 relative w-full">
+            {/* Logo as dark mode toggle */}
+            <div className="flex-shrink-0 flex items-center">
+              <button 
+                className="focus:outline-none relative"
+                onClick={toggleTheme}
+                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              >
+                <Image 
+                  src="/dob_imagotipo.svg" 
+                  alt="DOB Protocol" 
+                  width={320} 
+                  height={320} 
+                  className="cursor-pointer h-24 w-auto"
+                />
+              </button>
             </div>
-            
-            {/* Mobile Menu - Inside navbar container */}
-            <AnimatePresence>
-              {mobileMenuOpen && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ 
-                    duration: 0.3, 
-                    ease: [0.25, 0.1, 0.25, 1.0],
-                    staggerChildren: 0.05
-                  }}
-                  className="md:hidden w-full pt-8 pb-4 px-2 relative overflow-hidden"
-                >
-                  <div className="space-y-4 mt-12">
-                    {/* DOB Section - Always visible */}
-                    <div>
-                      <motion.div
-                        initial={{ y: -5, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: -5, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        onClick={() => handleDropdownToggle('dob-mobile')}
-                        className={`flex items-center justify-between w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors text-left`}
+
+            {/* Navigation Links - Desktop */}
+            <div className="hidden md:flex items-center justify-end flex-1 ml-6 space-x-4">
+              {/* DOB Dropdown */}
+              <div className="relative group">
+                <button className="flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-white font-medium px-3 py-1.5">
+                  <span>DOB</span>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div className="absolute left-0 pt-2 w-48 hidden group-hover:block z-50">
+                  <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg py-1">
+                    {dobDropdownItems.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        target={item.target}
+                        rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-[#597CE9] transition-colors duration-200"
                       >
-                        <span className="text-base">DOB</span>
-                        <svg
-                          className={`w-5 h-5 transition-transform duration-300 ${activeDropdown === 'dob-mobile' ? 'rotate-180' : ''}`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </motion.div>
-                      <AnimatePresence mode="wait">
-                        {activeDropdown === 'dob-mobile' && (
-                          <motion.div
-                            variants={{
-                              hidden: { 
-                                opacity: 0,
-                                height: 0,
-                                y: -10,
-                                transition: {
-                                  duration: 0.2,
-                                  ease: [0.25, 0.1, 0.25, 1.0]
-                                }
-                              },
-                              visible: { 
-                                opacity: 1,
-                                height: "auto",
-                                y: 0,
-                                transition: {
-                                  duration: 0.3,
-                                  ease: [0.25, 0.1, 0.25, 1.0]
-                                }
-                              }
-                            }}
-                            initial="hidden"
-                            animate="visible"
-                            exit="hidden"
-                            className="mt-2 pl-0 space-y-3 overflow-hidden"
-                          >
-                            {dobDropdownItems.map((item, index) => (
-                              <motion.div
-                                key={item.href}
-                                initial={{ opacity: 0, x: -5 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ 
-                                  duration: 0.2,
-                                  delay: index * 0.05 + 0.1
-                                }}
-                                className="text-left"
-                              >
-                                <Link
-                                  href={item.href}
-                                  target={item.target}
-                                  rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
-                                  className="block text-sm md:text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-3 px-4 transition-colors duration-200"
-                                >
-                                  {item.label}
-                                </Link>
-                              </motion.div>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-
-                    {/* DOBI Section - Only visible when no mobile dropdown is active or when this specific dropdown is active */}
-                    <AnimatePresence>
-                      {(!isMobileDropdownActive || activeDropdown === 'dobi-mobile') && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <div>
-                            <motion.div
-                              initial={{ y: -5, opacity: 0 }}
-                              animate={{ y: 0, opacity: 1 }}
-                              exit={{ y: -5, opacity: 0 }}
-                              transition={{ duration: 0.2 }}
-                              onClick={() => handleDropdownToggle('dobi-mobile')}
-                              className={`flex items-center justify-between w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white cursor-pointer transition-colors text-left`}
-                            >
-                              <span className="text-base">DOBI</span>
-                              <svg
-                                className={`w-5 h-5 transition-transform duration-300 ${activeDropdown === 'dobi-mobile' ? 'rotate-180' : ''}`}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                              </svg>
-                            </motion.div>
-                            <AnimatePresence mode="wait">
-                              {activeDropdown === 'dobi-mobile' && (
-                                <motion.div
-                                  variants={{
-                                    hidden: { 
-                                      opacity: 0,
-                                      height: 0,
-                                      y: -10,
-                                      transition: {
-                                        duration: 0.2,
-                                        ease: [0.25, 0.1, 0.25, 1.0]
-                                      }
-                                    },
-                                    visible: { 
-                                      opacity: 1,
-                                      height: "auto",
-                                      y: 0,
-                                      transition: {
-                                        duration: 0.3,
-                                        ease: [0.25, 0.1, 0.25, 1.0]
-                                      }
-                                    }
-                                  }}
-                                  initial="hidden"
-                                  animate="visible"
-                                  exit="hidden"
-                                  className="mt-2 pl-0 space-y-3 overflow-hidden"
-                                >
-                                  {dobiDropdownItems.map((item, index) => (
-                                    <motion.div
-                                      key={item.href}
-                                      initial={{ opacity: 0, x: -5 }}
-                                      animate={{ opacity: 1, x: 0 }}
-                                      transition={{ 
-                                        duration: 0.2,
-                                        delay: index * 0.05 + 0.1
-                                      }}
-                                      className="text-left"
-                                    >
-                                      <Link
-                                        href={item.href}
-                                        target={item.target}
-                                        rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
-                                        className="block text-sm md:text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium py-3 px-4 transition-colors duration-200"
-                                      >
-                                        {item.label}
-                                      </Link>
-                                    </motion.div>
-                                  ))}
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-                    {/* Regular Links - Only visible when no mobile dropdown is active */}
-                    <AnimatePresence>
-                      {!isMobileDropdownActive && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="space-y-4"
-                        >
-                          <motion.div
-                            initial={{ y: -5, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: -5, opacity: 0 }}
-                            transition={{ duration: 0.2, delay: 0.1 }}
-                            className="text-left"
-                          >
-                            <Link
-                              href="https://dobprotocol.notion.site/Dobprotocol-FAQ-17beffc346f180f995f2e1a15c62bf46"
-                              className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base text-left"
-                            >
-                              FAQ
-                            </Link>
-                          </motion.div>
-                          
-                          <motion.div
-                            initial={{ y: -5, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: -5, opacity: 0 }}
-                            transition={{ duration: 0.2, delay: 0.15 }}
-                            className="text-left"
-                          >
-                            <Link
-                              href="/wiki"
-                              className="block w-full px-4 py-3 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base text-left"
-                            >
-                              Wiki
-                            </Link>
-                          </motion.div>
-                          
-                          <motion.div 
-                            className="pt-3"
-                            initial={{ y: -5, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: -5, opacity: 0 }}
-                            transition={{ duration: 0.2, delay: 0.2 }}
-                          >
-                            <Link
-                              href="https://home.dobprotocol.com/home"
-                              className="block w-full px-4 py-3 bg-[#597CE9] text-white text-center rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7] text-base font-semibold"
-                            >
-                              Invest now
-                            </Link>
-                          </motion.div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                        {item.label}
+                      </Link>
+                    ))}
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                </div>
+              </div>
+
+              {/* DOBI Dropdown */}
+              <div className="relative group">
+                <button className="flex items-center space-x-1 dark:text-gray-300 text-gray-700 hover:text-[#597CE9] dark:hover:text-white font-medium px-3 py-1.5">
+                  <span>DOBI</span>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div className="absolute left-0 pt-2 w-48 hidden group-hover:block z-50">
+                  <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg py-1">
+                    {dobiDropdownItems.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        target={item.target}
+                        rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-[#597CE9] transition-colors duration-200"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Regular Links */}
+              <Link
+                href="https://dobprotocol.notion.site/Dobprotocol-FAQ-17beffc346f180f995f2e1a15c62bf46"
+                className="block text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base px-3 py-1.5"
+              >
+                FAQ
+              </Link>
+              
+              <Link
+                href="https://wiki.dobprotocol.com"
+                className="block text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-white transition-colors text-base px-3 py-1.5"
+              >
+                Wiki
+              </Link>
+              
+              <Link
+                href="https://home.dobprotocol.com/home"
+                className="relative px-5 py-2 bg-[#597CE9] text-white rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7] group overflow-hidden before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-white/30 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100 before:hover:shadow-[0_0_15px_rgba(89,124,233,0.5)]"
+              >
+                <span className="relative z-10">Invest</span>
+                <span className="absolute -inset-3 opacity-0 group-hover:opacity-30 bg-white blur-xl transition-opacity duration-300 rounded-full animate-pulse-slow"></span>
+              </Link>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden flex items-center justify-end z-20">
+              <button 
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="dark:text-gray-300 text-gray-700 hover:text-gray-900 dark:hover:text-white p-1.5"
+                aria-label="Toggle mobile menu"
+              >
+                {mobileMenuOpen ? (
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
+          
+          {/* Mobile Menu */}
+          <AnimatePresence>
+            {mobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="md:hidden w-full pt-4 pb-6 px-2"
+              >
+                <div className="space-y-6 mt-8">
+                  {/* DOB Section */}
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider px-4">
+                      DOB
+                    </p>
+                    <div className="mt-2 space-y-1">
+                      {dobDropdownItems.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          target={item.target}
+                          rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
+                          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* DOBI Section */}
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider px-4">
+                      DOBI
+                    </p>
+                    <div className="mt-2 space-y-1">
+                      {dobiDropdownItems.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          target={item.target}
+                          rel={item.target === '_blank' ? "noopener noreferrer" : undefined}
+                          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-[#597CE9] dark:hover:text-[#597CE9] font-medium"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Regular Links */}
+                  <div className="space-y-1 px-4">
+                    <Link
+                      href="https://dobprotocol.notion.site/Dobprotocol-FAQ-17beffc346f180f995f2e1a15c62bf46"
+                      className="block py-2 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-[#597CE9]"
+                    >
+                      FAQ
+                    </Link>
+                    
+                    <Link
+                      href="https://wiki.dobprotocol.com"
+                      className="block py-2 text-gray-700 dark:text-gray-300 font-medium hover:text-[#597CE9] dark:hover:text-[#597CE9]"
+                    >
+                      Wiki
+                    </Link>
+                  </div>
+                  
+                  <div className="pt-4 px-4">
+                    <Link
+                      href="https://home.dobprotocol.com/home"
+                      className="block w-full py-3 bg-[#597CE9] text-white text-center rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7] text-base font-semibold"
+                    >
+                      Invest now
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.nav>
       </motion.div>
     </div>

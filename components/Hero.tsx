@@ -40,11 +40,9 @@ const Hero = () => {
   const chunkVariant = {
     hidden: { 
       opacity: 0,
-      filter: "blur(15px)",
     },
     visible: {
       opacity: 1,
-      filter: "blur(0px)",
       transition: {
         duration: 3.2,
         ease: [0.16, 1, 0.3, 1]
@@ -56,11 +54,9 @@ const Hero = () => {
   const todayVariant = {
     hidden: { 
       opacity: 0,
-      filter: "blur(20px)",
     },
     visible: {
       opacity: 1,
-      filter: "blur(0px)",
       transition: {
         duration: 6.4, // Twice as slow as regular text
         ease: [0.16, 1, 0.3, 1],
@@ -72,33 +68,25 @@ const Hero = () => {
   // Heading text broken into lines and words for better hover control
   // Combining "Own the" and "of Tomorrow" as requested
   const headingGroups = [
-    { id: 0, text: "Own the", className: "inline-block cursor-pointer" },
-    { id: 1, text: "Infrastructure", className: "inline-block sm:block mt-1 sm:mt-0 ml-2 sm:ml-0 cursor-pointer" },
-    { id: 2, text: "of Tomorrow,", className: "inline-block sm:block mt-1 sm:mt-0 ml-2 sm:ml-0 cursor-pointer" },
-    { id: 3, text: "Today", className: "inline-block sm:inline ml-3 cursor-pointer", variant: "today" }
+    { id: 0, text: "Own the", className: "inline-block" },
+    { id: 1, text: "Infrastructure", className: "inline-block sm:block mt-1 sm:mt-0 ml-2 sm:ml-0" },
+    { id: 2, text: "of Tomorrow,", className: "inline-block sm:block mt-1 sm:mt-0 ml-2 sm:ml-0" },
+    { id: 3, text: "Today", className: "inline-block sm:inline ml-3", variant: "today" }
   ];
 
   // Function to handle word hover - only if hover is enabled
   const handleWordHover = (id) => {
-    if (hoverEnabled) {
-      setHoveredWordGroup(id);
-    }
+    // Disabled hover effect
   };
   
   // Function to handle mouse leave
   const handleMouseLeave = () => {
-    if (hoverEnabled) {
-      setHoveredWordGroup(null);
-    }
+    // Disabled hover effect
   };
 
   // Function to get blur style based on current hover state
   const getBlurStyle = (id) => {
-    if (!hoverEnabled || hoveredWordGroup === null) return {};
-    
-    return id !== hoveredWordGroup
-      ? { filter: 'blur(10px)', opacity: 0.88, transition: 'filter 0.3s ease, opacity 0.3s ease' }
-      : { filter: 'blur(0px)', opacity: 1, transition: 'filter 0.3s ease, opacity 0.3s ease' };
+    return {};
   };
   
   // Function to split text into animated spans for each character
@@ -129,7 +117,7 @@ const Hero = () => {
               }}>
             <iframe 
               className="pointer-events-none video-frame"
-              src="https://www.youtube.com/embed/bFDNrQp7vi4?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&playlist=bFDNrQp7vi4&vq=hd1080"
+              src="https://www.youtube.com/embed/bFDNrQp7vi4?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&playlist=bFDNrQp7vi4&vq=hd1080&enablejsapi=1&version=3&playerapiid=ytplayer&origin=https://dobprotocol.com&iv_load_policy=3&fs=0&color=white&disablekb=1&cc_load_policy=0&cc_lang_pref=en&hl=en&wmode=transparent"
               style={{ 
                 position: 'absolute',
                 top: '50%',
