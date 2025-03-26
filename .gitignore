@@ -5,7 +5,6 @@
 
 # Next.js build output
 /.next/
-/out/
 
 # Build artifacts
 /build
@@ -18,3 +17,17 @@
 .env
 
 # Local configuration
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

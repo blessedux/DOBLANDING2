@@ -7,10 +7,6 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60,
   },
-  // Disable server-side features
-  experimental: {
-    appDir: true,
-  },
   // Optimize for static generation
   webpack: (config, { dev, isServer }) => {
     // Configure webpack optimization for static files
@@ -39,12 +35,6 @@ const nextConfig = {
       },
     }
     return config
-  },
-  // Ensure static generation
-  generateStaticParams: async () => {
-    return {
-      // Add any dynamic routes that need to be pre-rendered
-    }
   },
   // Disable server-side features
   poweredByHeader: false,
