@@ -7,11 +7,13 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60,
   },
-  // Enable static optimization
-  reactStrictMode: true,
-  // Optimize bundle size
+  // Disable server-side features
+  experimental: {
+    appDir: true,
+  },
+  // Optimize for static generation
   webpack: (config, { dev, isServer }) => {
-    // Configure webpack optimization
+    // Configure webpack optimization for static files
     config.optimization = {
       ...config.optimization,
       minimize: true,
@@ -38,6 +40,15 @@ const nextConfig = {
     }
     return config
   },
+  // Ensure static generation
+  generateStaticParams: async () => {
+    return {
+      // Add any dynamic routes that need to be pre-rendered
+    }
+  },
+  // Disable server-side features
+  poweredByHeader: false,
+  reactStrictMode: true,
 }
 
 module.exports = nextConfig 

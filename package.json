@@ -9,8 +9,9 @@
     "lint": "next lint",
     "analyze": "ANALYZE=true next build",
     "export": "next build && next export",
-    "optimize": "next build && next-sitemap",
     "static": "next build && next export && next-sitemap",
+    "clean": "rm -rf .next out",
+    "build:static": "npm run clean && npm run static",
     "postinstall": "node -e \"const deps = ['tailwindcss-animate@1.0.7', 'class-variance-authority@0.7.1', 'clsx@2.1.1', 'tailwind-merge@3.0.2']; for (const dep of deps) { try { require(dep.split('@')[0]); } catch(e) { console.log('Installing ' + dep + '...'); require('child_process').execSync('yarn add ' + dep + ' --exact || npm install ' + dep + ' --save-exact'); } }\""
   },
   "dependencies": {

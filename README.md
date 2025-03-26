@@ -4,7 +4,7 @@ A modern, optimized landing page for DOB Protocol built with Next.js, TypeScript
 
 ## 🚀 Features
 
-- Static Site Generation (SSG) for optimal performance
+- Pure Static Site Generation (SSG) for optimal performance
 - Responsive design with Tailwind CSS
 - Smooth animations with Framer Motion
 - Dark/Light mode support
@@ -62,33 +62,60 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 
 ### Static Site Generation (Recommended)
 
-For optimal performance, we use static site generation:
+This project uses pure static site generation to ensure optimal performance. All pages are pre-rendered at build time and served directly to the browser without any server-side rendering.
 
 ```bash
-# Build and export static site
-npm run static
+# Clean build for static deployment
+npm run build:static
 # or
-yarn static
+yarn build:static
 ```
 
-This will:
+This command will:
 
-1. Build the Next.js application
-2. Generate static HTML files
-3. Create a sitemap for SEO
-4. Optimize assets and images
+1. Clean any existing build files (`.next` and `out` directories)
+2. Build the Next.js application
+3. Generate static HTML files
+4. Create a sitemap for SEO
+5. Optimize assets and images
 
-The static files will be generated in the `out` directory.
+The static files will be generated in the `out` directory, which contains:
+
+- Pre-rendered HTML files
+- Optimized JavaScript bundles
+- Optimized CSS
+- Static assets
+- Sitemap
+
+### Available Build Commands
+
+```bash
+# Development build
+npm run dev
+
+# Production build (static)
+npm run build:static
+
+# Clean build files
+npm run clean
+
+# Analyze bundle size
+npm run analyze
+
+# Generate static export
+npm run static
+```
 
 ### Performance Optimizations
 
 The project includes several performance optimizations:
 
-1. **Static Site Generation**
+1. **Pure Static Generation**
 
-   - Enabled through `output: 'export'` in `next.config.js`
-   - Pre-renders all pages at build time
-   - Enables CDN deployment
+   - All pages pre-rendered at build time
+   - No server-side rendering
+   - Direct browser delivery
+   - Optimized for CDN deployment
 
 2. **Image Optimization**
 
@@ -120,7 +147,7 @@ The project includes several performance optimizations:
 2. **Netlify**
 
    - Connect your repository
-   - Build command: `npm run static`
+   - Build command: `npm run build:static`
    - Publish directory: `out`
 
 3. **GitHub Pages**
