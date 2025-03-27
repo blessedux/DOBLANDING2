@@ -22,7 +22,6 @@ export default function Home() {
         <TrustedBy />
         <Partners />
         <Roadmap />
-        <LiquidityPool />
         <CTA />
       </div>
     </main>

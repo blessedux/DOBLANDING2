@@ -288,7 +288,7 @@ const Roadmap = () => {
                         </div>
                         <ul className="space-y-3">
                           {phase.points.map((point, i) => (
-                            <li key={i} className="flex items-start text-sm">
+                            <li key={i} className="flex items-start text-base md:text-lg">
                               <span className="text-primary-500 mr-2 mt-1">•</span>
                               <span className="text-muted-foreground">{point}</span>
                             </li>

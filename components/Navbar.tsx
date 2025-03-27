@@ -218,13 +218,15 @@ const Navbar = () => {
                 Wiki
               </Link>
               
-              <Link
-                href="https://home.dobprotocol.com/home"
-                className="relative px-5 py-2 bg-[#597CE9] text-white rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7] group overflow-hidden before:content-[''] before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:hover:border-white/30 before:transition-all before:duration-300 before:opacity-0 before:hover:opacity-100 before:hover:shadow-[0_0_15px_rgba(89,124,233,0.5)]"
-              >
-                <span className="relative z-10">Invest</span>
-                <span className="absolute -inset-3 opacity-0 group-hover:opacity-30 bg-white blur-xl transition-opacity duration-300 rounded-full animate-pulse-slow"></span>
-              </Link>
+              <div className="gradient-button-wrapper relative">
+                <Link
+                  href="https://home.dobprotocol.com/home"
+                  className="gradient-button bg-[#597CE9] text-white font-medium"
+                >
+                  Invest
+                </Link>
+                <div className="gradient-button-bg"></div>
+              </div>
             </div>
 
             {/* Mobile menu button */}
@@ -336,12 +338,15 @@ const Navbar = () => {
                   </div>
                   
                   <div className="pt-4 px-4">
-                    <Link
-                      href="https://home.dobprotocol.com/home"
-                      className="block w-full py-3 bg-[#597CE9] text-white text-center rounded-full hover:bg-[#3252c7] transition-colors dark:bg-[#597CE9] dark:hover:bg-[#3252c7] text-base font-semibold"
-                    >
-                      Invest now
-                    </Link>
+                    <div className="gradient-button-wrapper relative">
+                      <Link
+                        href="https://home.dobprotocol.com/home"
+                        className="gradient-button bg-[#597CE9] text-white text-center w-full font-semibold"
+                      >
+                        Invest now
+                      </Link>
+                      <div className="gradient-button-bg"></div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -349,6 +354,60 @@ const Navbar = () => {
           </AnimatePresence>
         </motion.nav>
       </motion.div>
+
+      <style jsx>{`
+        .gradient-button-wrapper {
+          position: relative;
+          display: inline-block;
+        }
+        
+        .gradient-button {
+          display: inline-flex;
+          position: relative;
+          z-index: 1;
+          font-weight: 600;
+          font-size: 1rem;
+          line-height: 1.5rem;
+          padding: 0.75rem 2.5rem;
+          border-radius: 50px;
+          cursor: pointer;
+          text-decoration: none;
+          overflow: hidden;
+          transition: all 0.3s ease;
+        }
+        
+        .gradient-button-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: calc(100% + 4px);
+          height: calc(100% + 4px);
+          background: linear-gradient(90deg, #4F46E5 0%, #8B5CF6 30%, #EC4899 68%, #3B82F6 100%);
+          background-size: 300% 300%;
+          border-radius: 50px;
+          animation: AnimateBorder 4s ease infinite;
+          z-index: 0;
+          transform: translate(-2px, -2px);
+          transition: filter 0.5s ease;
+          opacity: 0;
+        }
+        
+        .gradient-button-wrapper:hover .gradient-button-bg {
+          filter: blur(6px);
+          opacity: 1;
+        }
+        
+        .gradient-button-wrapper:hover .gradient-button {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.5);
+        }
+        
+        @keyframes AnimateBorder {
+          0% { background-position: 0% 50% }
+          50% { background-position: 100% 50% }
+          100% { background-position: 0% 50% }
+        }
+      `}</style>
     </div>
   );
 };
