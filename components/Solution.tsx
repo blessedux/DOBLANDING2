@@ -139,7 +139,7 @@ export default function Solution() {
     <section 
       id="solution" 
       ref={sectionRef}
-      className="w-full py-16 md:py-24 lg:py-32 bg-[#FDFDFD] dark:from-gray-800 dark:to-gray-900 transition-colors duration-300"
+      className="w-full py-16 md:py-24 lg:py-32 bg-[#FDFDFD] dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 transition-colors duration-300"
     >
       <div className="container px-4 md:px-6 mx-auto max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">

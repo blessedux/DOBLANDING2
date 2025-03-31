@@ -18,7 +18,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
+      <head>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Set light mode as default
+            localStorage.setItem('dob-theme', 'light');
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+          `
+        }} />
+      </head>
       <body className={inter.className}>
         <ThemeProvider>
           <Navbar />

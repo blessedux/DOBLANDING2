@@ -17,10 +17,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Initialize theme from localStorage if available (client-side only)
   useEffect(() => {
     const storedTheme = localStorage.getItem('dob-theme') as Theme | null;
-    if (storedTheme) {
+    // Set light mode as default, even if a different theme is stored
+    if (storedTheme === 'dark') {
       setTheme(storedTheme);
     } else {
-      // Set light mode as default if no theme is stored
       setTheme('light');
       localStorage.setItem('dob-theme', 'light');
     }
