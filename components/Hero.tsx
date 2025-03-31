@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import HeroVideo from './HeroVideo';
 
 const Hero = () => {
   // Calculate animation end time for planning subsequent animations
@@ -113,27 +114,10 @@ const Hero = () => {
         <div className="relative w-full h-full p-12 sm:p-6 xs:p-4 mobile-video-container">
           <div className="relative w-full h-full rounded-[2%] overflow-hidden bg-black" 
               style={{ 
-                boxShadow: '0 0 40px 15px rgba(0, 0, 0, 0.8)'
+                boxShadow: '0 0 40px 15px rgba(0, 0, 0, 0.8)',
+                position: 'relative'
               }}>
-            <iframe 
-              className="pointer-events-none video-frame"
-              src="https://www.youtube.com/embed/bFDNrQp7vi4?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&playlist=bFDNrQp7vi4&vq=hd1080&enablejsapi=1&version=3&playerapiid=ytplayer&origin=https://dobprotocol.com&iv_load_policy=3&fs=0&color=white&disablekb=1&cc_load_policy=0&cc_lang_pref=en&hl=en&wmode=transparent"
-              style={{ 
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%) scale(1.2)',
-                width: '120%',
-                height: '120%',
-                minWidth: '120%',
-                minHeight: '120%',
-                objectFit: 'cover',
-                filter: 'contrast(1.2) brightness(0.85)',
-              }}
-              frameBorder="0" 
-              allow="autoplay; fullscreen" 
-              title="Background Video"
-            />
+            <HeroVideo />
           </div>
         </div>
       </div>
