@@ -160,7 +160,7 @@ const Footer = () => {
                 <span className="arrow">→</span>
                 <span>Wiki</span>
               </Link>
-              <Link href="https://t.me/blessedux" className="footer-animated-link">
+              <Link href="mailto:fernando@dobprotocol.com" className="footer-animated-link">
                 <span className="arrow">→</span>
                 <span>Careers</span>
               </Link>

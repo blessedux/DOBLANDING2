@@ -136,7 +136,7 @@ export default function CTA() {
           />
           <div className="gradient-button-wrapper">
             <a 
-              href="https://t.me/dobprotocol_official"
+              href="https://calendly.com/oscar-dobprotocol/30min?month=2025-03"
               target="_blank"
               rel="noopener noreferrer" 
               className="gradient-button z-10"

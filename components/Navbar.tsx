@@ -8,57 +8,26 @@ import { useTheme } from '../context/ThemeContext';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isAtTop, setIsAtTop] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const [shouldSlideDown, setShouldSlideDown] = useState(false);
   const [blurAmount, setBlurAmount] = useState(0);
 
   // Delay navbar appearance
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
-      // Enable slide down animation only when initially showing
-      setShouldSlideDown(true);
+      setBlurAmount(12); // Set initial blur amount
     }, 2000);
     
     return () => clearTimeout(timer);
   }, []);
 
-  // Manage blur amount based on visibility and scroll position
-  useEffect(() => {
-    let blurTimer: NodeJS.Timeout;
-    
-    if (isVisible && !isAtTop) {
-      // Slowly increase blur when navbar becomes visible and not at top
-      blurTimer = setTimeout(() => {
-        setBlurAmount(12); // More aggressive blur amount
-      }, 300); // Faster onset
-    } else if (!isVisible || isAtTop) {
-      // Quickly decrease blur when navbar should hide or at top
-      setBlurAmount(0); // Immediate blur removal for more aggressive transition
-    }
-    
-    return () => clearTimeout(blurTimer);
-  }, [isVisible, isAtTop]);
-
-  // Track scroll position for subtle navbar animation
+  // Track scroll position for background and shadow effects
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsScrolled(scrollPosition > 20);
-      setIsAtTop(scrollPosition === 0);
-      
-      // If we were at the top and now scrolled down, enable slide down
-      if (isAtTop && scrollPosition > 0) {
-        setShouldSlideDown(true);
-      }
-      
-      // If we scrolled back to top, disable slide down for next appearance
-      if (scrollPosition === 0) {
-        setShouldSlideDown(false);
-      }
     };
     
     // Initial check
@@ -66,7 +35,7 @@ const Navbar = () => {
     
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isAtTop]);
+  }, []);
 
   const dobDropdownItems = [
     { label: 'Buy $DOB', href: 'https://presale.dobprotocol.com/', target: '_blank' },
@@ -80,17 +49,8 @@ const Navbar = () => {
     { label: 'AI Agent Workflow', href: 'https://dobi.agents.dobprotocol.com/', target: '_blank' },
   ];
 
-  // Show navbar only when not at top or when dropdown is active
-  const showNavbar = !isAtTop;
-
-  // Calculate fade-out speed - twice as fast
-  const fadeOutDuration = 0.75; // 1.5s / 2 = 0.75s
-
-  // Calculate the vertical position - only slide down when appearing, not when disappearing
-  const navbarPosition = shouldSlideDown && !isAtTop ? '1rem' : '0';
-
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4">
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 mt-4 md:mt-6">
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ 
@@ -108,18 +68,15 @@ const Navbar = () => {
           }}
           className="relative px-5 py-0 overflow-visible w-full"
           style={{
-            transform: `translateY(${navbarPosition})`,
-            opacity: showNavbar ? (isScrolled ? 1 : 0.95) : 0,
+            opacity: isVisible ? 1 : 0,
             backdropFilter: `blur(${blurAmount}px)`,
             backgroundColor: isScrolled 
               ? theme === 'dark' ? 'rgba(17, 24, 39, 0.8)' : 'rgba(255, 255, 255, 0.8)' 
               : theme === 'dark' ? 'rgba(17, 24, 39, 0.7)' : 'rgba(255, 255, 255, 0.7)',
             boxShadow: isScrolled ? '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' : 'none',
-            transition: `transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        opacity ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out, 
-                        backdrop-filter ${isAtTop ? 1.0 : 2.5}s ease-in-out, 
-                        background-color ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out, 
-                        box-shadow ${isAtTop ? fadeOutDuration : 1.5}s ease-in-out`
+            transition: `backdrop-filter 0.5s ease-in-out, 
+                        background-color 0.5s ease-in-out, 
+                        box-shadow 0.5s ease-in-out`
           }}
         >
           {/* Main navbar content */}

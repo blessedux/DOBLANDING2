@@ -147,14 +147,12 @@ const Hero = () => {
               variants={container}
               initial="hidden"
               animate="visible"
-              onMouseLeave={handleMouseLeave}
             >
               {headingGroups.map((group) => (
                 <div
                   key={group.id}
                   className={group.className}
                   style={getBlurStyle(group.id)}
-                  onMouseEnter={() => handleWordHover(group.id)}
                 >
                   {group.variant === "today" ? 
                     <motion.span
