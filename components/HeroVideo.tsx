@@ -74,7 +74,7 @@ const HeroVideo = () => {
   };
 
   return (
-    <div className="relative w-full h-full overflow-hidden">
+    <div className="relative w-full h-full overflow-hidden" >
       {/* Poster image always shown during video load */}
       <Image
         src="/earth_first_frame.webp"

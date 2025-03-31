@@ -110,8 +110,8 @@ const Hero = () => {
   return (
     <section className="relative w-full h-screen overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 mt-0 pt-0">
       {/* Background video with shadow */}
-      <div className="absolute inset-0 w-full h-full">
-        <div className="relative w-full h-full p-12 sm:p-6 xs:p-4 mobile-video-container">
+      <div className="absolute inset-0 w-full h-full" >
+        <div className="relative w-full h-full p-12 pb-24 sm:p-6 sm:pb-16 xs:p-4 xs:pb-12 mobile-video-container">
           <div className="relative w-full h-full rounded-[2%] overflow-hidden bg-black" 
               style={{ 
                 boxShadow: '0 0 40px 15px rgba(0, 0, 0, 0.8)',
