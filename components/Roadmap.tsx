@@ -205,7 +205,7 @@ const Roadmap = () => {
                     right: "-40px",
                     top: getTopOffset(index) + 75,
                   }}
-                  onClick={() => setActivePhase(phase.id)}
+                  onMouseEnter={() => setActivePhase(phase.id)}
                   whileHover={{
                     scale: 1.1,
                     transition: { duration: 0.2 }
@@ -233,7 +233,7 @@ const Roadmap = () => {
                     backdropFilter: "blur(10px)",
                     position: "absolute",
                   }}
-                  onClick={() => setActivePhase(phase.id)}
+                  onMouseEnter={() => setActivePhase(phase.id)}
                   whileHover={{
                     scale: 1.05,
                     transition: {
