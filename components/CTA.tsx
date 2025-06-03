@@ -86,7 +86,7 @@ export default function CTA() {
               />
             </div>
             <AnimatedText
-              text="Invest in high-performing Real World Assets generating up to 30% APY"
+              text="Invest in high-performing Real World Assets generating up to 30% APR"
               className="text-xl text-gray-600 md:text-2xl dark:text-gray-300 mt-2"
             />
           </div>
