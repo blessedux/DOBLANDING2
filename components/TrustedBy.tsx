@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import { InfiniteSlider } from './InfiniteSlider';
 
 const TrustedBy = () => {
   const { theme } = useTheme();
@@ -114,6 +115,26 @@ const TrustedBy = () => {
           <Image 
             src="/partners/base.svg" 
             alt="Base" 
+            width={140} 
+            height={70} 
+            unoptimized 
+            className="h-16 w-auto object-contain purple-hover-target"
+            style={{ filter: isDarkMode ? 'invert(1)' : 'none' }}
+          />
+        </motion.div>
+      )
+    },
+    {
+      id: 'stellar',
+      component: (
+        <motion.div 
+          className="partner-logo bg-transparent"
+          initial={false}
+          whileHover={{ scale: 1.05 }}
+        >
+          <Image 
+            src="/partners/stellar.svg" 
+            alt="Stellar" 
             width={140} 
             height={70} 
             unoptimized 
@@ -277,7 +298,12 @@ const TrustedBy = () => {
             width={140} 
             height={70} 
             unoptimized 
-            className="h-16 w-auto object-contain virtuals-logo purple-hover-target"
+            className="h-16 w-auto object-contain purple-hover-target"
+            style={{ 
+              filter: isDarkMode 
+                ? 'brightness(0) invert(1)' 
+                : 'brightness(0) saturate(0)'
+            }}
           />
         </motion.div>
       )
@@ -325,59 +351,27 @@ const TrustedBy = () => {
   ];
 
   return (
-    <section className="w-full py-16 bg-white dark:bg-gray-800 transition-colors duration-300 overflow-hidden">
+    <section className="w-full py-16 bg-white dark:bg-gray-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto text-center mb-10">
         <h2 className="text-xl font-medium text-gray-600 dark:text-gray-300">Trusted by</h2>
       </div>
       
-      <div className="marquee-container relative w-full">
-        {/* Single slider row - moving left */}
-        <div className="marquee">
-          <div className="marquee-content flex items-center">
-            {/* First set of logos */}
-            {logoItems.map((item) => (
-              <div key={`first-${item.id}`} className="mx-12">
-                {item.component}
-              </div>
-            ))}
-            
-            {/* Duplicate set for seamless looping */}
-            {logoItems.map((item) => (
-              <div key={`second-${item.id}`} className="mx-12">
-                {item.component}
-              </div>
-            ))}
-          </div>
-        </div>
+      <div className="px-4 md:px-6">
+        <InfiniteSlider
+          gap={32}
+          duration={35}
+          durationOnHover={70}
+          className="py-4"
+        >
+          {logoItems.map((item) => (
+            <div key={item.id} className="flex items-center justify-center">
+              {item.component}
+            </div>
+          ))}
+        </InfiniteSlider>
       </div>
 
       <style jsx global>{`
-        .marquee-container {
-          overflow: hidden;
-          position: relative;
-          padding: 20px 0;
-          --marquee-duration: 30s;
-        }
-        
-        .marquee {
-          width: 100%;
-          overflow: hidden;
-          position: relative;
-        }
-        
-        .marquee-content {
-          display: flex;
-          animation: marquee var(--marquee-duration) linear infinite;
-          white-space: nowrap;
-        }
-        
-        /* Speed up marquee on mobile devices by 2.5x */
-        @media (max-width: 768px) {
-          .marquee-container {
-            --marquee-duration: 12s;
-          }
-        }
-        
         .partner-logo {
           display: flex;
           align-items: center;
@@ -400,22 +394,25 @@ const TrustedBy = () => {
           filter: brightness(0) saturate(100%) invert(45%) sepia(61%) saturate(3146%) hue-rotate(220deg) brightness(93%) contrast(93%) !important;
           transition: none !important;
         }
-        
-        @keyframes marquee {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
+
+        @media (max-width: 768px) {
+          .partner-logo {
+            min-width: 100px;
+            padding: 5px;
           }
         }
 
-        .virtuals-logo {
-          filter: brightness(0) saturate(100%);
-        }
-
-        :global(.dark) .virtuals-logo {
-          filter: brightness(0) saturate(100%) invert(0.85);
+        @media (min-width: 769px) {
+          .partner-logo {
+            min-width: 120px;
+            height: 60px;
+          }
+          
+          .partner-logo img,
+          .partner-logo svg {
+            height: 40px !important;
+            width: auto !important;
+          }
         }
       `}</style>
     </section>
