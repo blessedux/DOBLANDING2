@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
 // Define types for AnimatedText component
@@ -64,6 +64,7 @@ const AnimatedText = ({ text, className }: AnimatedTextProps) => {
 };
 
 export default function Partners() {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const partners = [
     { 
       name: "Helium", 
@@ -103,6 +104,15 @@ export default function Partners() {
     }
   ];
 
+  // Auto-sliding functionality
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % partners.length);
+    }, 3000); // Change slide every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [partners.length]);
+
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 bg-white dark:bg-gray-800 transition-colors duration-300">
       <div className="container px-4 md:px-6 mx-auto max-w-7xl">
@@ -117,7 +127,8 @@ export default function Partners() {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-8">
           {partners.map((partner, index) => (
             <motion.a 
               key={index}
@@ -146,6 +157,63 @@ export default function Partners() {
               <p className="text-gray-600 dark:text-gray-300">{partner.description}</p>
             </motion.a>
           ))}
+        </div>
+
+        {/* Mobile Carousel */}
+        <div className="md:hidden relative overflow-hidden">
+          <motion.div
+            className="flex transition-transform duration-500 ease-out"
+            animate={{ x: `${-currentIndex * 100}%` }}
+          >
+            {partners.map((partner, index) => (
+              <div
+                key={index}
+                className="w-full flex-shrink-0 px-2"
+              >
+                <motion.a 
+                  href={partner.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl transition-colors duration-300 hover:shadow-lg"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-sm dark:shadow-gray-900/10">
+                    <div className="relative w-10 h-10 flex items-center justify-center overflow-hidden">
+                      <Image 
+                        src={partner.logo}
+                        alt={`${partner.name} logo`}
+                        fill
+                        sizes="40px"
+                        style={{ objectFit: 'contain' }}
+                        className="p-1"
+                      />
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold mb-1 dark:text-gray-100">{partner.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">{partner.description}</p>
+                </motion.a>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Mobile Navigation Dots */}
+          <div className="flex justify-center mt-4 space-x-2">
+            {partners.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  currentIndex === index 
+                    ? 'bg-[#597CE9] w-4' 
+                    : 'bg-gray-300 dark:bg-gray-600'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
