@@ -1,10 +1,17 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '@/lib/supabase';
+import { PostMeta } from '@/components/PostMeta';
 import { notFound } from 'next/navigation';
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+interface BlogPostPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default function BlogPostPage({ params }: BlogPostPageProps) {
   const { data: post, isLoading } = useQuery({
     queryKey: ['post', params.slug],
     queryFn: async () => {
@@ -16,14 +23,15 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         .single();
 
       if (error) throw error;
+      if (!data) throw new Error('Post not found');
       return data;
     },
   });
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-white"></div>
       </div>
     );
   }
@@ -33,28 +41,22 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <article className="min-h-screen bg-white dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 py-12">
+    <>
+      <PostMeta post={post} />
+      <article className="container mx-auto px-4 py-8 max-w-4xl">
         <header className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            {post.title}
-          </h1>
-          
-          <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400">
-            <time dateTime={post.created_at}>
-              {new Date(post.created_at).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </time>
+          <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-4">{post.excerpt}</p>
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            Published on {new Date(post.created_at).toLocaleDateString()}
           </div>
         </header>
-
-        <div className="prose prose-lg dark:prose-invert max-w-none">
-          <div dangerouslySetInnerHTML={{ __html: post.content }} />
+        <div className="prose dark:prose-invert max-w-none">
+          {post.content.split('\n').map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
         </div>
-      </div>
-    </article>
+      </article>
+    </>
   );
 } 
