@@ -1,59 +1,46 @@
-'use client';
+import { Toaster } from "@/components/ui/sonner"
+import { ClerkProvider } from '@clerk/nextjs'
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import Provider from './provider'
+import { Analytics } from "@vercel/analytics/react"
+import { ThemeProvider } from "next-themes"
 
-import { Inter } from 'next/font/google';
-import { usePathname } from 'next/navigation';
-import { PrivyProvider } from '@privy-io/react-auth';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from '@/context/ThemeContext';
-import Navbar from '@/components/Navbar';
-import './globals.css';
+const inter = Inter({ subsets: ['latin'] })
 
-const inter = Inter({ subsets: ['latin'] });
-
-// Create a client
-const queryClient = new QueryClient();
+export const metadata: Metadata = {
+  title: 'tsafi',
+  description: 'An opensource blog site and CMS built using Nextjs, Supabase & TipTap',
+  openGraph: {
+    images: ['https://utfs.io/f/59a2a3e1-f1b9-4152-97d2-38dea6e14106-3hq5f6.png']
+  },
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const pathname = usePathname();
-  const isAdminRoute = pathname?.startsWith('/admin');
-
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-1M0T2HXGZN"></script>
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-1M0T2HXGZN');
-          `,
-        }} />
-      </head>
-      <body className={inter.className}>
-        <PrivyProvider
-          appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
-          config={{
-            loginMethods: ['email', 'wallet'],
-            appearance: {
-              theme: 'light',
-              accentColor: '#6366f1',
-            },
-          }}
-        >
-          <QueryClientProvider client={queryClient}>
-            <ThemeProvider>
-              {!isAdminRoute && <Navbar />}
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body className={inter.className}>
+          <Provider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+
               {children}
             </ThemeProvider>
-          </QueryClientProvider>
-        </PrivyProvider>
-      </body>
-    </html>
-  );
+            <Toaster />
+          </Provider>
+          <Analytics />
+        </body>
+      </html>
+    </ClerkProvider>
+  )
 }
