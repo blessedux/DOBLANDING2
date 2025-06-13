@@ -1,7 +1,6 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../lib/supabase';
 import Link from 'next/link';
 
 export default function BlogPage() {

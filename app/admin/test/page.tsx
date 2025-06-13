@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { testSupabaseConnection } from '../../lib/supabase-test';
-import { supabase } from '../../lib/supabase';
 
 export default function TestPage() {
   const [testResults, setTestResults] = useState<any>(null);
@@ -13,17 +11,56 @@ export default function TestPage() {
       ? `${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY.slice(0, 10)}...`
       : 'Not set',
   });
+  const supabase = useSupabaseWithPrivy();
 
   const runTests = async () => {
     setIsTesting(true);
     try {
-      const results = await testSupabaseConnection();
-      setTestResults(results);
-    } catch (error) {
-      console.error('Test error:', error);
+      if (!supabase) throw new Error('Supabase client not ready. Connect your wallet.');
+      // Inline the test logic here using the authenticated supabase client
+      const { data: { session }, error: authError } = await supabase.auth.getSession();
+      if (authError) throw new Error(`Authentication check failed: ${authError.message}`);
+      if (!session) throw new Error('Not authenticated. Please connect your wallet first.');
+      // Test 1: Basic Connection
+      const { count, error: countError } = await supabase
+        .from('posts')
+        .select('*', { count: 'exact', head: true });
+      if (countError) throw new Error(`Connection test failed: ${countError.message}`);
+      // Test 2: Table Structure & Write
+      const testPost = {
+        title: 'Test Post',
+        slug: `test-post-${Date.now()}`,
+        excerpt: 'This is a test post',
+        content: 'Test content',
+        published: false,
+        author_id: session.user.id,
+        image_url: null,
+        tags: [],
+        published_at: null,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+      const { data: structureData, error: structureError } = await supabase
+        .from('posts')
+        .insert([testPost])
+        .select()
+        .single();
+      if (structureError) throw new Error(`Write test failed: ${structureError.message}`);
+      // Test 3: Delete
+      const { error: deleteError } = await supabase
+        .from('posts')
+        .delete()
+        .eq('id', structureData.id);
+      if (deleteError) throw new Error(`Delete test failed: ${deleteError.message}`);
+      setTestResults({
+        success: true,
+        message: 'All Supabase tests passed successfully',
+        details: { post: structureData },
+      });
+    } catch (error: any) {
       setTestResults({
         success: false,
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        message: error.message,
       });
     } finally {
       setIsTesting(false);
@@ -33,36 +70,35 @@ export default function TestPage() {
   const testPostCreation = async () => {
     setIsTesting(true);
     try {
+      if (!supabase) throw new Error('Supabase client not ready. Connect your wallet.');
+      const { data: { session }, error: authError } = await supabase.auth.getSession();
+      if (authError) throw new Error(`Authentication check failed: ${authError.message}`);
+      if (!session) throw new Error('Not authenticated. Please connect your wallet first.');
       const testPost = {
         title: 'Test Post',
         slug: `test-post-${Date.now()}`,
         excerpt: 'This is a test post',
         content: 'Test content',
-        seo_title: 'Test SEO Title',
-        seo_description: 'Test SEO Description',
-        seo_keywords: 'test, development',
         published: false,
+        author_id: session.user.id,
+        image_url: null,
+        tags: [],
+        published_at: null,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       };
-
       const { data, error } = await supabase
         .from('posts')
         .insert([testPost])
         .select()
         .single();
-
       if (error) throw error;
-
       // Clean up the test post
       await supabase.from('posts').delete().eq('id', data.id);
-
       setTestResults({
         success: true,
         message: 'Test post created and deleted successfully',
-        details: {
-          post: data,
-        },
+        details: { post: data },
       });
     } catch (error: any) {
       setTestResults({

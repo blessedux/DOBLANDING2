@@ -1,0 +1,4 @@
+/* Command menu section headers */
+.lotion .block-menu .text-neutral-400 {
+  @apply text-xs font-semibold uppercase tracking-wider px-4 py-2;
+} 

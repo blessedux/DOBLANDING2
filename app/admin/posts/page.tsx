@@ -2,16 +2,30 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { usePrivy } from '@privy-io/react-auth';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
-import type { Post } from '@/lib/supabase';
+import { useSupabaseWithJwt } from '../../lib/useSupabaseWithJwt';
 import Head from 'next/head';
-import { SearchPreview } from '@/components/SearchPreview';
+import { SearchPreview } from '../../../components/components/SearchPreview';
+
+// Define Post type locally since the shared type was removed
+export type Post = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  published: boolean;
+  seo_title: string;
+  seo_description: string;
+  seo_keywords: string;
+  created_at: string;
+  updated_at: string;
+};
 
 export default function PostsPage() {
+  const [token, setToken] = useState<string | null>(null);
+  const supabase = useSupabaseWithJwt(token);
   const router = useRouter();
-  const { user } = usePrivy();
   const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showNewPostForm, setShowNewPostForm] = useState(false);

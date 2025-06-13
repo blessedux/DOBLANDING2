@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { usePrivy } from '@privy-io/react-auth';
 import { useMutation } from '@tanstack/react-query';
-import { supabase } from '../../../lib/supabase';
+import { useSupabaseWithJwt } from '../../../lib/useSupabaseWithJwt';
 
 export default function NewPostPage() {
   const router = useRouter();
-  const { user } = usePrivy();
+  const [token, setToken] = useState<string | null>(null);
+  const supabase = useSupabaseWithJwt(token);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({

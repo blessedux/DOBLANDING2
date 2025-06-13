@@ -2,7 +2,6 @@
 
 import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation';
-import { PrivyProvider } from '@privy-io/react-auth';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@/context/ThemeContext';
 import Navbar from '@/components/Navbar';
@@ -36,23 +35,13 @@ export default function RootLayout({
         }} />
       </head>
       <body className={inter.className}>
-        <PrivyProvider
-          appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
-          config={{
-            loginMethods: ['email', 'wallet'],
-            appearance: {
-              theme: 'light',
-              accentColor: '#6366f1',
-            },
-          }}
-        >
+       
           <QueryClientProvider client={queryClient}>
             <ThemeProvider>
               {!isAdminRoute && <Navbar />}
               {children}
             </ThemeProvider>
           </QueryClientProvider>
-        </PrivyProvider>
       </body>
     </html>
   );

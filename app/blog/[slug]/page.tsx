@@ -1,8 +1,6 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
-import { PostMeta } from '@/components/PostMeta';
 import { notFound } from 'next/navigation';
 
 interface BlogPostPageProps {
@@ -15,16 +13,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const { data: post, isLoading } = useQuery({
     queryKey: ['post', params.slug],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('posts')
-        .select('*')
-        .eq('slug', params.slug)
-        .eq('published', true)
-        .single();
-
-      if (error) throw error;
-      if (!data) throw new Error('Post not found');
-      return data;
+      // Placeholder for the removed supabase usage
+      return {
+        title: 'Placeholder Title',
+        excerpt: 'Placeholder Excerpt',
+        content: 'Placeholder Content',
+        created_at: new Date().toISOString(),
+      };
     },
   });
 
@@ -42,7 +37,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
-      <PostMeta post={post} />
+      {/* <PostMeta post={post} /> */}
       <article className="container mx-auto px-4 py-8 max-w-4xl">
         <header className="mb-8">
           <h1 className="text-4xl font-bold mb-4">{post.title}</h1>

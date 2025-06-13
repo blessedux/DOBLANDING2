@@ -1,31 +1,40 @@
 'use client';
 
-import { usePrivy } from '@privy-io/react-auth';
+import { useState } from 'react';
+import EvmWalletSignInButton from '../../components/EvmWalletSignInButton';
+import { useSupabaseWithJwt } from '../lib/useSupabaseWithJwt';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../lib/supabase';
 
 export default function AdminPage() {
-  const { user, ready, authenticated } = usePrivy();
+  const [token, setToken] = useState<string | null>(null);
+  const supabase = useSupabaseWithJwt(token);
 
   const { data: stats, isLoading } = useQuery({
-    queryKey: ['admin-stats'],
+    queryKey: ['admin-stats', token],
     queryFn: async () => {
+      if (!supabase) return { totalPosts: 0, publishedPosts: 0, draftPosts: 0 };
       const { data: posts, error: postsError } = await supabase
         .from('posts')
         .select('*');
-
       if (postsError) throw postsError;
-
       const publishedPosts = posts.filter(post => post.published);
       const draftPosts = posts.filter(post => !post.published);
-
       return {
         totalPosts: posts.length,
         publishedPosts: publishedPosts.length,
         draftPosts: draftPosts.length,
       };
     },
+    enabled: !!token && !!supabase,
   });
+
+  if (!token) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <EvmWalletSignInButton onAuth={setToken} />
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -39,7 +48,7 @@ export default function AdminPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-          Welcome back, {user?.email?.address}
+          Welcome back, {token}
         </h1>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           Here's what's happening with your blog.
