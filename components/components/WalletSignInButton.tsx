@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ethers } from 'ethers';
@@ -9,55 +11,55 @@ declare global {
   }
 }
 
-export default function WalletSignInButton() {
-  const [loading, setLoading] = useState(false);
+interface WalletSignInButtonProps {
+  onAuth?: (address: string, token: string) => void;
+}
+
+export default function WalletSignInButton({ onAuth }: WalletSignInButtonProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  async function signInWithMetaMask() {
-    if (typeof window === 'undefined' || !window.ethereum) {
-      alert('Please install MetaMask!');
-      return;
-    }
-    setLoading(true);
+  const handleSignIn = async () => {
+    setIsLoading(true);
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const address = await signer.getAddress();
-      const message = `Sign in to DOB Protocol at ${new Date().toISOString()}`;
-      const signature = await signer.signMessage(message);
-
-      // Send to backend
-      const res = await fetch('/api/auth/evm-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address, message, signature }),
-      });
-      const { token, error } = await res.json();
-      if (error) throw new Error(error);
-
-      // Check if the address is whitelisted
-      if (isWhitelistedAddress(address)) {
-        router.push('/admin/dashboard');
+      if (typeof window.ethereum !== 'undefined') {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const address = await signer.getAddress();
+        const message = `Sign in to DOB Protocol at ${new Date().toISOString()}`;
+        const signature = await signer.signMessage(message);
+        // Send to backend to get JWT
+        const res = await fetch('/api/auth/evm-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ address, message, signature }),
+        });
+        const { token, error } = await res.json();
+        if (error) throw new Error(error);
+        if (onAuth) {
+          onAuth(address, token);
+        }
       } else {
-        alert('Unauthorized access. Your wallet is not whitelisted.');
+        alert('Please install MetaMask to use this feature');
       }
-    } catch (err: any) {
-      alert('Wallet sign-in failed: ' + (err.message || err));
+    } catch (error) {
+      console.error('Error connecting to wallet:', error);
+      alert('Failed to connect wallet');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <button
-      onClick={signInWithMetaMask}
-      disabled={loading}
-      className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition-colors"
+      onClick={handleSignIn}
+      disabled={isLoading}
+      className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
     >
-      {loading ? (
-        <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+      {isLoading ? (
+        <div className="w-5 h-5 border-2 border-gray-300 dark:border-gray-600 border-t-transparent rounded-full animate-spin" />
       ) : (
-        'Sign in with MetaMask'
+        'Connect wallet'
       )}
     </button>
   );
