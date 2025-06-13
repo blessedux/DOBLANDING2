@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from '@/context/ThemeContext';
 import Navbar from "../components/Navbar";
@@ -20,26 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <head>
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-1M0T2HXGZN"></script>
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-1M0T2HXGZN');
-          `
-        }} />
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            // Set light mode as default
-            localStorage.setItem('dob-theme', 'light');
-            document.documentElement.classList.remove('dark');
-            document.documentElement.classList.add('light');
-          `
-        }} />
+        
       </head>
       <body className={inter.className}>
+       
         <ThemeProvider>
           <Navbar />
           <main className="">

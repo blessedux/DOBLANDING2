@@ -11,6 +11,7 @@
     "clean": "rm -rf .next out",
     "static": "next build && next-sitemap --config next-sitemap.config.js",
     "build:static": "npm run clean && npm run static",
+    "server": "nodemon server.js",
     "postinstall": "node -e \"const deps = ['tailwindcss-animate@1.0.7', 'class-variance-authority@0.7.1', 'clsx@2.1.1', 'tailwind-merge@3.0.2']; for (const dep of deps) { try { require(dep.split('@')[0]); } catch(e) { console.log('Installing ' + dep + '...'); require('child_process').execSync('yarn add ' + dep + ' --exact || npm install ' + dep + ' --save-exact'); } }\""
   },
   "dependencies": {
@@ -18,8 +19,10 @@
     "@radix-ui/react-slot": "^1.1.2",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
+    "express": "^5.1.0",
     "framer-motion": "^12.5.0",
     "next": "^15.2.3",
+    "nodemon": "^3.1.10",
     "react": "^18",
     "react-dom": "^18",
     "react-intersection-observer": "^9.16.0",
