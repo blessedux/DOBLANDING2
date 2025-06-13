@@ -39,15 +39,15 @@ export default function WalletSignInButton({ onAuth }: WalletSignInButtonProps) 
         if (onAuth) {
           onAuth(address, token);
         }
-      } else {
+    } else {
         alert('Please install MetaMask to use this feature');
-      }
+    }
     } catch (error) {
       console.error('Error connecting to wallet:', error);
       alert('Failed to connect wallet');
     } finally {
       setIsLoading(false);
-    }
+  }
   };
 
   return (
@@ -63,4 +63,4 @@ export default function WalletSignInButton({ onAuth }: WalletSignInButtonProps) 
       )}
     </button>
   );
-}
+} 

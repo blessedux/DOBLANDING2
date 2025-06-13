@@ -14,18 +14,19 @@ export async function POST(req: NextRequest) {
     }
 
     // Issue JWT
-    const token = jwt.sign(
-      {
-        sub: address,
-        aud: 'authenticated',
-        iss: 'dobprotocol',
-        role: 'authenticated',
-      },
-      JWT_SECRET,
-      { expiresIn: '1h' }
-    );
+    const payload = {
+      sub: address,
+      aud: 'authenticated',
+      iss: 'dobprotocol',
+      role: 'authenticated',
+    };
+    console.log('JWT_SECRET (first 8 chars):', JWT_SECRET.slice(0, 8));
+    console.log('JWT payload:', payload);
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
+    console.log('JWT token:', token);
     return NextResponse.json({ token });
   } catch (err: any) {
+    console.error('JWT Auth Error:', err);
     return NextResponse.json({ error: err.message || 'Unknown error' }, { status: 500 });
   }
 } 

@@ -34,14 +34,14 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
   return (
     <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <header className="mb-8">
+        <header className="mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">{post.title}</h1>
         <div className="flex items-center text-sm text-gray-500">
           <time dateTime={post.created_at}>
             {new Date(post.created_at).toLocaleDateString()}
-          </time>
-        </div>
-      </header>
+            </time>
+          </div>
+        </header>
 
       <div className="prose prose-lg max-w-none">
         <div dangerouslySetInnerHTML={{ __html: post.content }} />
